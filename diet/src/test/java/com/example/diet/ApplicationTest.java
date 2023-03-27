@@ -1,6 +1,5 @@
 package com.example.diet;
 
-import com.example.diet.Controller.TestController;
 import com.example.diet.Mapper.UserMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
