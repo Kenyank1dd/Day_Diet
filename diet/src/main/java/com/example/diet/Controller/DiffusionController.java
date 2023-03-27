@@ -1,13 +1,19 @@
 package com.example.diet.Controller;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/generate")
@@ -25,10 +31,16 @@ public class DiffusionController {
          * 参数3 请求携带参数 选填
          * getForObject 方法的返回值就是 被调用接口响应的数据
          */
-        String url = "http://region-31.seetacloud.com:36138/img/send_img";
+        String url = "http://region-41.seetacloud.com:14401/sdapi/v1/txt2img";
+        Map<String,String> paramMap = new HashMap<String, String>();
+        paramMap.put("prompt", "Braised Pork(Exquisite plating)");
         //1. getForObject()
         //先获取返回的字符串，若想获取属性，可以使用gson转化为实体后get方法获取
-        String result = restTemplate.getForObject(url, String.class);
+        String result = restTemplate.postForObject(url, paramMap, String.class);
+        Gson gson = new Gson();
+        JsonObject obj = gson.fromJson(result, JsonObject.class);
+        result = obj.get("images").getAsString();
+        System.out.println();
         System.out.println(util.ImageUtil.generateImage(result,"D:\\Desktop\\"));
 
         //2. getForEntity()

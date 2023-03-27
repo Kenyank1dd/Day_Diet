@@ -213,11 +213,32 @@ if __name__=='__main__':
     test_user1=user(need_nutrition=[10,200,30],allergen=['土豆'])
     test_user2=user(need_nutrition=[10,300,30],allergen=['螃蟹'])
     test_user3=user(need_nutrition=[5,100,10],allergen=['包菜'])
-    #test_user4=user(need_nutrition=[5,500,10],allergen=['包菜'])
     test_user_list=[test_user1,test_user2,test_user3]
     test_family=family(test_user_list)
-    print(sys.argv[1] > 2)
-    rec=DayDietRec('src/main/resources/static/final_recipes.csv','model_cbow.bin')
-    res = rec.get_topn_meals(test_input_ingredients_list,test_family,n=50)
-#     for item in res['name']:
-#         print(item)
+    input_ingredients_list = []
+#     print(sys.argv)
+    usernum = int(sys.argv[1])
+    ingrednum = int(sys.argv[2])
+    allergenidx = 3 + ingrednum + 3 * usernum
+    user_list = []
+    for i in range(ingrednum):
+        input_ingredients_list.append(sys.argv[3+i])
+
+    for i in range(usernum):
+        nutrition = []
+        allergen = []
+        for j in range(3):
+            nutrition.append(int(sys.argv[3+ingrednum+j+3*i]))
+        allergennum = int(sys.argv[allergenidx])
+        for j in range(1,allergennum+1):
+            allergen.append(sys.argv[allergenidx+j])
+        allergenidx = allergenidx + allergennum + 1
+        tempuser = user(need_nutrition=nutrition,allergen=allergen)
+        user_list.append(tempuser)
+
+    user_family = family(user_list)
+    rec=DayDietRec('D:\\Desktop\\OPPOcode\\Day_Diet\\diet\\src\\main\\resources\\static\\final_recipes.csv',
+                    'D:\\Desktop\\OPPOcode\\Day_Diet\\diet\\model_cbow.bin')
+    res = rec.get_topn_meals(input_ingredients_list,user_family,n=50)
+    for item in res['name']:
+        print(item)
