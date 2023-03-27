@@ -17,4 +17,9 @@ public class RecipeTest {
     void inserttest() throws IOException {
         recipeController.insertdb();
     }
+
+    @Test
+    void updatetest() throws IOException {
+        recipeController.updateurl();
+    }
 }

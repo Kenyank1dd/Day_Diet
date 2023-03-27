@@ -237,8 +237,8 @@ if __name__=='__main__':
         user_list.append(tempuser)
 
     user_family = family(user_list)
-    rec=DayDietRec('D:\\Desktop\\OPPOcode\\Day_Diet\\diet\\src\\main\\resources\\static\\final_recipes.csv',
-                    'D:\\Desktop\\OPPOcode\\Day_Diet\\diet\\model_cbow.bin')
+    rec=DayDietRec('src/main/resources/static/final_recipes.csv',
+                    'model_cbow.bin')
     res = rec.get_topn_meals(input_ingredients_list,user_family,n=50)
     for item in res['name']:
         print(item)

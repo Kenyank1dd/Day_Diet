@@ -9,4 +9,6 @@ import org.springframework.stereotype.Repository;
 @Mapper
 public interface RecipeMapper {
     public void insertRecipe(Recipe recipe);
+
+    public void updateRecipe(Recipe recipe);
 }

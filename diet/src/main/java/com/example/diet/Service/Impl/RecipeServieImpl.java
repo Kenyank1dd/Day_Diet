@@ -16,4 +16,9 @@ public class RecipeServieImpl implements RecipeService {
     public void insertRecipe(Recipe recipe) {
         recipeMapper.insertRecipe(recipe);
     }
+
+    @Override
+    public void updateRecipe(Recipe recipe) {
+        recipeMapper.updateRecipe(recipe);
+    }
 }

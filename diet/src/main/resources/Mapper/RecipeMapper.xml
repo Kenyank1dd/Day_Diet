@@ -4,4 +4,11 @@
     <insert id="insertRecipe" parameterType="Recipe">
         insert into recipe(rec_id,rec_name,rec_url) values (#{recid},#{recName},#{recurl})
     </insert>
+    <update id="updateRecipe" parameterType="Recipe">
+        update recipe
+        <set>
+            rec_url =  #{recurl}
+        </set>
+        where rec_name = #{recName}
+    </update>
 </mapper>
