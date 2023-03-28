@@ -14,7 +14,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @RestController
-@RequestMapping("/recommend")
+@RequestMapping("/api/v1/recommend")
 public class RecommendController {
     public static void main(String[] args) throws IOException, InterruptedException {
         List<String> argstemp = new ArrayList<String>();
