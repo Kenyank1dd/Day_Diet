@@ -239,6 +239,6 @@ if __name__=='__main__':
     user_family = family(user_list)
     rec=DayDietRec('src/main/resources/static/final_recipes.csv',
                     'model_cbow.bin')
-    res = rec.get_topn_meals(input_ingredients_list,user_family,n=50)
+    res = rec.get_topn_meals(input_ingredients_list,user_family,n=1)
     for item in res['name']:
         print(item)

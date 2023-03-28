@@ -19,6 +19,7 @@ public class RecommendController {
     public static void main(String[] args) throws IOException, InterruptedException {
         List<String> argstemp = new ArrayList<String>();
         argstemp.add("C:\\Users\\KK\\.conda\\envs\\KK\\python.exe");
+//        argstemp.add("/root/anaconda3/envs/KK/bin/python")
         argstemp.add("src/main/resources/static/recommend.py");
         String[] ingredients = new String[]{"牛肉", "番茄", "土豆", "猪肉", "鸡肉", "西兰花", "辣椒", "黄瓜"};
         List<Integer> user1 = new ArrayList<Integer>(){{add(10);add(200);add(30);}};
@@ -52,7 +53,7 @@ public class RecommendController {
         }
         List<List<String> > comblist = new ArrayList<>();
         for (String s : res) {
-            comblist.add(Arrays.asList(s.split(" ")));
+            comblist.add(Arrays.asList(s.split("")));
         }
         System.out.println(comblist);
         in.close();
