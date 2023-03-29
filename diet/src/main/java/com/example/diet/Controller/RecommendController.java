@@ -1,21 +1,26 @@
 package com.example.diet.Controller;
 
+import com.example.diet.Domain.Recipe;
 import com.example.diet.Domain.ResponseResult;
 import com.example.diet.Resolver.CurrentUserId;
-import com.google.gson.Gson;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping("/api/v1/recommend")
 public class RecommendController {
+
+    @Autowired
+    private UserController userController;
+
+    @Autowired
+    private RecipeController recipeController;
+
     public static void main(String[] args) throws IOException, InterruptedException {
         List<String> argstemp = new ArrayList<String>();
         argstemp.add("C:\\Users\\KK\\.conda\\envs\\KK\\python.exe");
@@ -63,25 +68,58 @@ public class RecommendController {
     }
 
     @GetMapping("/recipe")
-    public ResponseResult recommend(@RequestBody String[] ingredients, @CurrentUserId int userid) throws IOException, InterruptedException {
-        List<String> argstemp = new ArrayList<String>();
+    public ResponseResult recommend(@RequestBody String[] ingredients) throws IOException, InterruptedException {
+        List<String> argstemp = new ArrayList<>();
         argstemp.add("C:\\Users\\KK\\.conda\\envs\\KK\\python.exe");
+//        argstemp.add("/root/anaconda3/envs/KK/bin/python")
         argstemp.add("src/main/resources/static/recommend.py");
-        argstemp.addAll(Arrays.asList(ingredients));
-        String[] args = argstemp.toArray(new String[0]);
+        List<Map<String,Object>> users = userController.findFamilyMessagebyId(1);
+        List<Map<String,Object>> raw_allergen = userController.findFamilyAllergenbyId(1);
+        List<List<String>> allergen = new ArrayList<>();
+        argstemp.add(String.valueOf(users.size()));
+        argstemp.add(String.valueOf(ingredients.length));
+        Collections.addAll(argstemp, ingredients);
+        int idx = 0;
+        for (Map<String, Object> user : users) {
+            argstemp.add(user.get("sugar_need").toString());
+            argstemp.add(user.get("cal_need").toString());
+            argstemp.add(user.get("fat_need").toString());
+            List<String> tempallergen = new ArrayList<String>();
+            while(idx != raw_allergen.size() && user.get("family_id") == raw_allergen.get(idx).get("family_id")) {
+                tempallergen.add((String) raw_allergen.get(idx).get("ing_name"));
+                idx++;
+            }
+            allergen.add(tempallergen);
+        }
+        for (List<String> strings : allergen) {
+            argstemp.add(String.valueOf(strings.size()));
+            argstemp.addAll(strings);
+        }
+        String[] args1 = argstemp.toArray(new String[0]);
+        for(String args : args1) {
+            System.out.print(args+' ');
+        }
         Process proc;
-        proc = Runtime.getRuntime().exec(args);
+        proc = Runtime.getRuntime().exec(args1);
         BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream(),"GBK"));
         String line;
         List<String> res = new ArrayList<>();
         while ((line = in.readLine()) != null) {
             res.add(line);
         }
+        List<String> comblist = new ArrayList<>();
+        for (String s : res) {
+            comblist.addAll(Arrays.asList(s.split(" ")));
+        }
         in.close();
         //waitFor是用来显示脚本是否运行成功，1表示失败，0表示成功，还有其他的表示其他错误
         int re = proc.waitFor();
         System.out.println(re);
-        return new ResponseResult(200,"返回成功", res);
+        List<Recipe> data = new ArrayList<>();
+        for (String s : comblist) {
+            data.add(recipeController.findRecipebyName(s));
+        }
+        return new ResponseResult(200,"返回成功", data);
     }
 
 }

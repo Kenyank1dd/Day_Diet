@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -81,5 +82,13 @@ public class UserController {
     public ResponseResult CollectArticle(@CurrentUserId String userId,@RequestParam(value = "article_title") String article_title){
         userServcie.CollectArticle(userId,article_title);
         return new ResponseResult(200,"");
+    }
+
+    public List<Map<String,Object>> findFamilyMessagebyId(Integer userId) {
+        return userServcie.findFamilyMessagebyId(userId);
+    }
+
+    public List<Map<String,Object>> findFamilyAllergenbyId(Integer userId) {
+        return userServcie.findFamilyAllergenbyId(userId);
     }
 }

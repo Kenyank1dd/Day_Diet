@@ -4,6 +4,7 @@ import com.example.diet.Domain.*;
 import com.example.diet.Service.Impl.RecipeServieImpl;
 
 import java.util.List;
+import java.util.Map;
 
 public interface UserService {
     public List<User> findAll();
@@ -23,4 +24,7 @@ public interface UserService {
     public void CollectArticle(String userId,String article_title);
 
 
+    List<Map<String,Object>> findFamilyMessagebyId(Integer userId);
+
+    List<Map<String,Object>> findFamilyAllergenbyId(Integer userId);
 }

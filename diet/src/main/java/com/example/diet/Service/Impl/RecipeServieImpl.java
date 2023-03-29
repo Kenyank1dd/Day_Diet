@@ -21,4 +21,9 @@ public class RecipeServieImpl implements RecipeService {
     public void updateRecipe(Recipe recipe) {
         recipeMapper.updateRecipe(recipe);
     }
+
+    @Override
+    public Recipe findRecipebyName(String name) {
+        return recipeMapper.findRecipebyName(name);
+    }
 }

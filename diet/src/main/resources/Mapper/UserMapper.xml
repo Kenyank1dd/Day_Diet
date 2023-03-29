@@ -8,5 +8,35 @@
     <select id="SearchRecipe" resultType="com.example.diet.Domain.Recipe" parameterType="String">
         select * from recipe where rec_id = #{rec_id}
     </select>
+    <select id="findFamilyAllergenbyId" resultType="java.util.Map">
+        SELECT
+            f.family_id,
+            i.ing_name
+        FROM
+            usr u
+                JOIN usr_family uf ON u.usr_id = uf.usr_id
+                JOIN fam_allergen fa ON uf.family_id = fa.fam_id
+                JOIN ingredient i ON fa.ing_id = i.ing_id
+                JOIN usr_family f ON f.family_id = uf.family_id
+        WHERE
+            u.usr_id = #{usrId}
+        ORDER BY
+            f.family_id;
+    </select>
+    <select id="findFamilyMessagebyId" resultType="java.util.Map">
+        SELECT
+            f.family_id,
+            f.sugar_need,
+            f.cal_need,
+            f.fat_need
+        FROM
+            usr u,
+            usr_family f
+        WHERE
+            u.usr_id = f.usr_id
+          AND u.usr_id = #{usrId}
+        ORDER BY
+            f.family_id
+    </select>
 </mapper>
 

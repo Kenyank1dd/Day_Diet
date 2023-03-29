@@ -22,4 +22,9 @@ public class RecipeTest {
     void updatetest() throws IOException {
         recipeController.updateurl();
     }
+
+    @Test
+    void findbynametest() {
+        System.out.println(recipeController.findRecipebyName("西红柿炒鸡蛋"));
+    }
 }

@@ -76,7 +76,7 @@ public class JwtUtil {
     }
 
     public static void main(String[] args) throws Exception {
-        String token = JwtUtil.createJWT(UUID.randomUUID().toString(), "KK", null);
+        String token = JwtUtil.createJWT(UUID.randomUUID().toString(), "1", null);
         System.out.println(token);
 
         Claims claims = JwtUtil.parseJWT(token);

@@ -209,18 +209,11 @@ class DayDietRec:
         return res
 
 if __name__=='__main__':
-    test_input_ingredients_list=['牛肉','番茄','土豆','猪肉','鸡肉','西兰花','辣椒','黄瓜']
-    test_user1=user(need_nutrition=[10,200,30],allergen=['土豆'])
-    test_user2=user(need_nutrition=[10,300,30],allergen=['螃蟹'])
-    test_user3=user(need_nutrition=[5,100,10],allergen=['包菜'])
-    test_user_list=[test_user1,test_user2,test_user3]
-    test_family=family(test_user_list)
-    input_ingredients_list = []
-#     print(sys.argv)
     usernum = int(sys.argv[1])
     ingrednum = int(sys.argv[2])
     allergenidx = 3 + ingrednum + 3 * usernum
     user_list = []
+    input_ingredients_list = []
     for i in range(ingrednum):
         input_ingredients_list.append(sys.argv[3+i])
 
@@ -237,8 +230,7 @@ if __name__=='__main__':
         user_list.append(tempuser)
 
     user_family = family(user_list)
-    rec=DayDietRec('src/main/resources/static/final_recipes.csv',
-                    'model_cbow.bin')
+    rec=DayDietRec('src/main/resources/static/final_recipes.csv','model_cbow.bin')
     res = rec.get_topn_meals(input_ingredients_list,user_family,n=1)
     for item in res['name']:
         print(item)

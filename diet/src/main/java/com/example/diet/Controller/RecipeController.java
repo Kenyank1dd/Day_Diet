@@ -22,6 +22,8 @@ public class RecipeController {
 
     public void updateRecipe(Recipe recipe) { recipeService.updateRecipe(recipe); }
 
+    public Recipe findRecipebyName(String name) {return recipeService.findRecipebyName(name);}
+
     public void insertdb() throws IOException {
         CsvReader csvReader = new CsvReader("src/main/resources/static/final_recipes.csv", ',', StandardCharsets.UTF_8);
 
