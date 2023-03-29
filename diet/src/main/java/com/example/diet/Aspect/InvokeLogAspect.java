@@ -22,15 +22,14 @@ public class InvokeLogAspect {
         Object proceed = null;
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         String methodName = signature.getMethod().getName();
-        System.out.println(methodName+"即将被调用");
         try {
             proceed = joinPoint.proceed();
             //目标方法调用后
-            System.out.println(methodName+"被调用完了");
+            System.out.println(methodName+":Called out");
         } catch (Throwable throwable) {
             throwable.printStackTrace();
             //目标方法出现异常了
-            System.out.println(methodName+"出现了异常");
+            System.out.println(methodName+":There was an Exception!");
         }
         return proceed;
     }
