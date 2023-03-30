@@ -35,5 +35,57 @@
         ORDER BY
             f.family_id
     </select>
+
+    <select id="RecordWater" parameterType="String" resultType="Integer">
+        select water_num from water where usr_id = #{userId}
+    </select>
+    <select id="GetDayWater" parameterType="String" resultType="String">
+        select water_date from water where usr_id = #{userId}
+    </select>
+    <update id="SetZero" parameterType="String" >
+        update water
+        <set>
+            water_num = 0
+        </set>
+        where usr_id = #{userId}
+    </update>
+    <update id="UpdateDayWater">
+        update water
+        <set>
+            water_date = #{today}
+        </set>
+        where usr_id = #{userId}
+    </update>
+    <update id="UpdateWater">
+        update water
+        <set>
+            water_num = water_num + #{water_num}
+        </set>
+        where usr_id = #{userId}
+    </update>
+    <select id="GetFamily" parameterType="String" resultType="UsrFamily">
+        select * from usr_family where usr_id = #{userId}
+    </select>
+
+    <select id="GetBreakDiet" parameterType="String" resultType="Recent_diet">
+        select * from recent_diet where rd_usr = #{userId} and rd_type = 1
+    </select>
+
+    <select id="GetLunchDiet" parameterType="String" resultType="Recent_diet">
+        select * from recent_diet where rd_usr = #{userId} and rd_type = 2
+    </select>
+
+    <select id="GetDinnerDiet" parameterType="String" resultType="Recent_diet">
+        select * from recent_diet where rd_usr = #{userId} and rd_type = 3
+    </select>
+
+    <select id="GetRecipe" parameterType="long" resultType="Recipe">
+        select * from recipe where rec_id = #{recipe_id}
+    </select>
+
+    <select id="GetWeight" parameterType="String" resultType="Integer">
+        select usr_weight from weight where usr_id = #{userId}
+    </select>
+
 </mapper>
 

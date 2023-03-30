@@ -11,7 +11,7 @@ public interface UserService {
 
     public Integer RecordWater(String userId);
 
-    public Integer UpdateWater(String userId);
+    public Integer UpdateWater(String userId,long water_num);
     public List<UsrFamily> GetFamily(String userId);
 
     public DietRecord RecordDiet(String userId,String date);

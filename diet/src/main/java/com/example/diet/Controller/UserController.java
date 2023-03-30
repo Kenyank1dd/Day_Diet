@@ -31,8 +31,8 @@ public class UserController {
     }
 
     @PutMapping ("/update/water")
-    public ResponseResult UpdateWater(@CurrentUserId String userId){
-        Integer water = userServcie.UpdateWater(userId);
+    public ResponseResult UpdateWater(@CurrentUserId String userId,@RequestParam("water_num") long water_num){
+        Integer water = userServcie.UpdateWater(userId,water_num);
         return new ResponseResult(200,water);
     }
 

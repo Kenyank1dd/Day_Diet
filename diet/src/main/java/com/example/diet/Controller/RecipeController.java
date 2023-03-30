@@ -38,8 +38,8 @@ public class RecipeController {
         int cnt = 1;
         while (csvReader.readRecord()) {
             Recipe recipe = new Recipe();
-            recipe.setRecName(csvReader.get(0));
-            recipe.setRecid(cnt++);
+            recipe.setRec_name(csvReader.get(0));
+            recipe.setRec_id(cnt++);
             this.insertRecipe(recipe);
         }
     }
@@ -50,8 +50,8 @@ public class RecipeController {
         csvReader.readHeaders();
         while(csvReader.readRecord()){
             Recipe recipe = new Recipe();
-            recipe.setRecName(csvReader.get(0));
-            recipe.setRecurl("/root/imgs/" + csvReader.get(0) + ".jpg");
+            recipe.setRec_name(csvReader.get(0));
+            recipe.setRec_url("/root/imgs/" + csvReader.get(0) + ".jpg");
             this.updateRecipe(recipe);
         }
     }
