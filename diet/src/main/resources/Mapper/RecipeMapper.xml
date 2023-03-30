@@ -38,4 +38,12 @@
         WHERE
             recipe.rec_name = #{name}
     </select>
+    <select id="SearchRecipe" resultMap="RecipeMap">
+        SELECT
+            *
+        FROM
+            recipe
+        WHERE
+            rec_name LIKE "%" #{name} "%";
+    </select>
 </mapper>

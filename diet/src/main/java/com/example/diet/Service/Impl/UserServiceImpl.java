@@ -24,12 +24,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @InvokeLog
-    public List<Recipe> SearchRecipe(String rec_id) {
-        return userMapper.SearchRecipe(rec_id);
-    }
-
-    @Override
-    @InvokeLog
     public Integer RecordWater(String userId){
 
         return null;

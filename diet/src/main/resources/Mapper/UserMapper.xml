@@ -5,9 +5,6 @@
         select * from usr
     </select>
 
-    <select id="SearchRecipe" resultType="com.example.diet.Domain.Recipe" parameterType="String">
-        select * from recipe where rec_id = #{rec_id}
-    </select>
     <select id="findFamilyAllergenbyId" resultType="java.util.Map">
         SELECT
             f.family_id,

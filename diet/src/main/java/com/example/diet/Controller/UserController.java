@@ -24,12 +24,6 @@ public class UserController {
         return new ResponseResult(200,users);
     }
 
-    @GetMapping("/search/recipe")
-    public ResponseResult SearchRecipe(@RequestParam (value = "rec_id") String rec_id) throws Exception{   //rec_id对应前端url路径里的参数名称
-        List<Recipe> recipes = userServcie.SearchRecipe(rec_id);
-        return new ResponseResult(200,recipes);
-    }
-
     @GetMapping("/record/water")
     public ResponseResult RecordWater(@CurrentUserId String userId){
         Integer water = userServcie.RecordWater(userId);

@@ -14,7 +14,6 @@ import java.util.Map;
 public interface UserMapper {
 
     public List<User> findAll();
-    public List<Recipe> SearchRecipe(String rec_id);
 
     @MapKey("family_id")
     List<Map<String,Object>> findFamilyMessagebyId(Integer userId);

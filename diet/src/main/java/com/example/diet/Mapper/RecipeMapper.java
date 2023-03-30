@@ -5,6 +5,8 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 @Mapper
 public interface RecipeMapper {
@@ -12,5 +14,7 @@ public interface RecipeMapper {
 
     public void updateRecipe(Recipe recipe);
 
-    Recipe findRecipebyName(String name);
+    public Recipe findRecipebyName(String name);
+
+    public List<Recipe> SearchRecipe(String seachtxt);
 }

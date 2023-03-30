@@ -3,6 +3,7 @@ from collections import defaultdict
 import numpy as np
 import pandas as pd
 import sys
+import io
 import string
 from itertools import combinations
 from gensim.models import Word2Vec
@@ -209,6 +210,7 @@ class DayDietRec:
         return res
 
 if __name__=='__main__':
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
     usernum = int(sys.argv[1])
     ingrednum = int(sys.argv[2])
     allergenidx = 3 + ingrednum + 3 * usernum
@@ -231,6 +233,7 @@ if __name__=='__main__':
 
     user_family = family(user_list)
     rec=DayDietRec('src/main/resources/static/final_recipes.csv','model_cbow.bin')
+#     rec=DayDietRec('/root/recommend/final_recipes.csv','/root/recommend/model_cbow.bin')
     res = rec.get_topn_meals(input_ingredients_list,user_family,n=1)
     for item in res['name']:
         print(item)

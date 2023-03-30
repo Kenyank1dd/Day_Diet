@@ -8,7 +8,6 @@ import java.util.Map;
 
 public interface UserService {
     public List<User> findAll();
-    public List<Recipe> SearchRecipe(String rec_id);
 
     public Integer RecordWater(String userId);
 

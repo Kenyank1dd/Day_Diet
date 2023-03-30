@@ -2,16 +2,22 @@ package com.example.diet.Controller;
 
 import com.csvreader.CsvReader;
 import com.example.diet.Domain.Recipe;
+import com.example.diet.Domain.ResponseResult;
 import com.example.diet.Service.RecipeService;
 import com.example.diet.Util.csvUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 @RestController
+@RequestMapping("/api/v1")
 public class RecipeController {
     @Autowired
     private RecipeService recipeService;
@@ -48,5 +54,11 @@ public class RecipeController {
             recipe.setRecurl("/root/imgs/" + csvReader.get(0) + ".jpg");
             this.updateRecipe(recipe);
         }
+    }
+
+    @GetMapping("/search/recipe")
+    public ResponseResult SearchRecipe(@RequestParam(value = "searchtxt") String searchtxt) {
+        List<Recipe> recipes = recipeService.SearchRecipe(searchtxt);
+        return new ResponseResult(200,recipes);
     }
 }
