@@ -17,4 +17,6 @@ public interface RecipeMapper {
     public Recipe findRecipebyName(String name);
 
     public List<Recipe> SearchRecipe(String seachtxt);
+
+    List<Recipe> RecipeRank();
 }

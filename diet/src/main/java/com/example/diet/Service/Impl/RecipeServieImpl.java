@@ -16,16 +16,19 @@ public class RecipeServieImpl implements RecipeService {
     private RecipeMapper recipeMapper;
 
     @Override
+    @InvokeLog
     public void insertRecipe(Recipe recipe) {
         recipeMapper.insertRecipe(recipe);
     }
 
     @Override
+    @InvokeLog
     public void updateRecipe(Recipe recipe) {
         recipeMapper.updateRecipe(recipe);
     }
 
     @Override
+    @InvokeLog
     public Recipe findRecipebyName(String name) {
         return recipeMapper.findRecipebyName(name);
     }
@@ -34,5 +37,11 @@ public class RecipeServieImpl implements RecipeService {
     @InvokeLog
     public List<Recipe> SearchRecipe(String searchtxt) {
         return recipeMapper.SearchRecipe(searchtxt);
+    }
+
+    @Override
+    @InvokeLog
+    public List<Recipe> RecipeRank() {
+        return recipeMapper.RecipeRank();
     }
 }

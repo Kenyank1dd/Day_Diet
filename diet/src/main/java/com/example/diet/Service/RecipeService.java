@@ -12,4 +12,6 @@ public interface RecipeService {
     Recipe findRecipebyName(String name);
 
     public List<Recipe> SearchRecipe(String searchtxt);
+
+    List<Recipe> RecipeRank();
 }

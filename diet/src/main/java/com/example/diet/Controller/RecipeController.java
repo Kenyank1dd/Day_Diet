@@ -61,4 +61,10 @@ public class RecipeController {
         List<Recipe> recipes = recipeService.SearchRecipe(searchtxt);
         return new ResponseResult(200,recipes);
     }
+
+    @GetMapping("/rank/recipe")
+    public ResponseResult RecipeRank() {
+        List<Recipe> recipes = recipeService.RecipeRank();
+        return new ResponseResult(200,recipes);
+    }
 }

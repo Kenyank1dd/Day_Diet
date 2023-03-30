@@ -46,4 +46,14 @@
         WHERE
             rec_name LIKE "%" #{name} "%";
     </select>
+    <select id="RecipeRank" resultMap="RecipeMap">
+        SELECT
+            *
+        FROM
+            recipe
+        WHERE
+            rec_id = 1 OR rec_id = 2 OR rec_id = 4 OR rec_id = 37 OR rec_id = 63
+           OR rec_id = 178 OR rec_id = 187 OR rec_id = 387 OR rec_id = 166
+           OR rec_id = 130
+    </select>
 </mapper>
