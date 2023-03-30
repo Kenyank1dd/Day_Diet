@@ -8,6 +8,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
@@ -16,14 +17,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/generate")
+@RequestMapping("/api/v1")
 public class DiffusionController {
 
     @Autowired
     private RestTemplate restTemplate;
 
-    @RequestMapping("/test")
-    public void RestTemplateTestGet() {
+    @RequestMapping("/generate/plating")
+    public String PictureGenerate(@RequestParam("rec_name") String recname) {
         /**
          * getForObject
          * 参数1 要请求的地址的url  必填项
@@ -40,12 +41,11 @@ public class DiffusionController {
         Gson gson = new Gson();
         JsonObject obj = gson.fromJson(result, JsonObject.class);
         result = obj.get("images").getAsString();
-        System.out.println();
-        System.out.println(util.ImageUtil.generateImage(result,"D:\\Desktop\\"));
 
+        return util.ImageUtil.generateImage(result,"/root/generate_img");
         //2. getForEntity()
         //获取实体ResponseEntity，可以用get函数获取相关信息
-        ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
+//        ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
 //        System.out.println("responseEntity.getStatusCode() = " + responseEntity.getStatusCode());
 
 //        System.out.println("responseEntity.getStatusCodeValue() = " + responseEntity.getStatusCodeValue()); //responseEntity.getStatusCodeValue() = 200
