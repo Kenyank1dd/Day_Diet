@@ -12,15 +12,15 @@ public class Article {
     /**
      * 文章id
      */
-    private long articleid;
+    private long article_id;
     /**
      * 内容来源
      */
-    private String articleSrc;
+    private String article_src;
     /**
      * 文章标题
      */
-    private String articleTitle;
+    private String article_title;
     /**
      * 文章html
      */
@@ -28,5 +28,5 @@ public class Article {
     /**
      * 封面图url
      */
-    private String picurl;
+    private String pic_url;
 }

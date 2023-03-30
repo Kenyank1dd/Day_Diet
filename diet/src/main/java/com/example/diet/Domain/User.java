@@ -12,41 +12,41 @@ public class User {
     /**
      * 头像url
      */
-    private String avatarurl;
+    private String avatar_url;
     /**
      * 最后登录时间
      */
-    private DateTime lastLogin;
+    private DateTime last_login;
     /**
      * 注册时间
      */
-    private DateTime regTime;
+    private DateTime reg_time;
     /**
      * 用户年龄
      */
-    private Long usrAge;
+    private Long usr_age;
     /**
      * 用户邮箱
      */
-    private String usrEmail;
+    private String usr_email;
     /**
      * 用户id
      */
-    private long usrid;
+    private long usr_id;
     /**
      * 用户名
      */
-    private String usrName;
+    private String usr_name;
     /**
      * 用户密码
      */
-    private String usrPassword;
+    private String usr_password;
     /**
      * 用户手机号
      */
-    private String usrPhone;
+    private String usr_phone;
     /**
      * 用户性别
      */
-    private Boolean usrSex;
+    private Boolean usr_sex;
 }

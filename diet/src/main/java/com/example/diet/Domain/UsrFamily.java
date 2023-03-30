@@ -19,7 +19,7 @@ public class UsrFamily {
     /**
      * 成员id
      */
-    private Long familyid;
+    private Long family_id;
     /**
      * 成员关系
      */
@@ -27,6 +27,6 @@ public class UsrFamily {
     /**
      * 对应用户id
      */
-    private long usrid;
+    private long usr_id;
 
 }

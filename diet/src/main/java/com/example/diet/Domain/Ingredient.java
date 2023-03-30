@@ -11,13 +11,13 @@ public class Ingredient {
     /**
      * 食材id
      */
-    private long ingid;
+    private long ing_id;
     /**
      * 食材名
      */
-    private String ingName;
+    private String ing_name;
     /**
      * 食材图片url
      */
-    private String ingurl;
+    private String ing_url;
 }
