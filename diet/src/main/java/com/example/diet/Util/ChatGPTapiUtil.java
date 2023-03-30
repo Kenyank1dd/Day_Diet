@@ -6,7 +6,6 @@ import cn.hutool.http.HttpRequest;
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
-import com.google.gson.Gson;
 import lombok.experimental.UtilityClass;
 
 import java.util.ArrayList;
@@ -31,13 +30,13 @@ public class ChatGPTapiUtil {
      * @param txt 内容
      * @return {@link String}
      */
-    public String chat(String txt) {
+    public String chat(StringBuilder txt) {
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("model", "gpt-3.5-turbo");
         List<Map<String, String>> dataList = new ArrayList<>();
         dataList.add(new HashMap<String, String>(){{
             put("role", "user");
-            put("content", txt);
+            put("content", String.valueOf(txt));
         }});
         paramMap.put("messages", dataList);
 //        paramMap.put("stream", String.valueOf(true));
@@ -65,6 +64,6 @@ public class ChatGPTapiUtil {
 
 
     public static void main(String[] args) {
-        System.out.println(chat(""));
+
     }
 }

@@ -1,5 +1,6 @@
 package com.example.diet.Controller;
 
+import com.example.diet.Domain.Recieve;
 import com.example.diet.Domain.Recipe;
 import com.example.diet.Domain.ResponseResult;
 import com.example.diet.Resolver.CurrentUserId;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 @RestController
@@ -67,14 +69,16 @@ public class RecommendController {
         System.out.println(re);
     }
 
-    @GetMapping("/recipe")
-    public ResponseResult recommend(@RequestBody String[] ingredients) throws IOException, InterruptedException {
+    @PostMapping("/recipe")
+    public ResponseResult recommend(@RequestBody Recieve recipe, @CurrentUserId String userid) throws IOException, InterruptedException {
         List<String> argstemp = new ArrayList<>();
         argstemp.add("C:\\Users\\KK\\.conda\\envs\\KK\\python.exe");
-//        argstemp.add("/root/anaconda3/envs/KK/bin/python")
+//        argstemp.add("/root/anaconda3/envs/KK/bin/python");
         argstemp.add("src/main/resources/static/recommend.py");
-        List<Map<String,Object>> users = userController.findFamilyMessagebyId(1);
-        List<Map<String,Object>> raw_allergen = userController.findFamilyAllergenbyId(1);
+//        argstemp.add("/root/recommend/recommend.py");
+        String[] ingredients = recipe.getBody().toArray(new String[0]);
+        List<Map<String,Object>> users = userController.findFamilyMessagebyId(Integer.valueOf(userid));
+        List<Map<String,Object>> raw_allergen = userController.findFamilyAllergenbyId(Integer.valueOf(userid));
         List<List<String>> allergen = new ArrayList<>();
         argstemp.add(String.valueOf(users.size()));
         argstemp.add(String.valueOf(ingredients.length));
@@ -84,7 +88,7 @@ public class RecommendController {
             argstemp.add(user.get("sugar_need").toString());
             argstemp.add(user.get("cal_need").toString());
             argstemp.add(user.get("fat_need").toString());
-            List<String> tempallergen = new ArrayList<String>();
+            List<String> tempallergen = new ArrayList<>();
             while(idx != raw_allergen.size() && user.get("family_id") == raw_allergen.get(idx).get("family_id")) {
                 tempallergen.add((String) raw_allergen.get(idx).get("ing_name"));
                 idx++;
@@ -101,7 +105,7 @@ public class RecommendController {
         }
         Process proc;
         proc = Runtime.getRuntime().exec(args1);
-        BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream(),"GBK"));
+        BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream(), StandardCharsets.UTF_8));
         String line;
         List<String> res = new ArrayList<>();
         while ((line = in.readLine()) != null) {
@@ -111,6 +115,7 @@ public class RecommendController {
         for (String s : res) {
             comblist.addAll(Arrays.asList(s.split(" ")));
         }
+        System.out.println(comblist);
         in.close();
         //waitFor是用来显示脚本是否运行成功，1表示失败，0表示成功，还有其他的表示其他错误
         int re = proc.waitFor();
