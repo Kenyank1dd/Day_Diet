@@ -13,24 +13,28 @@ import java.util.Map;
 public interface UserMapper {
 
     public List<User> findAll();
-    public Integer RecordWater(String userId);    //获取喝水量
-    public String GetDayWater(String userId);  //获取喝水表的日期
-    public void SetZero(String userId);  //将喝水量置零
-    public void UpdateDayWater(String userId,String today);  //更新喝水表的日期为今天
-    public void UpdateWater(String userId,long water_num);   //更新喝水量
-    public List<UsrFamily> GetFamily(String userId);   //获取家庭成员
-    public List<Recent_diet> GetBreakDiet(String userId);  //获取今日早餐饮食记录
-    public List<Recent_diet> GetLunchDiet(String userId);  //获取今日午餐饮食记录
-    public List<Recent_diet> GetDinnerDiet(String userId);  //获取今日晚餐饮食记录
+    public Integer RecordWater(int userId);    //获取喝水量
+    public String GetDayWater(int userId);  //获取喝水表的日期
+    public void SetZero(int userId);  //将喝水量置零
+    public void UpdateDayWater(int userId,String today);  //更新喝水表的日期为今天
+    public void UpdateWater(int userId,long water_num);   //更新喝水量
+    public List<UsrFamily> GetFamily(int userId);   //获取家庭成员
+    public List<Recent_diet> GetBreakDiet(int userId);  //获取今日早餐饮食记录
+    public List<Recent_diet> GetLunchDiet(int userId);  //获取今日午餐饮食记录
+    public List<Recent_diet> GetDinnerDiet(int userId);  //获取今日晚餐饮食记录
     public Recipe GetRecipe(long recipe_id);  //获取菜谱的详细信息
 
 //    public DietRecord RecordDiet(String userId, String date);
-    public List<Integer> GetWeight(String userId);
+    public List<WeightRecord> GetWeight(int userId);
 
-    public Post_User GetPost(String userId);
-    public List<Article> GetArticle(String userId);
-    public List<Article> GetCollectArticle(String userId);
-    public void CollectArticle(String userId,String article_title);
+//    public Post_User GetPost(int userId);
+    public List<User> GetInterestUser(int userId);   //获取关注用户信息
+    public List<Post> GetInterestPost(int userId);   //获取关注用户动态
+
+//    public List<Article> GetArticle(int userId);  //可以设置为静态
+    public List<Article> GetCollectArticle(int userId);
+    public int GetArticleId(String article_title);  //获取文章id 理论上来说有点点问题  因为id是主键 title不是主键
+    public void InsertCollectArticle(int userId,int articleId);  //插入收藏文章记录
 
 
 

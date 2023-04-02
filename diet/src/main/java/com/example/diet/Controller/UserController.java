@@ -50,7 +50,7 @@ public class UserController {
 
     @GetMapping("/record/weight")
     public ResponseResult GetWeight(@CurrentUserId String userId){
-        List<Integer> weights = userServcie.GetWeight(userId);
+        List<WeightRecord> weights = userServcie.GetWeight(userId);
         return new ResponseResult(200,weights);
     }
 

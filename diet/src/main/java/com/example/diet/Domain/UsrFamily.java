@@ -8,18 +8,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UsrFamily {
-    /**
-     * 过敏源list
-     */
-    private String[] allergens;
-    /**
-     * 疾病list
-     */
-    private long[] diseases;
+
+
     /**
      * 成员id
      */
-    private Long family_id;
+    private long family_id;
     /**
      * 成员关系
      */
@@ -28,5 +22,18 @@ public class UsrFamily {
      * 对应用户id
      */
     private long usr_id;
+    /**
+     * 家庭成员所需糖类的消耗量
+     */
+    private long sugar_need;
 
+    /**
+     * 家庭成员所需热量的消耗量
+     */
+    private long cal_need;
+
+    /**
+     * 家庭成员所需脂肪的消耗量
+     */
+    private long fat_need;
 }
