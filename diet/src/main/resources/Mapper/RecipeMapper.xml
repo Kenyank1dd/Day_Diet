@@ -1,36 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.example.diet.Mapper.RecipeMapper">
-    <resultMap id="RecipeMap" type="com.example.diet.Domain.Recipe">
-        <id column="rec_id" property="recid"></id>
-        <result column="rec_name" property="recName"></result>
-        <result column="rec_url" property="recurl"></result>
-        <result column="rec_prac" property="recPrac"></result>
-        <result column="rec_taste" property="recTaste"></result>
-        <result column="rec_time" property="recTime"></result>
-        <result column="rec_diff" property="recDiff"></result>
-        <result column="rec_main" property="recMain"></result>
-        <result column="rec_excipient" property="recExcipient"></result>
-        <result column="rec_step" property="recStep"></result>
-        <result column="rec_less" property="recLess"></result>
-        <result column="rec_more" property="recMore"></result>
-        <result column="rec_no" property="recNo"></result>
-        <result column="rec_sugar" property="recSugar"></result>
-        <result column="rec_cal" property="recCal"></result>
-        <result column="rec_fat" property="recFat"></result>
-    </resultMap>
-
     <insert id="insertRecipe" parameterType="Recipe">
         insert into recipe(rec_id,rec_name,rec_url) values (#{recid},#{recName},#{recurl})
     </insert>
     <update id="updateRecipe" parameterType="Recipe">
         update recipe
         <set>
-            rec_url =  #{recurl}
+            rec_url =  #{rec_url}
         </set>
-        where rec_name = #{recName}
+        where rec_name = #{rec_name}
     </update>
-    <select id="findRecipebyName" resultMap="RecipeMap">
+    <select id="findRecipebyName" resultType="com.example.diet.Domain.Recipe">
         SELECT
             *
         FROM
@@ -38,7 +19,7 @@
         WHERE
             recipe.rec_name = #{name}
     </select>
-    <select id="SearchRecipe" resultMap="RecipeMap">
+    <select id="SearchRecipe" resultType="com.example.diet.Domain.Recipe">
         SELECT
             *
         FROM
@@ -46,7 +27,7 @@
         WHERE
             rec_name LIKE "%" #{name} "%";
     </select>
-    <select id="RecipeRank" resultMap="RecipeMap">
+    <select id="RecipeRank" resultType="com.example.diet.Domain.Recipe">
         SELECT
             *
         FROM
