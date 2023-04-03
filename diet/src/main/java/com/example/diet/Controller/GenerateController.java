@@ -32,7 +32,8 @@ public class GenerateController {
          */
         String url = "http://region-41.seetacloud.com:14401/sdapi/v1/txt2img";
         Map<String,String> paramMap = new HashMap<String, String>();
-        paramMap.put("prompt", "Braised Pork(Exquisite plating)");
+//        paramMap.put("prompt", "Chinese Cuisine, Shredded Cucumber, with Exquisite plating, High color saturation, Realistic style, Overhead view");
+        paramMap.put("prompt", "a man");
         //1. getForObject()
         //先获取返回的字符串，若想获取属性，可以使用gson转化为实体后get方法获取
         String result = restTemplate.postForObject(url, paramMap, String.class);
@@ -40,7 +41,7 @@ public class GenerateController {
         JsonObject obj = gson.fromJson(result, JsonObject.class);
         result = obj.get("images").getAsString();
 
-        return util.ImageUtil.generateImage(result,"/root/generate_img");
+        return util.ImageUtil.generateImage(result,"D:\\Desktop\\");
         //2. getForEntity()
         //获取实体ResponseEntity，可以用get函数获取相关信息
 //        ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
