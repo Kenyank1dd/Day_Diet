@@ -36,13 +36,13 @@
             f.family_id
     </select>
 
-    <select id="RecordWater" parameterType="String" resultType="Integer">
+    <select id="RecordWater" parameterType="int" resultType="Integer">
         select water_num from water where usr_id = #{userId}
     </select>
-    <select id="GetDayWater" parameterType="String" resultType="String">
+    <select id="GetDayWater" parameterType="int" resultType="String">
         select water_date from water where usr_id = #{userId}
     </select>
-    <update id="SetZero" parameterType="String" >
+    <update id="SetZero" parameterType="int" >
         update water
         <set>
             water_num = 0
@@ -63,19 +63,19 @@
         </set>
         where usr_id = #{userId}
     </update>
-    <select id="GetFamily" parameterType="String" resultType="UsrFamily">
+    <select id="GetFamily" parameterType="int" resultType="UsrFamily">
         select * from usr_family where usr_id = #{userId}
     </select>
 
-    <select id="GetBreakDiet" parameterType="String" resultType="Recent_diet">
+    <select id="GetBreakDiet" parameterType="int" resultType="Recent_diet">
         select * from recent_diet where rd_usr = #{userId} and rd_type = 1
     </select>
 
-    <select id="GetLunchDiet" parameterType="String" resultType="Recent_diet">
+    <select id="GetLunchDiet" parameterType="int" resultType="Recent_diet">
         select * from recent_diet where rd_usr = #{userId} and rd_type = 2
     </select>
 
-    <select id="GetDinnerDiet" parameterType="String" resultType="Recent_diet">
+    <select id="GetDinnerDiet" parameterType="int" resultType="Recent_diet">
         select * from recent_diet where rd_usr = #{userId} and rd_type = 3
     </select>
 
@@ -83,8 +83,64 @@
         select * from recipe where rec_id = #{recipe_id}
     </select>
 
-    <select id="GetWeight" parameterType="String" resultType="Integer">
-        select usr_weight from weight where usr_id = #{userId}
+    <select id="GetWeight" parameterType="int" resultType="com.example.diet.Domain.WeightRecord">
+        select * from weight where usr_id = #{userId} order by date
+    </select>
+    <select id="GetCollectArticle" parameterType="int" resultType="com.example.diet.Domain.Article">
+        SELECT
+            a.article_id
+            a.pic_url
+            a.article_title
+            a.article_src
+            a.content
+        FROM
+            usr_article_collec u,
+            article a
+        WHERE
+            u.article_id = f.article_id
+          AND u.usr_id = #{userId}
+    </select>
+    <select id="GetArticleId" parameterType="String" resultType="int">
+        select article_id from article where article_title = #{article_title}
+    </select>
+    <insert id="InsertCollectArticle" >
+        insert into usr_article_collec(usr_id,article_id) values (#{userId},#{articleId})
+    </insert>
+
+    <select id="GetInterestUser" parameterType="int" resultType="com.example.diet.Domain.User">
+        SELECT
+            u.usr_id,
+            u.usr_name,
+            u.usr_phone,
+            u.usr_email,
+            u.usr_password,
+            u.usr_sex,
+            u.usr_age,
+            u.avatar_url,
+            u.reg_time,
+            u.last_login
+        FROM usr_author ua,
+             usr u
+        WHERE ua.usr_id = #{userId}
+             AND ua.author_id = u.usr_id
+    </select>
+    <select id="GetInterestPost" parameterType="int" resultType="com.example.diet.Domain.Post">
+        SELECT
+            p.post_id,
+            p.author_id,
+            p.post_title,
+            p.post_time,
+            p.post_type,
+            p.pic_url,
+            p.vid_url,
+            p.post_like,
+            p.post_view,
+            p.post_comment,
+            p.content
+        FROM usr_author ua,
+             post p
+        WHERE ua.usr_id = #{userId}
+          AND ua.author_id = p.author_id
     </select>
 
 </mapper>

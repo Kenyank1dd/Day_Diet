@@ -15,7 +15,7 @@ public interface UserService {
     public List<UsrFamily> GetFamily(String userId);
 
     public DietRecord RecordDiet(String userId,String date);
-    public List<Integer> GetWeight(String userId);
+    public List<WeightRecord> GetWeight(String userId);
 
     public Post_User GetPost(String userId);
     public List<Article> GetArticle(String userId);
