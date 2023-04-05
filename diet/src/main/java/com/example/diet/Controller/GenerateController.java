@@ -30,11 +30,10 @@ public class GenerateController {
          * 参数3 请求携带参数 选填
          * getForObject 方法的返回值就是 被调用接口响应的数据
          */
-        String url = "http://region-41.seetacloud.com:14401/sdapi/v1/txt2img";
+        String url = "http://region-3.seetacloud.com:16682/sdapi/v1/txt2img";
         Map<String,String> paramMap = new HashMap<String, String>();
 //        paramMap.put("prompt", "Chinese Cuisine, Shredded Cucumber, with Exquisite plating, High color saturation, Realistic style, Overhead view");
-        paramMap.put("prompt", "a man");
-        //1. getForObject()
+        paramMap.put("prompt", "a photo of tudousi");
         //先获取返回的字符串，若想获取属性，可以使用gson转化为实体后get方法获取
         String result = restTemplate.postForObject(url, paramMap, String.class);
         Gson gson = new Gson();
