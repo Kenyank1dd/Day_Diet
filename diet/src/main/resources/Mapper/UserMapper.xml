@@ -36,6 +36,12 @@
             f.family_id
     </select>
 
+    <select id="GetUser" parameterType="int" resultType="com.example.diet.Domain.User">
+        select * from usr where usr_id = #{userId}
+    </select>
+    <insert id="InsertUser" parameterType="com.example.diet.Domain.User">
+        insert into usr(usr_name,usr_phone,usr_password,usr_sex,usr_age,reg_time) values (#{usr_name},#{usr_phone},#{usr_password},#{usr_sex},#{usr_age},#{reg_time})
+    </insert>
     <select id="RecordWater" parameterType="int" resultType="Integer">
         select water_num from water where usr_id = #{userId}
     </select>

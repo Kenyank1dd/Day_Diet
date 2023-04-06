@@ -3,6 +3,7 @@ package com.example.diet.Controller;
 import com.example.diet.Domain.*;
 import com.example.diet.Resolver.CurrentUserId;
 import com.example.diet.Service.UserService;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +15,26 @@ import java.util.Map;
 public class UserController {
     @Autowired
     private UserService userServcie;
+
+    @GetMapping("register")
+    public ResponseResult Register(@RequestBody RegisterInfo registerInfo){
+        boolean isRegistered = userServcie.isRegister(registerInfo.getUsr_name());
+        if(!isRegistered){    //未注册  在用户列表中添加
+            User user = new User();
+            user.setUsr_name(registerInfo.getUsr_name());
+            user.setUsr_age(registerInfo.getUsr_age());
+            user.setUsr_password(registerInfo.getUsr_password());
+            user.setUsr_phone(registerInfo.getUsr_phone());
+            user.setUsr_sex(registerInfo.isUsr_sex());
+            user.setReg_time(DateTime.now());
+            userServcie.InsertUser(user);
+            return new ResponseResult(200,"注册成功");
+        }
+        else if(isRegistered){
+            return new ResponseResult(201,"用户已注册");
+        }
+        return null;
+    }
 
     @RequestMapping("/findAll")
     public ResponseResult findAll(@CurrentUserId String userId) throws Exception {
