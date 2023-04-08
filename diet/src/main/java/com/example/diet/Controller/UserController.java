@@ -3,12 +3,14 @@ package com.example.diet.Controller;
 import com.example.diet.Domain.*;
 import com.example.diet.Resolver.CurrentUserId;
 import com.example.diet.Service.UserService;
+import com.example.diet.Util.JwtUtil;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -33,6 +35,13 @@ public class UserController {
         else if(isRegistered){
             return new ResponseResult(201,"用户已注册");
         }
+        return null;
+    }
+
+    @GetMapping("/login")
+    public ResponseResult Login(@RequestParam (value = "user_phone") String user_phone,@RequestParam (value = "user_password") String user_password){
+        String token = JwtUtil.createJWT(UUID.randomUUID().toString(), user_phone , null);
+        System.out.println(token);
         return null;
     }
 
