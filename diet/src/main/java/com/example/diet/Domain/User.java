@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.joda.time.DateTime;
 
+import java.util.Date;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,11 +18,11 @@ public class User {
     /**
      * 最后登录时间
      */
-    private DateTime last_login;
+    private String last_login;
     /**
      * 注册时间
      */
-    private DateTime reg_time;
+    private String reg_time;
     /**
      * 用户年龄
      */

@@ -40,7 +40,7 @@
         select * from usr where usr_phone = #{user_phone}
     </select>
     <insert id="InsertUser" parameterType="com.example.diet.Domain.User">
-        insert into usr(usr_name,usr_phone,usr_password,usr_sex,usr_age,reg_time) values (#{usr_name},#{usr_phone},#{usr_password},#{usr_sex},#{usr_age},#{reg_time})
+        insert into usr values (null, #{usr_name},#{usr_phone}, null, #{usr_password},#{usr_sex},#{usr_age}, null, #{reg_time}, null)
     </insert>
     <select id="RecordWater" parameterType="int" resultType="Integer">
         select water_num from water where usr_id = #{userId}
@@ -147,6 +147,19 @@
              post p
         WHERE ua.usr_id = #{userId}
           AND ua.author_id = p.author_id
+    </select>
+    <select id="findUserbyPhonenum" resultType="com.example.diet.Domain.RegisterInfo">
+        SELECT
+            usr_phone,
+            usr_password,
+            usr_name,
+            usr_sex,
+            usr_age
+        FROM
+            usr
+        WHERE
+            usr_phone = #{userphone}
+          AND usr_password = #{password}
     </select>
 
 </mapper>

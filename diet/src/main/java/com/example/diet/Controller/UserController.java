@@ -4,10 +4,13 @@ import com.example.diet.Domain.*;
 import com.example.diet.Resolver.CurrentUserId;
 import com.example.diet.Service.UserService;
 import com.example.diet.Util.JwtUtil;
+import io.jsonwebtoken.Claims;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -18,7 +21,7 @@ public class UserController {
     @Autowired
     private UserService userServcie;
 
-    @GetMapping("register")
+    @GetMapping("/register")
     public ResponseResult Register(@RequestBody RegisterInfo registerInfo){
         boolean isRegistered = userServcie.isRegister(registerInfo.getUsr_phone());
         if(!isRegistered){    //未注册  在用户列表中添加
@@ -28,7 +31,9 @@ public class UserController {
             user.setUsr_password(registerInfo.getUsr_password());
             user.setUsr_phone(registerInfo.getUsr_phone());
             user.setUsr_sex(registerInfo.isUsr_sex());
-            user.setReg_time(DateTime.now());
+            Date date = new Date();
+            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+            user.setReg_time(formatter.format(date));
             userServcie.InsertUser(user);
             return new ResponseResult(200,"注册成功");
         }
@@ -39,12 +44,21 @@ public class UserController {
     }
 
     @GetMapping("/login")
-    public ResponseResult Login(@RequestParam (value = "user_phone") String user_phone,@RequestParam (value = "user_password") String user_password){
+    public ResponseResult Login(@RequestParam (value = "user_phone") String user_phone,@RequestParam (value = "user_password") String user_password) throws Exception {
         //找到usr_id
-        int usr_id ;
-        String token = JwtUtil.createJWT(UUID.randomUUID().toString(), "" , null);
-        System.out.println(token);
-        return null;
+        RegisterInfo userinfo = findUserbyPhonenum(user_phone,user_password);
+        System.out.println(userinfo.getUsr_phone());
+        if(userinfo != null) {
+            String token = JwtUtil.createJWT(UUID.randomUUID().toString(), userinfo.getUsr_phone(), null);
+            System.out.println(token);
+            Claims claims = JwtUtil.parseJWT(token);
+            String subject = claims.getSubject();
+            userinfo.setUsr_phone(subject);
+            return new ResponseResult(200, "success", userinfo);
+        }
+        else {
+            return new ResponseResult(201,"密码或账号错误");
+        }
     }
 
     @RequestMapping("/findAll")
@@ -110,13 +124,15 @@ public class UserController {
         return new ResponseResult(200,"");
     }
 
-
-
     public List<Map<String,Object>> findFamilyMessagebyId(Integer userId) {
         return userServcie.findFamilyMessagebyId(userId);
     }
 
     public List<Map<String,Object>> findFamilyAllergenbyId(Integer userId) {
         return userServcie.findFamilyAllergenbyId(userId);
+    }
+
+    public RegisterInfo findUserbyPhonenum(String userphone, String password) {
+        return userServcie.findUserbyPhonenum(userphone,password);
     }
 }

@@ -149,4 +149,10 @@ public class UserServiceImpl implements UserService {
     public List<Map<String,Object>> findFamilyAllergenbyId(Integer userId) {
         return userMapper.findFamilyAllergenbyId(userId);
     }
+
+    @Override
+    @InvokeLog
+    public RegisterInfo findUserbyPhonenum(String userphone, String password) {
+        return userMapper.findUserbyPhonenum(userphone,password);
+    }
 }

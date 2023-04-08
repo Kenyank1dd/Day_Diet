@@ -28,4 +28,6 @@ public interface UserService {
     List<Map<String,Object>> findFamilyMessagebyId(Integer userId);
 
     List<Map<String,Object>> findFamilyAllergenbyId(Integer userId);
+
+    RegisterInfo findUserbyPhonenum(String userphone, String password);
 }
