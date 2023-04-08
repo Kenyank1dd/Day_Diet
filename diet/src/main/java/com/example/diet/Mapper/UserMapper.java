@@ -14,7 +14,7 @@ public interface UserMapper {
 
     public List<User> findAll();
 
-    public List<User> GetUser(int userId);  //看看是否已经注册
+    public List<User> GetUser(String user_phone);  //看看是否已经注册
     public void InsertUser(User user);  //插入一个用户
     public Integer RecordWater(int userId);    //获取喝水量
     public String GetDayWater(int userId);  //获取喝水表的日期

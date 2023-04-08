@@ -28,8 +28,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @InvokeLog
-    public boolean isRegister(String userId){
-        List<User> users = userMapper.GetUser(Integer.parseInt(userId));
+    public boolean isRegister(String user_phone){
+        List<User> users = userMapper.GetUser(user_phone);
         return !users.isEmpty();
     }
 

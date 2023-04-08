@@ -20,7 +20,7 @@ public class UserController {
 
     @GetMapping("register")
     public ResponseResult Register(@RequestBody RegisterInfo registerInfo){
-        boolean isRegistered = userServcie.isRegister(registerInfo.getUsr_name());
+        boolean isRegistered = userServcie.isRegister(registerInfo.getUsr_phone());
         if(!isRegistered){    //未注册  在用户列表中添加
             User user = new User();
             user.setUsr_name(registerInfo.getUsr_name());
@@ -40,7 +40,9 @@ public class UserController {
 
     @GetMapping("/login")
     public ResponseResult Login(@RequestParam (value = "user_phone") String user_phone,@RequestParam (value = "user_password") String user_password){
-        String token = JwtUtil.createJWT(UUID.randomUUID().toString(), user_phone , null);
+        //找到usr_id
+        int usr_id ;
+        String token = JwtUtil.createJWT(UUID.randomUUID().toString(), "" , null);
         System.out.println(token);
         return null;
     }
