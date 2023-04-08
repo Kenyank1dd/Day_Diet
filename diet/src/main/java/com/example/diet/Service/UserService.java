@@ -8,6 +8,8 @@ import java.util.Map;
 
 public interface UserService {
     public List<User> findAll();
+    public boolean isRegister(String user_phone);
+    public void InsertUser(User user);
 
     public Integer RecordWater(String userId);
 

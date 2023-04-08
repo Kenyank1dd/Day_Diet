@@ -3,17 +3,49 @@ package com.example.diet.Controller;
 import com.example.diet.Domain.*;
 import com.example.diet.Resolver.CurrentUserId;
 import com.example.diet.Service.UserService;
+import com.example.diet.Util.JwtUtil;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1")
 public class UserController {
     @Autowired
     private UserService userServcie;
+
+    @GetMapping("register")
+    public ResponseResult Register(@RequestBody RegisterInfo registerInfo){
+        boolean isRegistered = userServcie.isRegister(registerInfo.getUsr_phone());
+        if(!isRegistered){    //未注册  在用户列表中添加
+            User user = new User();
+            user.setUsr_name(registerInfo.getUsr_name());
+            user.setUsr_age(registerInfo.getUsr_age());
+            user.setUsr_password(registerInfo.getUsr_password());
+            user.setUsr_phone(registerInfo.getUsr_phone());
+            user.setUsr_sex(registerInfo.isUsr_sex());
+            user.setReg_time(DateTime.now());
+            userServcie.InsertUser(user);
+            return new ResponseResult(200,"注册成功");
+        }
+        else if(isRegistered){
+            return new ResponseResult(201,"用户已注册");
+        }
+        return null;
+    }
+
+    @GetMapping("/login")
+    public ResponseResult Login(@RequestParam (value = "user_phone") String user_phone,@RequestParam (value = "user_password") String user_password){
+        //找到usr_id
+        int usr_id ;
+        String token = JwtUtil.createJWT(UUID.randomUUID().toString(), "" , null);
+        System.out.println(token);
+        return null;
+    }
 
     @RequestMapping("/findAll")
     public ResponseResult findAll(@CurrentUserId String userId) throws Exception {
@@ -77,6 +109,8 @@ public class UserController {
         userServcie.CollectArticle(userId,article_title);
         return new ResponseResult(200,"");
     }
+
+
 
     public List<Map<String,Object>> findFamilyMessagebyId(Integer userId) {
         return userServcie.findFamilyMessagebyId(userId);

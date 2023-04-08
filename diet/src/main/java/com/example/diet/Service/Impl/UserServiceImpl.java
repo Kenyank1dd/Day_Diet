@@ -28,6 +28,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @InvokeLog
+    public boolean isRegister(String user_phone){
+        List<User> users = userMapper.GetUser(user_phone);
+        return !users.isEmpty();
+    }
+
+    @Override
+    @InvokeLog
+    public void InsertUser(User user){
+        userMapper.InsertUser(user);
+    }
+
+    @Override
+    @InvokeLog
     public Integer RecordWater(String userId){
         String date = userMapper.GetDayWater(Integer.parseInt(userId));
         long nowMillis = System.currentTimeMillis();
