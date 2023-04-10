@@ -40,7 +40,9 @@
         select * from usr where usr_phone = #{user_phone}
     </select>
     <insert id="InsertUser" parameterType="com.example.diet.Domain.User">
-        insert into usr values (null, #{usr_name},#{usr_phone}, null, #{usr_password},#{usr_sex},#{usr_age}, null, #{reg_time}, null)
+        insert into usr values (null, #{usr_name},#{usr_phone}, null, #{usr_password},
+                                #{usr_sex},#{usr_age}, #{usr_weight},#{usr_height},#{tar_weight},#{tar_time},
+                                null)
     </insert>
     <select id="RecordWater" parameterType="int" resultType="Integer">
         select water_num from water where usr_id = #{userId}
@@ -112,6 +114,11 @@
     <insert id="InsertCollectArticle" >
         insert into usr_article_collec(usr_id,article_id) values (#{userId},#{articleId})
     </insert>
+    <insert id="InsertRegisterInfo">
+        insert into registerinfo values (#{usr_phone},#{usr_password},#{usr_name},#{usr_sex},
+                                         #{usr_height},#{tar_weight},#{usr_age},#{tar_weight},
+                                         #{tar_time})
+    </insert>
 
     <select id="GetInterestUser" parameterType="int" resultType="com.example.diet.Domain.User">
         SELECT
@@ -148,8 +155,9 @@
         WHERE ua.usr_id = #{userId}
           AND ua.author_id = p.author_id
     </select>
-    <select id="findUserbyPhonenum" resultType="com.example.diet.Domain.RegisterInfo">
+    <select id="findUserbyPhonenum" resultType="com.example.diet.Domain.User">
         SELECT
+            usr_id,
             usr_phone,
             usr_password,
             usr_name,

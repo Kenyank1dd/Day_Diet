@@ -29,5 +29,7 @@ public interface UserService {
 
     List<Map<String,Object>> findFamilyAllergenbyId(Integer userId);
 
-    RegisterInfo findUserbyPhonenum(String userphone, String password);
+    User findUserbyPhonenum(String userphone, String password);
+
+    void InsertRegisterInfo(RegisterInfo registerInfo);
 }

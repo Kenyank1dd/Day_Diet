@@ -152,7 +152,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @InvokeLog
-    public RegisterInfo findUserbyPhonenum(String userphone, String password) {
+    public User findUserbyPhonenum(String userphone, String password) {
         return userMapper.findUserbyPhonenum(userphone,password);
+    }
+
+    @Override
+    public void InsertRegisterInfo(RegisterInfo registerInfo) {
+        userMapper.InsertRegisterInfo(registerInfo);
     }
 }

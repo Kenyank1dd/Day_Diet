@@ -16,14 +16,6 @@ public class User {
      */
     private String avatar_url;
     /**
-     * 最后登录时间
-     */
-    private String last_login;
-    /**
-     * 注册时间
-     */
-    private String reg_time;
-    /**
      * 用户年龄
      */
     private Long usr_age;
@@ -51,4 +43,12 @@ public class User {
      * 用户性别
      */
     private Boolean usr_sex;
+
+    private Double usr_height;
+
+    private Double usr_weight;
+
+    private Double tar_weight;
+
+    private Integer tar_time;
 }

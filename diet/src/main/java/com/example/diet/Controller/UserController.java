@@ -21,35 +21,26 @@ public class UserController {
     @Autowired
     private UserService userServcie;
 
-    @GetMapping("/register")
-    public ResponseResult Register(@RequestBody RegisterInfo registerInfo){
-        boolean isRegistered = userServcie.isRegister(registerInfo.getUsr_phone());
+    @PostMapping("/register")
+    public ResponseResult Register(@RequestBody User user){
+        System.out.println(user.getUsr_phone());
+        boolean isRegistered = userServcie.isRegister(user.getUsr_phone());
         if(!isRegistered){    //未注册  在用户列表中添加
-            User user = new User();
-            user.setUsr_name(registerInfo.getUsr_name());
-            user.setUsr_age(registerInfo.getUsr_age());
-            user.setUsr_password(registerInfo.getUsr_password());
-            user.setUsr_phone(registerInfo.getUsr_phone());
-            user.setUsr_sex(registerInfo.isUsr_sex());
-            Date date = new Date();
-            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-            user.setReg_time(formatter.format(date));
             userServcie.InsertUser(user);
             return new ResponseResult(200,"注册成功");
         }
-        else if(isRegistered){
+        else {
             return new ResponseResult(201,"用户已注册");
         }
-        return null;
     }
 
     @GetMapping("/login")
     public ResponseResult Login(@RequestParam (value = "user_phone") String user_phone,@RequestParam (value = "user_password") String user_password) throws Exception {
         //找到usr_id
-        RegisterInfo userinfo = findUserbyPhonenum(user_phone,user_password);
+        User userinfo = findUserbyPhonenum(user_phone,user_password);
         System.out.println(userinfo.getUsr_phone());
         if(userinfo != null) {
-            String token = JwtUtil.createJWT(UUID.randomUUID().toString(), userinfo.getUsr_phone(), null);
+            String token = JwtUtil.createJWT(UUID.randomUUID().toString(), String.valueOf(userinfo.getUsr_id()), null);
             System.out.println(token);
             Claims claims = JwtUtil.parseJWT(token);
             String subject = claims.getSubject();
@@ -132,7 +123,7 @@ public class UserController {
         return userServcie.findFamilyAllergenbyId(userId);
     }
 
-    public RegisterInfo findUserbyPhonenum(String userphone, String password) {
+    public User findUserbyPhonenum(String userphone, String password) {
         return userServcie.findUserbyPhonenum(userphone,password);
     }
 }

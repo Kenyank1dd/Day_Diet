@@ -17,9 +17,9 @@ import java.util.UUID;
 public class JwtUtil {
 
     //有效期为
-    public static final Long JWT_TTL = 60 * 60 *1000L;// 60 * 60 *1000  一个小时
+    public static final Long JWT_TTL = 600 * 60 * 1000L;// 60 * 60 *1000  一个小时
     //设置秘钥明文
-    public static final String JWT_KEY = "sangeng";
+    public static final String JWT_KEY = "KK";
 
     /**
      * 创建token
@@ -76,7 +76,7 @@ public class JwtUtil {
     }
 
     public static void main(String[] args) throws Exception {
-        String token = JwtUtil.createJWT(UUID.randomUUID().toString(), "18257588078", null);
+        String token = JwtUtil.createJWT(UUID.randomUUID().toString(), "1", null);
         System.out.println(token);
 
         Claims claims = JwtUtil.parseJWT(token);

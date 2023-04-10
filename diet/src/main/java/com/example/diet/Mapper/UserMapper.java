@@ -46,6 +46,8 @@ public interface UserMapper {
     @MapKey("family_id")
     List<Map<String,Object>> findFamilyAllergenbyId(Integer userId);
 
-    @MapKey("user_phone")
-    RegisterInfo findUserbyPhonenum(String userphone, String password);
+    @MapKey("user_id")
+    User findUserbyPhonenum(String userphone, String password);
+
+    void InsertRegisterInfo(RegisterInfo registerInfo);
 }

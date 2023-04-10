@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RegisterInfo {
+    private String usr_id;
     private String usr_phone;
     private String usr_password;
     private String usr_name;
@@ -18,12 +19,4 @@ public class RegisterInfo {
     private Long usr_age;
     private String tar_weight;
     private String tar_time;
-
-    public boolean isUsr_sex() {
-        return usr_sex;
-    }
-
-    public void setUsr_sex(boolean usr_sex) {
-        this.usr_sex = usr_sex;
-    }
 }
