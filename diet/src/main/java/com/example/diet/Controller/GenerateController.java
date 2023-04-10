@@ -1,18 +1,15 @@
 package com.example.diet.Controller;
 
+import com.example.diet.Domain.ResponseResult;
 import com.example.diet.Util.ChatGPTapiUtil;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import okhttp3.*;
 import okhttp3.RequestBody;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -74,13 +71,13 @@ public class GenerateController {
 //        return util.ImageUtil.generateImage(result,"D:\\Desktop\\");
     }
 
-    @RequestMapping("/recipe")
-    public String RecipeGenerate(@org.springframework.web.bind.annotation.RequestBody String[] ing_list) {
+    @PostMapping("/recipe")
+    public ResponseResult RecipeGenerate(@org.springframework.web.bind.annotation.RequestBody String[] ing_list) {
         StringBuilder query = new StringBuilder("我现在有以下食材：");
         for (String s : ing_list) {
             query.append(s).append("、");
         }
         query.append("\n请用这些食材为我生成一个非常创新、少见的菜谱");
-        return ChatGPTapiUtil.chat(query);
+        return new ResponseResult(200,ChatGPTapiUtil.chat(query));
     }
 }

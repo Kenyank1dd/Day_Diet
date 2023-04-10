@@ -21,11 +21,25 @@ public class UserController {
     @Autowired
     private UserService userServcie;
 
+    @PostMapping("/checktoken")
+    public ResponseResult check(@CurrentUserId String userId) {
+        User user = userServcie.findById(userId);
+        if(user == null) {
+            return new ResponseResult(201,"token错误");
+        }
+        else {
+            return new ResponseResult(200,user);
+        }
+    }
+
     @PostMapping("/register")
     public ResponseResult Register(@RequestBody User user){
         System.out.println(user.getUsr_phone());
         boolean isRegistered = userServcie.isRegister(user.getUsr_phone());
         if(!isRegistered){    //未注册  在用户列表中添加
+            Date date = new Date();
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            user.setReg_time(formatter.format(date));
             userServcie.InsertUser(user);
             return new ResponseResult(200,"注册成功");
         }
@@ -42,9 +56,7 @@ public class UserController {
         if(userinfo != null) {
             String token = JwtUtil.createJWT(UUID.randomUUID().toString(), String.valueOf(userinfo.getUsr_id()), null);
             System.out.println(token);
-            Claims claims = JwtUtil.parseJWT(token);
-            String subject = claims.getSubject();
-            userinfo.setUsr_phone(subject);
+            userinfo.setUsr_phone(token);
             return new ResponseResult(200, "success", userinfo);
         }
         else {

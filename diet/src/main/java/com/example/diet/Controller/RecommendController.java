@@ -1,9 +1,7 @@
 package com.example.diet.Controller;
 
-import com.example.diet.Domain.Recieve;
 import com.example.diet.Domain.Recipe;
 import com.example.diet.Domain.ResponseResult;
-import com.example.diet.Domain.recipestring;
 import com.example.diet.Resolver.CurrentUserId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -71,22 +69,21 @@ public class RecommendController {
     }
 
     @PostMapping("/recipe")
-    public ResponseResult recommend(@RequestBody recipestring recipe, @CurrentUserId String userid) throws IOException, InterruptedException {
+    public ResponseResult recommend(@RequestBody String[] recipe, @CurrentUserId String userid) throws IOException, InterruptedException {
         List<String> argstemp = new ArrayList<>();
 //        argstemp.add("C:\\Users\\KK\\.conda\\envs\\KK\\python.exe");
         argstemp.add("/root/anaconda3/envs/KK/bin/python");
 //        argstemp.add("src/main/resources/static/recommend.py");
         argstemp.add("/root/recommend/recommend.py");
-        String[] temp = recipe.getS().toArray(new String[0]);
-        for (String s : temp) {
+        for (String s : recipe) {
             System.out.println(s);
         }
         List<Map<String,Object>> users = userController.findFamilyMessagebyId(Integer.valueOf(userid));
         List<Map<String,Object>> raw_allergen = userController.findFamilyAllergenbyId(Integer.valueOf(userid));
         List<List<String>> allergen = new ArrayList<>();
         argstemp.add(String.valueOf(users.size()));
-        argstemp.add(String.valueOf(temp.length));
-        Collections.addAll(argstemp, temp);
+        argstemp.add(String.valueOf(recipe.length));
+        Collections.addAll(argstemp, recipe);
         int idx = 0;
         for (Map<String, Object> user : users) {
             argstemp.add(user.get("sugar_need").toString());

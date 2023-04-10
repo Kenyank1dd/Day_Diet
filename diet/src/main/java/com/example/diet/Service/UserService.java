@@ -32,4 +32,6 @@ public interface UserService {
     User findUserbyPhonenum(String userphone, String password);
 
     void InsertRegisterInfo(RegisterInfo registerInfo);
+
+    User findById(String userId);
 }

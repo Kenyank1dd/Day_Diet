@@ -73,7 +73,7 @@ public class UserServiceImpl implements UserService {
         List<Recent_diet> breaklist = userMapper.GetBreakDiet(Integer.parseInt(userId));   //取所有的该用户早餐记录
         List<Recipe> breakRecipe = new ArrayList<>();    //用于存储所有菜谱的详细信息
         for(Recent_diet temp : breaklist){
-            if(temp.getRd_time().substring(0,9).equals(date.substring(0,9))){
+            if(temp.getRd_time().substring(0,10).equals(date.substring(0,10))){
                 breakRecipe.add(userMapper.GetRecipe(temp.getRd_rec()));
             }
         }
@@ -81,7 +81,7 @@ public class UserServiceImpl implements UserService {
         List<Recent_diet> lunchlist = userMapper.GetLunchDiet(Integer.parseInt(userId));   //取所有的该用户午餐记录
         List<Recipe> lunchRecipe = new ArrayList<>();    //用于存储所有菜谱的详细信息
         for(Recent_diet temp : lunchlist){
-            if(temp.getRd_time().substring(0,9).equals(date.substring(0,9))){
+            if(temp.getRd_time().substring(0,10).equals(date.substring(0,10))){
                 lunchRecipe.add(userMapper.GetRecipe(temp.getRd_rec()));
             }
         }
@@ -89,7 +89,7 @@ public class UserServiceImpl implements UserService {
         List<Recent_diet> dinnerlist = userMapper.GetDinnerDiet(Integer.parseInt(userId));   //取所有的该用户晚餐记录
         List<Recipe> dinnerRecipe = new ArrayList<>();    //用于存储所有菜谱的详细信息
         for(Recent_diet temp : dinnerlist){
-            if(temp.getRd_time().substring(0,9).equals(date.substring(0,9))){
+            if(temp.getRd_time().substring(0,10).equals(date.substring(0,10))){
                 dinnerRecipe.add(userMapper.GetRecipe(temp.getRd_rec()));
             }
         }
@@ -157,7 +157,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @InvokeLog
     public void InsertRegisterInfo(RegisterInfo registerInfo) {
         userMapper.InsertRegisterInfo(registerInfo);
+    }
+
+    @Override
+    @InvokeLog
+    public User findById(String userId) {
+        return userMapper.findById(userId);
     }
 }
