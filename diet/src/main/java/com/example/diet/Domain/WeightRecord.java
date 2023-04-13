@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class WeightRecord {
     private long usr_id;
-    private long usr_weight;
+    private float usr_weight;
     private String date;
 
 }

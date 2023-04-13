@@ -1,4 +1,4 @@
-package util;
+package com.example.diet.Util;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.FileOutputStream;
@@ -22,7 +22,7 @@ public class ImageUtil {
         try {
             // 图片分类路径+图片名+图片后缀
             System.out.println(path);
-            String imgClassPath = path.concat(UUID.randomUUID().toString()).concat(".jpg");
+            String imgClassPath = path.concat(UUID.randomUUID().toString()).concat(".png");
             // 解密
             Base64.Decoder decoder = Base64.getDecoder();
             // 去掉base64前缀 data:image/jpeg;base64,

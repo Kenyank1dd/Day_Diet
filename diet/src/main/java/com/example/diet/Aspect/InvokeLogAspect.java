@@ -23,9 +23,10 @@ public class InvokeLogAspect {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         String methodName = signature.getMethod().getName();
         try {
+            System.out.println(methodName+":this method is going to be called out!");
             proceed = joinPoint.proceed();
             //目标方法调用后
-            System.out.println(methodName+":Called out");
+            System.out.println(methodName+":this method is called out!");
         } catch (Throwable throwable) {
             throwable.printStackTrace();
             //目标方法出现异常了

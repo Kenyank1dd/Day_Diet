@@ -44,11 +44,15 @@ public class User {
      */
     private Boolean usr_sex;
 
-    private Double usr_height;
+    private Float usr_height;
 
-    private Double usr_weight;
+    private Float usr_weight;
 
-    private Double tar_weight;
+    private Float new_weight;
+
+    private Float tar_weight;
 
     private Integer tar_time;
+
+    private String reg_time;
 }

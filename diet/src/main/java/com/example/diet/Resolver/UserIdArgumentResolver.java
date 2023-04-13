@@ -27,6 +27,7 @@ public class UserIdArgumentResolver implements HandlerMethodArgumentResolver {
         String token = webRequest.getHeader("token");
         if(StringUtils.hasText(token)){
             //解析token，获取userId
+            System.out.println(token);
             Claims claims = JwtUtil.parseJWT(token);
             String userId = claims.getSubject();
             //返回结果
