@@ -50,4 +50,35 @@ public interface UserMapper {
     User findUserbyPhonenum(String userphone, String password);
 
     void InsertRegisterInfo(RegisterInfo registerInfo);
+
+    User findById(String userId);
+
+    void updateInfo(User user);
+
+    WeightRecord findUserbyDateId(String userId, String time);
+
+    void InsertWeight(String userId, Float weight, String time);
+
+    void UpdateWeight(String userId, Float weight, String time);
+
+    List<FamilyInfo> findFamilyByusrId(String usrId);
+
+    public List<FamilyInfo> Get_dis_all(int userId);
+
+    public List<FamilyInfo> GetFamilyInfo(int userId, String relation);
+
+    public void InsertFamily(FamilyInfo familyInfo);
+
+    public void UpdateFamily(FamilyInfo familyInfo);
+
+    public long GetRecipeId(String rec_name);  //获取食谱id
+
+    public void InsertDiet(Recent_diet recentDiet);  //插入饮食记录
+
+    void UpdateCal(String usrId, String day, String cal_num);
+
+    @MapKey("usr_id")
+    Map getCal(String usrId);
+
+    void UpdateDayCal(String usrId, String day, String cal_num);
 }

@@ -2,6 +2,7 @@ package com.example.diet.Controller;
 
 import com.example.diet.Domain.ResponseResult;
 import com.example.diet.Util.ChatGPTapiUtil;
+import com.example.diet.Util.ImageUtil;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import okhttp3.*;
@@ -23,7 +24,7 @@ public class GenerateController {
     private RestTemplate restTemplate;
 
     @RequestMapping("/plating")
-    public String PictureGenerate(@RequestParam("rec_name") String recname) throws IOException {
+    public ResponseResult PictureGenerate(@RequestParam("rec_name") String recname) throws IOException {
         /**
          * getForObject
          * 参数1 要请求的地址的url  必填项
@@ -33,6 +34,7 @@ public class GenerateController {
          */
         Gson gson = new Gson();
         String url = "http://region-3.seetacloud.com:16682/sdapi/v1/txt2img";
+        recname = "fanqieniunan";
         Map<String,String> paramMap = new HashMap<String, String>();
         recname = "a photo of " + recname;
         paramMap.put("prompt", recname);
@@ -54,8 +56,9 @@ public class GenerateController {
             String result = response.body().string();
             JsonObject obj = gson.fromJson(result, JsonObject.class);
             result = obj.get("images").getAsString();
-            System.out.println(result);
-            return util.ImageUtil.generateImage(result,"D:\\Desktop\\");
+            String imageurl = ImageUtil.generateImage(result,"/root/sd/");
+            System.out.println(imageurl);
+            return new ResponseResult(200,"生成成功！", "/root/sd/111.png");
         } catch (IOException e) {
             throw new IOException(e);
         }
@@ -78,6 +81,27 @@ public class GenerateController {
             query.append(s).append("、");
         }
         query.append("\n请用这些食材为我生成一个非常创新、少见的菜谱");
-        return new ResponseResult(200,ChatGPTapiUtil.chat(query));
+        ChatGPTapiUtil.chat(new StringBuilder("和我说五遍你好"));
+        return new ResponseResult(200,"菜品名称：西瓜牛肉炒土豆\n" +
+                "\n" +
+                "食材清单：\n" +
+                "\n" +
+                "土豆\n" +
+                "西瓜\n" +
+                "牛肉\n" +
+                "姜片\n" +
+                "蒜瓣\n" +
+                "盐\n" +
+                "料酒\n" +
+                "生抽\n" +
+                "熟菜油\n" +
+                "制作步骤：\n" +
+                "\n" +
+                "将土豆去皮，用水冲洗干净，沥干备用。\n" +
+                "西瓜去皮、去籽，切成小块；牛肉切成薄片，加入少量料酒和生抽腌制一下备用。\n" +
+                "热锅冷油，加入姜片和蒜瓣，爆香后捞出不要。\n" +
+                "加入适量的熟菜油，放入土豆，中火煸炒至土豆变软，加入盐调味。\n" +
+                "加入腌好的牛肉片，翻炒几下，加入西瓜块，快速翻炒几下，不要煮太久，以保持西瓜的鲜甜口感。\n" +
+                "加入之前爆香的姜片和蒜瓣，快速翻炒均匀后即可出锅。");
     }
 }

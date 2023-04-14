@@ -46,9 +46,11 @@ public class UserServiceImpl implements UserService {
         long nowMillis = System.currentTimeMillis();
         DateTime now = new DateTime(nowMillis);
         String today = now.toString();
-        if(!today.substring(0,9).equals(date.substring(0,9))){   //如果不相等要更新     如果日期相等 则直接获得
+        System.out.println(today.substring(0,10));
+        System.out.println(date.substring(0,10));
+        if(!today.substring(0,10).equals(date.substring(0,10))){   //如果不相等要更新     如果日期相等 则直接获得
             userMapper.SetZero(Integer.parseInt(userId));    //更新喝水量为0
-            userMapper.UpdateDayWater(Integer.parseInt(userId),today);  //更新为今天的日期
+            userMapper.UpdateDayWater(Integer.parseInt(userId),today.substring(0,10));  //更新为今天的日期
             return 0;   //直接返回0 即可
         }
         return userMapper.RecordWater(Integer.parseInt(userId));   //获取喝水量
@@ -103,6 +105,7 @@ public class UserServiceImpl implements UserService {
         List<WeightRecord> weights = userMapper.GetWeight(Integer.parseInt(userId));  //需要找到日期最近的七天
         List<WeightRecord> result = new ArrayList<>();     //从数据库取出的时候已经按照字典序排序了
         int len = weights.size();  //元素个数
+        System.out.println(len);
         for(int i=0;i<min(7,len);i++){
             result.add(weights.get(len-i-1));
         }
@@ -166,5 +169,80 @@ public class UserServiceImpl implements UserService {
     @InvokeLog
     public User findById(String userId) {
         return userMapper.findById(userId);
+    }
+
+    @Override
+    @InvokeLog
+    public void updateInfo(User user) {
+        userMapper.updateInfo(user);
+    }
+
+    @Override
+    @InvokeLog
+    public WeightRecord findUserbyDateId(String userId, String time) {
+        return userMapper.findUserbyDateId(userId,time);
+    }
+
+    @Override
+    @InvokeLog
+    public void InsertWeight(String userId, Float weight, String time) {
+        userMapper.InsertWeight(userId,weight,time);
+    }
+
+    @Override
+    @InvokeLog
+    public void UpdateWeight(String userId, Float weight, String time) {
+        userMapper.UpdateWeight(userId,weight,time);
+    }
+
+    @Override
+    public List<FamilyInfo> findFamilyByusrId(String usrId) {
+        return userMapper.findFamilyByusrId(usrId);
+    }
+
+    @Override
+    @InvokeLog
+    public List<FamilyInfo> Get_dis_all(String userId){
+        return userMapper.Get_dis_all(Integer.parseInt(userId));
+    }
+
+    @Override
+    @InvokeLog
+    public List<FamilyInfo> GetFamilyInfo(String userId, String relation){
+        return userMapper.GetFamilyInfo(Integer.parseInt(userId),relation);
+    }
+
+    @Override
+    @InvokeLog
+    public void InsertFamily(FamilyInfo familyInfo){
+        userMapper.InsertFamily(familyInfo);
+    }
+
+    @Override
+    @InvokeLog
+    public void UpdateFamily(FamilyInfo familyInfo){
+        userMapper.UpdateFamily(familyInfo);
+    }
+
+    @Override
+    @InvokeLog
+    public long GetRecipeId(String rec_name){
+        return userMapper.GetRecipeId(rec_name);
+    }
+
+    @Override
+    @InvokeLog
+    public void InsertDiet(Recent_diet recentDiet){
+        userMapper.InsertDiet(recentDiet);
+    }
+
+    @Override
+    public void UpdateCal(String usrId, String day, String cal_num) {
+        Map map = userMapper.getCal(usrId);
+        long nowMillis = System.currentTimeMillis();
+        DateTime now = new DateTime(nowMillis);
+        String today = now.toString();
+        if (map.get("cal_date").equals(today.substring(0,10))) userMapper.UpdateCal(usrId,day,cal_num);
+        else userMapper.UpdateDayCal(usrId,day,cal_num);
     }
 }

@@ -1,5 +1,6 @@
 package com.example.diet.Controller;
 
+import com.example.diet.Domain.FamilyInfo;
 import com.example.diet.Domain.Recipe;
 import com.example.diet.Domain.ResponseResult;
 import com.example.diet.Resolver.CurrentUserId;
@@ -78,23 +79,19 @@ public class RecommendController {
         for (String s : recipe) {
             System.out.println(s);
         }
-        List<Map<String,Object>> users = userController.findFamilyMessagebyId(Integer.valueOf(userid));
-        List<Map<String,Object>> raw_allergen = userController.findFamilyAllergenbyId(Integer.valueOf(userid));
+        List<FamilyInfo> familyInfos = userController.findFamilyByusrId(userid);
+        for(FamilyInfo familyInfo : familyInfos) {
+            System.out.println(familyInfo);
+        }
         List<List<String>> allergen = new ArrayList<>();
-        argstemp.add(String.valueOf(users.size()));
+        argstemp.add(String.valueOf(familyInfos.size()));
         argstemp.add(String.valueOf(recipe.length));
         Collections.addAll(argstemp, recipe);
-        int idx = 0;
-        for (Map<String, Object> user : users) {
-            argstemp.add(user.get("sugar_need").toString());
-            argstemp.add(user.get("cal_need").toString());
-            argstemp.add(user.get("fat_need").toString());
-            List<String> tempallergen = new ArrayList<>();
-            while(idx != raw_allergen.size() && user.get("family_id") == raw_allergen.get(idx).get("family_id")) {
-                tempallergen.add((String) raw_allergen.get(idx).get("ing_name"));
-                idx++;
-            }
-            allergen.add(tempallergen);
+        for (FamilyInfo familyInfo : familyInfos) {
+            argstemp.add(familyInfo.getSugar_need().toString());
+            argstemp.add(familyInfo.getCal_need().toString());
+            argstemp.add(familyInfo.getFat_need().toString());
+            allergen.add(Arrays.asList(familyInfo.getAllergen().split("、")));
         }
         for (List<String> strings : allergen) {
             argstemp.add(String.valueOf(strings.size()));
@@ -113,6 +110,10 @@ public class RecommendController {
             res.add(line);
         }
         List<String> comblist = new ArrayList<>();
+        List<String> comblist2 = new ArrayList<>();
+        comblist2.add("番茄蛋花汤");
+        comblist2.add("胡萝卜红烧肉");
+        comblist2.add("醋溜白菜");
         for (String s : res) {
             comblist.addAll(Arrays.asList(s.split(" ")));
         }
@@ -123,8 +124,10 @@ public class RecommendController {
         System.out.println(re);
         List<Recipe> data = new ArrayList<>();
         for (String s : comblist) {
+            System.out.println(s);
             data.add(recipeController.findRecipebyName(s));
         }
+        System.out.println("Recommended complete successfully!");
         return new ResponseResult(200,"返回成功", data);
     }
 

@@ -41,8 +41,8 @@
     </select>
     <insert id="InsertUser" parameterType="com.example.diet.Domain.User">
         insert into usr values (null, #{usr_name},#{usr_phone}, null, #{usr_password},
-                                #{usr_sex},#{usr_age}, #{usr_weight},#{usr_height},#{tar_weight},#{tar_time},
-                                null)
+                                #{usr_sex},#{usr_age}, #{usr_height},#{usr_weight},#{usr_weight},#{tar_weight},#{tar_time},
+                                null,#{reg_time})
     </insert>
     <select id="RecordWater" parameterType="int" resultType="Integer">
         select water_num from water where usr_id = #{userId}
@@ -68,6 +68,41 @@
         update water
         <set>
             water_num = water_num + #{water_num}
+        </set>
+        where usr_id = #{userId}
+    </update>
+    <update id="updateInfo">
+        UPDATE usr
+        SET usr_name = #{usr_name},
+            usr_sex = #{usr_sex},
+            usr_height = #{usr_height},
+            new_weight = #{new_weight},
+            tar_weight = #{tar_weight},
+            tar_time = #{tar_time}
+        WHERE
+            usr_id = #{usr_id}
+    </update>
+    <update id="UpdateWeight">
+        UPDATE weight
+        SET
+            usr_weight = #{weight}
+        WHERE
+            usr_id = #{userId}
+            AND date = #{time}
+    </update>
+    <update id="UpdateFamily">
+        update familyinfo
+        set disease = #{disease} ,
+            allergen = #{allergen},
+            sugar_need = #{sugar_need},
+            cal_need = #{cal_need},
+            fat_need = #{fat_need}
+        where usr_id = #{usr_id} AND relation = #{relation}
+    </update>
+    <update id="UpdateCal">
+        update cal
+        <set>
+            cal_num = cal_num + #{cal_num}
         </set>
         where usr_id = #{userId}
     </update>
@@ -119,6 +154,15 @@
                                          #{usr_height},#{tar_weight},#{usr_age},#{tar_weight},
                                          #{tar_time})
     </insert>
+    <insert id="InsertWeight">
+        insert into weight values (#{userId},#{weight},#{time})
+    </insert>
+    <insert id="InsertFamily">
+        insert into familyinfo values (null, #{usr_id},#{relation},#{disease},#{allergen},#{sugar_need},#{cal_need},#{fat_need})
+    </insert>
+    <insert id="InsertDiet">
+        insert into recent_diet values (null , #{rd_usr},#{rd_rec},#{rd_time},#{rd_type})
+    </insert>
 
     <select id="GetInterestUser" parameterType="int" resultType="com.example.diet.Domain.User">
         SELECT
@@ -157,17 +201,48 @@
     </select>
     <select id="findUserbyPhonenum" resultType="com.example.diet.Domain.User">
         SELECT
-            usr_id,
-            usr_phone,
-            usr_password,
-            usr_name,
-            usr_sex,
-            usr_age
+            *
         FROM
             usr
         WHERE
             usr_phone = #{userphone}
           AND usr_password = #{password}
+    </select>
+    <select id="findById" resultType="com.example.diet.Domain.User">
+        SELECT *
+        FROM usr
+        WHERE usr_id = #{usrId}
+    </select>
+    <select id="findUserbyDateId" resultType="com.example.diet.Domain.WeightRecord">
+        SELECT
+            *
+        FROM
+            weight
+        WHERE
+            usr_id = #{userId}
+          AND date = #{time}
+    </select>
+    <select id="findFamilyByusrId" resultType="com.example.diet.Domain.FamilyInfo">
+        SELECT
+            *
+        FROM
+            familyinfo
+        WHERE
+            usr_id = #{usrId}
+    </select>
+    <select id="Get_dis_all" resultType="com.example.diet.Domain.FamilyInfo">
+        select * from familyinfo where usr_id = #{userId}
+    </select>
+    <select id="GetFamilyInfo" resultType="com.example.diet.Domain.FamilyInfo">
+        select * from familyinfo where usr_id = #{userId} AND relation = #{relation}
+    </select>
+    <select id="GetRecipeId" resultType="java.lang.Long">
+        select rec_id from recipe where rec_name = #{rec_name}
+    </select>
+    <select id="getCal" resultType="java.util.Map">
+        SELECT *
+        FROM cal
+        WHERE usr_id = #{usrId}
     </select>
 
 </mapper>

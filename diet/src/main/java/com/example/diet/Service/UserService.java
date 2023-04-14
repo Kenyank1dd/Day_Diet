@@ -16,7 +16,7 @@ public interface UserService {
     public Integer UpdateWater(String userId,long water_num);
     public List<UsrFamily> GetFamily(String userId);
 
-    public DietRecord RecordDiet(String userId,String date);
+    public DietRecord RecordDiet(String userId, String date);
     public List<WeightRecord> GetWeight(String userId);
 
     public Post_User GetPost(String userId);
@@ -34,4 +34,31 @@ public interface UserService {
     void InsertRegisterInfo(RegisterInfo registerInfo);
 
     User findById(String userId);
+
+    void updateInfo(User user);
+
+    WeightRecord  findUserbyDateId(String userId, String time);
+
+    void InsertWeight(String userId, Float weight, String time);
+
+    void UpdateWeight(String userId, Float weight, String time);
+
+    List<FamilyInfo> findFamilyByusrId(String usrId);
+
+    public List<FamilyInfo> Get_dis_all(String userId);
+
+
+    public List<FamilyInfo> GetFamilyInfo(String userId, String relation);
+
+
+    public void InsertFamily(FamilyInfo familyInfo);
+
+    public void UpdateFamily(FamilyInfo familyInfo);
+
+
+    public long GetRecipeId(String recName);
+
+    public void InsertDiet(Recent_diet recentDiet);
+
+    void UpdateCal(String usrId, String day, String cal_num);
 }
