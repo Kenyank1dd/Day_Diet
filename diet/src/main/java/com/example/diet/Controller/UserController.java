@@ -47,6 +47,8 @@ public class UserController {
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             user.setReg_time(formatter.format(date));
             userServcie.InsertUser(user);
+            long userId = userServcie.getUserId(user.getUsr_phone());
+            userServcie.InsertWater(userId,0,user.getReg_time());
             System.out.println("user is inserted successfully!");
             return new ResponseResult(200,"注册成功");
         }

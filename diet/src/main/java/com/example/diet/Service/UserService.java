@@ -61,4 +61,8 @@ public interface UserService {
     public void InsertDiet(Recent_diet recentDiet);
 
     void UpdateCal(String usrId, String day, String cal_num);
+
+    long getUserId(String usrPhone);
+
+    void InsertWater(long userId, int i,String date);
 }

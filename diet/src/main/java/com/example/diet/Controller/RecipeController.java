@@ -99,6 +99,7 @@ public class RecipeController {
         MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
         String picbase = (String) map.get("imageBase64");
         String imgParam = URLEncoder.encode(picbase, "UTF-8");
+
         RequestBody body = RequestBody.create(mediaType, "image=" + imgParam);
         Request request = new Request.Builder()
                 .url("https://aip.baidubce.com/rest/2.0/image-classify/v2/dish?access_token=" + TokenUtil.getAccessToken(API_KEY,SECRET_KEY))

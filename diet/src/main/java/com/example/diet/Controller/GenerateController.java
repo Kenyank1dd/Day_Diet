@@ -3,6 +3,7 @@ package com.example.diet.Controller;
 import com.example.diet.Domain.ResponseResult;
 import com.example.diet.Util.ChatGPTapiUtil;
 import com.example.diet.Util.ImageUtil;
+import com.example.diet.Util.TranslateUtil;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import okhttp3.*;
@@ -32,11 +33,34 @@ public class GenerateController {
          * 参数3 请求携带参数 选填
          * getForObject 方法的返回值就是 被调用接口响应的数据
          */
+        switch (recname) {
+            case "红烧肉":
+                recname = "a photo of hongshaorou";
+                break;
+            case "番茄牛腩":
+                recname = "a photo of fanqieniunan";
+                break;
+            case "番茄炒鸡蛋":
+                recname = "a photo of fanqiechaojidan";
+                break;
+            case "土豆丝":
+                recname = "a photo of tudousi";
+                break;
+            case "清蒸鲈鱼":
+                recname = "a photo of qingzhengluyu";
+                break;
+            case "西瓜牛肉炒土豆":
+                recname = "(potato:1.0), (watermelon:1.0), (beef:1.0), (ginger:0.5), (garlic:0.3)," +
+                        " (salt:0.5), (cooking wine:0.3), (soy sauce:0.5), (vegetable oil:0.5), " +
+                        "shredded, stir-fried, (savory and sweet:0.8), (tender and juicy:0.8), (aromatic:0.5)";
+                break;
+            default:
+                recname = TranslateUtil.translate(recname) + ",Chinese cuisine with bright colors";
+        }
         Gson gson = new Gson();
         String url = "http://region-3.seetacloud.com:16682/sdapi/v1/txt2img";
-        recname = "fanqieniunan";
         Map<String,String> paramMap = new HashMap<String, String>();
-        recname = "a photo of " + recname;
+
         paramMap.put("prompt", recname);
 
         OkHttpClient client = new OkHttpClient().newBuilder()
@@ -58,7 +82,7 @@ public class GenerateController {
             result = obj.get("images").getAsString();
             String imageurl = ImageUtil.generateImage(result,"/root/sd/");
             System.out.println(imageurl);
-            return new ResponseResult(200,"生成成功！", "/root/sd/111.png");
+            return new ResponseResult(200,"生成成功！", imageurl);
         } catch (IOException e) {
             throw new IOException(e);
         }
@@ -81,27 +105,6 @@ public class GenerateController {
             query.append(s).append("、");
         }
         query.append("\n请用这些食材为我生成一个非常创新、少见的菜谱");
-        ChatGPTapiUtil.chat(new StringBuilder("和我说五遍你好"));
-        return new ResponseResult(200,"菜品名称：西瓜牛肉炒土豆\n" +
-                "\n" +
-                "食材清单：\n" +
-                "\n" +
-                "土豆\n" +
-                "西瓜\n" +
-                "牛肉\n" +
-                "姜片\n" +
-                "蒜瓣\n" +
-                "盐\n" +
-                "料酒\n" +
-                "生抽\n" +
-                "熟菜油\n" +
-                "制作步骤：\n" +
-                "\n" +
-                "将土豆去皮，用水冲洗干净，沥干备用。\n" +
-                "西瓜去皮、去籽，切成小块；牛肉切成薄片，加入少量料酒和生抽腌制一下备用。\n" +
-                "热锅冷油，加入姜片和蒜瓣，爆香后捞出不要。\n" +
-                "加入适量的熟菜油，放入土豆，中火煸炒至土豆变软，加入盐调味。\n" +
-                "加入腌好的牛肉片，翻炒几下，加入西瓜块，快速翻炒几下，不要煮太久，以保持西瓜的鲜甜口感。\n" +
-                "加入之前爆香的姜片和蒜瓣，快速翻炒均匀后即可出锅。");
+        return new ResponseResult(200,ChatGPTapiUtil.chat(query));
     }
 }

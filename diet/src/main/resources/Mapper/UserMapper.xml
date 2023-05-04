@@ -106,6 +106,9 @@
         </set>
         where usr_id = #{userId}
     </update>
+    <update id="UpdateDayCal">
+
+    </update>
     <select id="GetFamily" parameterType="int" resultType="UsrFamily">
         select * from usr_family where usr_id = #{userId}
     </select>
@@ -162,6 +165,9 @@
     </insert>
     <insert id="InsertDiet">
         insert into recent_diet values (null , #{rd_usr},#{rd_rec},#{rd_time},#{rd_type})
+    </insert>
+    <insert id="InsertWater">
+        insert into water values (#{userId},#{i},#{date})
     </insert>
 
     <select id="GetInterestUser" parameterType="int" resultType="com.example.diet.Domain.User">
@@ -243,6 +249,9 @@
         SELECT *
         FROM cal
         WHERE usr_id = #{usrId}
+    </select>
+    <select id="getUserId" resultType="java.lang.Long">
+        select usr_id from usr where usr_phone = #{usrPhone}
     </select>
 
 </mapper>

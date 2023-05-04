@@ -245,4 +245,16 @@ public class UserServiceImpl implements UserService {
         if (map.get("cal_date").equals(today.substring(0,10))) userMapper.UpdateCal(usrId,day,cal_num);
         else userMapper.UpdateDayCal(usrId,day,cal_num);
     }
+
+    @Override
+    @InvokeLog
+    public long getUserId(String usrPhone){
+        return userMapper.getUserId(usrPhone);
+    }
+    @Override
+    @InvokeLog
+    public void InsertWater(long userId, int i,String date){
+        userMapper.InsertWater(userId,i,date);
+    }
+
 }

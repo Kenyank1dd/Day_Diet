@@ -81,4 +81,9 @@ public interface UserMapper {
     Map getCal(String usrId);
 
     void UpdateDayCal(String usrId, String day, String cal_num);
+
+    long getUserId(String usrPhone);
+
+    void InsertWater(long userId, int i,String date);
+
 }
