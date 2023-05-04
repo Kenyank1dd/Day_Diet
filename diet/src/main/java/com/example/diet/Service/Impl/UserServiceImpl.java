@@ -63,6 +63,31 @@ public class UserServiceImpl implements UserService {
         return userMapper.RecordWater(Integer.parseInt(userId));
     }
 
+
+    @Override
+    @InvokeLog
+    public Integer RecordCal(String userId){
+        String date = userMapper.GetDayCal(Integer.parseInt(userId));
+        long nowMillis = System.currentTimeMillis();
+        DateTime now = new DateTime(nowMillis);
+        String today = now.toString();
+        System.out.println(today.substring(0,10));
+        System.out.println(date.substring(0,10));
+        if(!today.substring(0,10).equals(date.substring(0,10))){   //如果不相等要更新     如果日期相等 则直接获得
+            userMapper.SetZero2(Integer.parseInt(userId));    //更新卡路里摄入量为0
+            userMapper.UpdateDayCal(Integer.parseInt(userId),today.substring(0,10));  //更新为今天的日期
+            return 0;   //直接返回0 即可
+        }
+        return userMapper.RecordCal(Integer.parseInt(userId));   //获取卡路里摄入量
+    }
+
+    @Override
+    @InvokeLog
+    public Integer UpdateCal(String userId,long cal_num){
+        userMapper.UpdateCal(Integer.parseInt(userId),cal_num);
+        return userMapper.RecordCal(Integer.parseInt(userId));
+    }
+
     @Override
     @InvokeLog
     public List<UsrFamily> GetFamily(String userId){
@@ -236,15 +261,15 @@ public class UserServiceImpl implements UserService {
         userMapper.InsertDiet(recentDiet);
     }
 
-    @Override
-    public void UpdateCal(String usrId, String day, String cal_num) {
-        Map map = userMapper.getCal(usrId);
-        long nowMillis = System.currentTimeMillis();
-        DateTime now = new DateTime(nowMillis);
-        String today = now.toString();
-        if (map.get("cal_date").equals(today.substring(0,10))) userMapper.UpdateCal(usrId,day,cal_num);
-        else userMapper.UpdateDayCal(usrId,day,cal_num);
-    }
+//    @Override
+//    public void UpdateCal(String usrId, String day, String cal_num) {
+//        Map map = userMapper.getCal(usrId);
+//        long nowMillis = System.currentTimeMillis();
+//        DateTime now = new DateTime(nowMillis);
+//        String today = now.toString();
+//        if (map.get("cal_date").equals(today.substring(0,10))) userMapper.UpdateCal(usrId,day,cal_num);
+//        else userMapper.UpdateDayCal(usrId,day,cal_num);
+//    }
 
     @Override
     @InvokeLog
@@ -256,5 +281,10 @@ public class UserServiceImpl implements UserService {
     public void InsertWater(long userId, int i,String date){
         userMapper.InsertWater(userId,i,date);
     }
+
+
+    @Override
+    @InvokeLog
+    public void InsertCal(long userId, int i,String date){ userMapper.InsertCal(userId,i,date); }
 
 }

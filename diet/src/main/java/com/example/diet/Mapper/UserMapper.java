@@ -16,11 +16,24 @@ public interface UserMapper {
 
     public List<User> GetUser(String user_phone);  //看看是否已经注册
     public void InsertUser(User user);  //插入一个用户
+
+
     public Integer RecordWater(int userId);    //获取喝水量
     public String GetDayWater(int userId);  //获取喝水表的日期
     public void SetZero(int userId);  //将喝水量置零
     public void UpdateDayWater(int userId,String today);  //更新喝水表的日期为今天
     public void UpdateWater(int userId,long water_num);   //更新喝水量
+
+
+    public Integer RecordCal(int userId);    //获取卡路里摄入量
+    public String GetDayCal(int userId);  //获取喝水表的日期
+    public void SetZero2(int userId);  //将卡路里摄入量置零
+    public void UpdateDayCal(int userId,String today);  //更新卡路里摄入表的日期为今天
+    public void UpdateCal(int userId,long cal_num);   //更新卡路里摄入量
+
+
+
+
     public List<UsrFamily> GetFamily(int userId);   //获取家庭成员
     public List<Recent_diet> GetBreakDiet(int userId);  //获取今日早餐饮食记录
     public List<Recent_diet> GetLunchDiet(int userId);  //获取今日午餐饮食记录
@@ -75,15 +88,15 @@ public interface UserMapper {
 
     public void InsertDiet(Recent_diet recentDiet);  //插入饮食记录
 
-    void UpdateCal(String usrId, String day, String cal_num);
-
-    @MapKey("usr_id")
-    Map getCal(String usrId);
-
-    void UpdateDayCal(String usrId, String day, String cal_num);
+//    void UpdateCal(String usrId, String day, String cal_num);
+//
+//    @MapKey("usr_id")
+//    Map getCal(String usrId);
+//
+//    void UpdateDayCal(String usrId, String day, String cal_num);
 
     long getUserId(String usrPhone);
 
     void InsertWater(long userId, int i,String date);
-
+    void InsertCal(long userId, int i,String date);
 }

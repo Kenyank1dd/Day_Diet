@@ -14,6 +14,12 @@ public interface UserService {
     public Integer RecordWater(String userId);
 
     public Integer UpdateWater(String userId,long water_num);
+
+    public Integer RecordCal(String userId);
+
+    public Integer UpdateCal(String userId,long cal_num);
+
+
     public List<UsrFamily> GetFamily(String userId);
 
     public DietRecord RecordDiet(String userId, String date);
@@ -60,9 +66,11 @@ public interface UserService {
 
     public void InsertDiet(Recent_diet recentDiet);
 
-    void UpdateCal(String usrId, String day, String cal_num);
+//    void UpdateCal(String usrId, String day, String cal_num);
 
     long getUserId(String usrPhone);
 
     void InsertWater(long userId, int i,String date);
+
+    void InsertCal(long userId, int i,String date);
 }
