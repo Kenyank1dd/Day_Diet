@@ -1,7 +1,6 @@
 package com.example.diet.Service;
 
 import com.example.diet.Domain.*;
-import com.example.diet.Service.Impl.RecipeServieImpl;
 
 import java.util.List;
 import java.util.Map;
@@ -65,4 +64,12 @@ public interface UserService {
     long getUserId(String usrPhone);
 
     void InsertWater(long userId, int i,String date);
+
+    void InsertFamilyRelation(Request request);
+
+    List<String> findAllergenById(String usr_id);
+
+    List<String> findDiseaseById(String usr_id);
+
+    User findUserbyId(String usr_id);
 }

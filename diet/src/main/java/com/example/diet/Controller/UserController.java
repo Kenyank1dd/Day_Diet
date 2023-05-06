@@ -11,10 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -49,7 +46,6 @@ public class UserController {
             userServcie.InsertUser(user);
             long userId = userServcie.getUserId(user.getUsr_phone());
             userServcie.InsertWater(userId,0,user.getReg_time());
-            userServcie.InsertCal(userId,0,user.getReg_time());
             System.out.println("user is inserted successfully!");
             return new ResponseResult(200,"注册成功");
         }
@@ -103,21 +99,6 @@ public class UserController {
         return new ResponseResult(200,water);
     }
 
-    @GetMapping("/record/cal")
-    public ResponseResult RecordCal(@CurrentUserId String userId){
-        Integer cal = userServcie.RecordCal(userId);
-        System.out.println(cal);
-        System.out.println("Checking today's cal intake successfully!");
-        return new ResponseResult(200,cal);
-    }
-
-
-    public void UpdateCal(String userId,long cal_num){
-        Integer cal = userServcie.UpdateCal(userId,cal_num);
-        System.out.println(cal);
-        System.out.println("Update Today's Drinking Cal Successfully!");
-    }
-
     @GetMapping("/record/family")
     public ResponseResult GetFamily(@CurrentUserId String userId){
         List<UsrFamily> families = userServcie.GetFamily(userId);
@@ -139,19 +120,56 @@ public class UserController {
 
     @PostMapping("/get_dis_all")   //获取家庭用户的疾病和过敏源
     public ResponseResult Get_dis_all(@CurrentUserId String userId){
-        List<FamilyInfo> familyInfos = userServcie.Get_dis_all(userId);
-        if(familyInfos == null){
-            System.out.println();
-            System.out.println("User did not add family member information, query failed!");
-            return new ResponseResult(200,"该用户未添加家庭成员！");
-        }
-        else{
-            for(FamilyInfo familyInfo : familyInfos) {
-                System.out.println(familyInfo);
+        ArrayList<Map> res = new ArrayList<>();
+        List<UsrFamily> families = userServcie.GetFamily(userId);
+        for(UsrFamily family : families) {
+            Map<String,Object> temp = new HashMap<>();
+            List<String> allergens;
+            List<String> diseases;
+            String relate;
+            if(Objects.equals(family.getUsr_id1(), userId)) {
+                allergens = userServcie.findAllergenById(family.getUsr_id2());
+                diseases = userServcie.findDiseaseById(family.getUsr_id2());
+                relate = family.getRelation2();
             }
-            System.out.println("Return family member information successfully!");
-            return new ResponseResult(200,familyInfos);
+            else {
+                allergens = userServcie.findAllergenById(family.getUsr_id1());
+                diseases = userServcie.findDiseaseById(family.getUsr_id1());
+                relate = family.getRelation1();
+            }
+            StringBuilder comballergen = new StringBuilder();
+            StringBuilder combdisease = new StringBuilder();
+            for(String allergen : allergens) {
+                comballergen.append(allergen).append("、");
+            }
+            for(String disease : diseases) {
+                combdisease.append(disease).append("、");
+            }
+            comballergen.deleteCharAt(comballergen.length() - 1);
+            combdisease.deleteCharAt(combdisease.length() - 1);
+            temp.put("allergen",comballergen);
+            temp.put("disease",combdisease);
+            temp.put("relation",relate);
+            res.add(temp);
         }
+        List<String> allergens = userServcie.findAllergenById(userId);
+        List<String> diseases = userServcie.findDiseaseById(userId);
+        StringBuilder comballergen = new StringBuilder();
+        StringBuilder combdisease = new StringBuilder();
+        for(String allergen : allergens) {
+            comballergen.append(allergen).append("、");
+        }
+        for(String disease : diseases) {
+            combdisease.append(disease).append("、");
+        }
+        comballergen.deleteCharAt(comballergen.length() - 1);
+        combdisease.deleteCharAt(combdisease.length() - 1);
+        Map<String,Object> temp = new HashMap<>();
+        temp.put("allergen",comballergen);
+        temp.put("disease",combdisease);
+        temp.put("relation","本人");
+        res.add(0,temp);
+        return new ResponseResult(200,res);
     }
 
 
@@ -209,7 +227,7 @@ public class UserController {
         recentDiet.setRd_type(rec_type);
         recentDiet.setRd_usr(Integer.parseInt(userId));
         userServcie.InsertDiet(recentDiet);
-        UpdateCal(userId,Long.parseLong(cal_num));     //更新卡路里摄入量
+        userServcie.UpdateCal(userId,day,cal_num);
         System.out.println("Add today's diet record successfully");
         return new ResponseResult<>(200,"添加今日饮食记录成功");
     }

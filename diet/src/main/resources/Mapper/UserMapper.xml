@@ -110,7 +110,13 @@
 
     </update>
     <select id="GetFamily" parameterType="int" resultType="UsrFamily">
-        select * from usr_family where usr_id = #{userId}
+        SELECT
+            *
+        FROM
+            usr_family
+        WHERE
+            usr_id1 = #{userId}
+           OR usr_id2 = #{userId}
     </select>
 
     <select id="GetBreakDiet" parameterType="int" resultType="Recent_diet">
@@ -169,6 +175,9 @@
     <insert id="InsertWater">
         insert into water values (#{userId},#{i},#{date})
     </insert>
+    <insert id="InsertFamilyRelation">
+        insert into usr_family values (#{usr_phone1},#{usr_phone2},#{relation1},#{relation2})
+    </insert>
 
     <select id="GetInterestUser" parameterType="int" resultType="com.example.diet.Domain.User">
         SELECT
@@ -214,6 +223,14 @@
             usr_phone = #{userphone}
           AND usr_password = #{password}
     </select>
+    <select id="findUserbyPhonenum1" resultType="com.example.diet.Domain.User">
+        SELECT
+            *
+        FROM
+            usr
+        WHERE
+            usr_phone = #{userphone}
+    </select>
     <select id="findById" resultType="com.example.diet.Domain.User">
         SELECT *
         FROM usr
@@ -252,6 +269,42 @@
     </select>
     <select id="getUserId" resultType="java.lang.Long">
         select usr_id from usr where usr_phone = #{usrPhone}
+    </select>
+    <select id="findAllergenById" resultType="java.lang.String">
+        SELECT
+            i.ing_name
+        FROM
+            usr_allergen a,
+            ingredient i
+        WHERE
+            a.ing_id = i.ing_id
+          AND a.usr_id = #{usr_id}
+    </select>
+    <select id="findDiseaseById" resultType="java.lang.String">
+        SELECT
+            di.dis_name
+        FROM
+            usr_dis d,
+            disease di
+        WHERE
+            d.dis_id = di.dis_id
+          AND d.usr_id = #{usr_id}
+    </select>
+    <select id="findUserById" resultType="com.example.diet.Domain.User">
+        SELECT
+            *
+        FROM
+            usr
+        WHERE
+            usr_id = #{usr_id}
+    </select>
+    <select id="getSexByUserId" resultType="java.lang.Integer">
+        SELECT
+            usr_sex
+        FROM
+            usr
+        WHERE
+            usr_phone = #{usr_id}
     </select>
 
 </mapper>
