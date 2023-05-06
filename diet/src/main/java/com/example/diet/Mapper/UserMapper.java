@@ -49,9 +49,6 @@ public interface UserMapper {
     @MapKey("user_id")
     User findUserbyPhonenum(String userphone, String password);
 
-    @MapKey("user_id")
-    User findUserbyPhonenum1(String usrphone);
-
     void InsertRegisterInfo(RegisterInfo registerInfo);
 
     User findById(String userId);
@@ -89,13 +86,4 @@ public interface UserMapper {
 
     void InsertWater(long userId, int i,String date);
 
-    void InsertFamilyRelation(UsrFamily usrFamily);
-
-    List<String> findAllergenById(String usr_id);
-
-    List<String> findDiseaseById(String usr_id);
-
-    User findUserById(String usr_id);
-
-    Integer getSexByUserId(String usr_id);
 }
