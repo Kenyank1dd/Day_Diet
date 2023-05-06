@@ -26,7 +26,7 @@ public class User {
     /**
      * 用户id
      */
-    private long usr_id;
+    private Long usr_id;
     /**
      * 用户名
      */

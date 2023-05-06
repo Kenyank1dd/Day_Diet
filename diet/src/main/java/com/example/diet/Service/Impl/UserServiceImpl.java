@@ -257,4 +257,78 @@ public class UserServiceImpl implements UserService {
         userMapper.InsertWater(userId,i,date);
     }
 
+    @Override
+    @InvokeLog
+    public void InsertFamilyRelation(Request request) {
+        UsrFamily usrFamily = new UsrFamily();
+        usrFamily.setRelation1(request.getReq_msg());
+        usrFamily.setUsr_id1(request.getFrom_usr_id());
+        usrFamily.setUsr_id2(request.getTo_usr_id());
+        Integer sex = userMapper.getSexByUserId(request.getTo_usr_id());
+        switch (request.getReq_msg()) {
+            case "父亲":
+            case "母亲": {
+                if(sex == 1) usrFamily.setRelation2("儿子");
+                else usrFamily.setRelation2("女儿");
+                break;
+            }
+            case "儿子":
+            case "女儿": {
+                if(sex == 1) usrFamily.setRelation2("父亲");
+                else usrFamily.setRelation2("母亲");
+                break;
+            }
+            case "妻子": {
+                usrFamily.setRelation2("丈夫");
+                break;
+            }
+            case "丈夫": {
+                usrFamily.setRelation2("妻子");
+                break;
+            }
+            case "奶奶":
+            case "爷爷": {
+                if(sex == 1) usrFamily.setRelation2("孙子");
+                else usrFamily.setRelation2("孙女");
+                break;
+            }
+            case "孙子":
+            case "孙女": {
+                if(sex == 1) usrFamily.setRelation2("爷爷");
+                else usrFamily.setRelation2("奶奶");
+                break;
+            }
+            case "外公":
+            case "外婆": {
+                if(sex == 1) usrFamily.setRelation2("外孙");
+                else usrFamily.setRelation2("外孙女");
+                break;
+            }
+            case "外孙":
+            case "外孙女": {
+                if(sex == 1) usrFamily.setRelation2("外公");
+                else usrFamily.setRelation2("外婆");
+                break;
+            }
+        }
+        userMapper.InsertFamilyRelation(usrFamily);
+    }
+
+    @Override
+    @InvokeLog
+    public List<String> findAllergenById(String usr_id) {
+        return userMapper.findAllergenById(usr_id);
+    }
+
+    @Override
+    @InvokeLog
+    public List<String> findDiseaseById(String usr_id) {
+        return userMapper.findDiseaseById(usr_id);
+    }
+
+    @Override
+    public User findUserbyId(String usr_id) {
+        return userMapper.findUserById(usr_id);
+    }
+
 }

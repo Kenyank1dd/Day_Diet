@@ -1,6 +1,7 @@
 package com.example.diet.Mapper;
 
 import com.example.diet.Domain.Recipe;
+import com.example.diet.Domain.Request;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -19,4 +20,5 @@ public interface RecipeMapper {
     public List<Recipe> SearchRecipe(String seachtxt);
 
     List<Recipe> RecipeRank();
+
 }
