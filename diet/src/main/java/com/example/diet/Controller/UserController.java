@@ -46,6 +46,7 @@ public class UserController {
             userServcie.InsertUser(user);
             long userId = userServcie.getUserId(user.getUsr_phone());
             userServcie.InsertWater(userId,0,user.getReg_time());
+            userServcie.InsertCal(userId,0,user.getReg_time());
             System.out.println("user is inserted successfully!");
             return new ResponseResult(200,"注册成功");
         }
@@ -97,6 +98,20 @@ public class UserController {
         System.out.println(water);
         System.out.println("Update Today's Drinking Water Successfully!");
         return new ResponseResult(200,water);
+    }
+
+    @GetMapping("/record/cal")
+    public ResponseResult RecordCal(@CurrentUserId String userId){
+        Integer cal = userServcie.RecordCal(userId);
+        System.out.println(cal);
+        System.out.println("Checking today's cal intake successfully!");
+        return new ResponseResult(200,cal);
+    }
+
+    public void UpdateCal(String userId,long cal_num){
+        Integer cal = userServcie.UpdateCal(userId,cal_num);
+        System.out.println(cal);
+        System.out.println("Update Today's Drinking Cal Successfully!");
     }
 
     @GetMapping("/record/family")
@@ -227,7 +242,7 @@ public class UserController {
         recentDiet.setRd_type(rec_type);
         recentDiet.setRd_usr(Integer.parseInt(userId));
         userServcie.InsertDiet(recentDiet);
-        userServcie.UpdateCal(userId,day,cal_num);
+        UpdateCal(userId,Long.parseLong(cal_num));     //更新卡路里摄入量
         System.out.println("Add today's diet record successfully");
         return new ResponseResult<>(200,"添加今日饮食记录成功");
     }

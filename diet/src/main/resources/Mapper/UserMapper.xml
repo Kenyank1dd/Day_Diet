@@ -71,6 +71,35 @@
         </set>
         where usr_id = #{userId}
     </update>
+
+    <select id="RecordCal" parameterType="int" resultType="Integer">
+        select cal_num from cal where usr_id = #{userId}
+    </select>
+    <select id="GetDayCal" parameterType="int" resultType="String">
+        select cal_date from cal where usr_id = #{userId}
+    </select>
+    <update id="SetZero2" parameterType="int" >
+        update cal
+        <set>
+            cal_num = 0
+        </set>
+        where usr_id = #{userId}
+    </update>
+    <update id="UpdateDayCal">
+        update cal
+        <set>
+            cal_date = #{today}
+        </set>
+        where usr_id = #{userId}
+    </update>
+    <update id="UpdateCal">
+        update cal
+        <set>
+            cal_num = cal_num + #{cal_num}
+        </set>
+        where usr_id = #{userId}
+    </update>
+
     <update id="updateInfo">
         UPDATE usr
         SET usr_name = #{usr_name},
@@ -99,16 +128,16 @@
             fat_need = #{fat_need}
         where usr_id = #{usr_id} AND relation = #{relation}
     </update>
-    <update id="UpdateCal">
-        update cal
-        <set>
-            cal_num = cal_num + #{cal_num}
-        </set>
-        where usr_id = #{userId}
-    </update>
-    <update id="UpdateDayCal">
+<!--    <update id="UpdateCal">-->
+<!--        update cal-->
+<!--        <set>-->
+<!--            cal_num = cal_num + #{cal_num}-->
+<!--        </set>-->
+<!--        where usr_id = #{userId}-->
+<!--    </update>-->
+<!--    <update id="UpdateDayCal">-->
 
-    </update>
+<!--    </update>-->
     <select id="GetFamily" parameterType="int" resultType="UsrFamily">
         SELECT
             *
@@ -174,6 +203,9 @@
     </insert>
     <insert id="InsertWater">
         insert into water values (#{userId},#{i},#{date})
+    </insert>
+    <insert id="InsertCal">
+        insert into cal values (#{userId},#{i},#{date})
     </insert>
     <insert id="InsertFamilyRelation">
         insert into usr_family values (#{usr_phone1},#{usr_phone2},#{relation1},#{relation2})
@@ -262,11 +294,11 @@
     <select id="GetRecipeId" resultType="java.lang.Long">
         select rec_id from recipe where rec_name = #{rec_name}
     </select>
-    <select id="getCal" resultType="java.util.Map">
-        SELECT *
-        FROM cal
-        WHERE usr_id = #{usrId}
-    </select>
+<!--    <select id="getCal" resultType="java.util.Map">-->
+<!--        SELECT *-->
+<!--        FROM cal-->
+<!--        WHERE usr_id = #{usrId}-->
+<!--    </select>-->
     <select id="getUserId" resultType="java.lang.Long">
         select usr_id from usr where usr_phone = #{usrPhone}
     </select>
