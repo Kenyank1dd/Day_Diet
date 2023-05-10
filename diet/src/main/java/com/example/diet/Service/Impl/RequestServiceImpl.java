@@ -33,4 +33,17 @@ public class RequestServiceImpl implements RequestService {
     public void deleteRequest(Request request) {
         requestMapper.deleteRequest(request);
     }
+
+
+    @Override
+    @InvokeLog
+    public String findIdbyPhone(String phone){
+        return requestMapper.findIdbyPhone(phone);
+    }
+
+    @Override
+    @InvokeLog
+    public String findNamebyId(String fromUsrId){
+        return requestMapper.findNamebyId(fromUsrId);
+    }
 }

@@ -16,4 +16,9 @@ public interface RequestMapper {
     List<Request> getAllRequestByUsrid(String usrId);
 
     void deleteRequest(Request request);
+
+    String findIdbyPhone(String phone);
+
+    String findNamebyId(String fromUsrId);
+
 }

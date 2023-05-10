@@ -85,12 +85,12 @@ public interface UserMapper {
 
     public void InsertDiet(Recent_diet recentDiet);  //插入饮食记录
 
-    //    void UpdateCal(String usrId, String day, String cal_num);
-//
-//    @MapKey("usr_id")
-//    Map getCal(String usrId);
-//
-//    void UpdateDayCal(String usrId, String day, String cal_num);
+    void UpdateCal(String usrId, String day, String cal_num);
+
+    @MapKey("usr_id")
+    Map getCal(String usrId);
+
+    void UpdateDayCal(String usrId, String day, String cal_num);
 
     long getUserId(String usrPhone);
 

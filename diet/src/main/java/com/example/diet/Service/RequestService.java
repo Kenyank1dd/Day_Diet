@@ -12,4 +12,9 @@ public interface RequestService {
     List<Request> recieveRequest(String usrId);
 
     void deleteRequest(Request request);
+
+    String findIdbyPhone(String phone);
+
+    String findNamebyId(String fromUsrId);
+
 }

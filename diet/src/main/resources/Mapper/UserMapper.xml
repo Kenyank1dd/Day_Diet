@@ -128,16 +128,7 @@
             fat_need = #{fat_need}
         where usr_id = #{usr_id} AND relation = #{relation}
     </update>
-<!--    <update id="UpdateCal">-->
-<!--        update cal-->
-<!--        <set>-->
-<!--            cal_num = cal_num + #{cal_num}-->
-<!--        </set>-->
-<!--        where usr_id = #{userId}-->
-<!--    </update>-->
-<!--    <update id="UpdateDayCal">-->
 
-<!--    </update>-->
     <select id="GetFamily" parameterType="int" resultType="UsrFamily">
         SELECT
             *
@@ -294,11 +285,7 @@
     <select id="GetRecipeId" resultType="java.lang.Long">
         select rec_id from recipe where rec_name = #{rec_name}
     </select>
-<!--    <select id="getCal" resultType="java.util.Map">-->
-<!--        SELECT *-->
-<!--        FROM cal-->
-<!--        WHERE usr_id = #{usrId}-->
-<!--    </select>-->
+
     <select id="getUserId" resultType="java.lang.Long">
         select usr_id from usr where usr_phone = #{usrPhone}
     </select>
