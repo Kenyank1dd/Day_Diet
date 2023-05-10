@@ -338,6 +338,26 @@
         WHERE
             usr_phone = #{usr_id}
     </select>
+    <select id="findTasteIdById" resultType="java.lang.Integer">
+        SELECT
+            ut.taste_id
+        FROM
+            usr u,
+            usr_taste ut
+        WHERE
+            u.usr_id = ut.usr_id
+          AND u.usr_id = #{usr_id};
+    </select>
+    <select id="findLabelIdById" resultType="java.lang.Integer">
+        SELECT
+            ul.label_id
+        FROM
+            usr u,
+            usr_label ul
+        WHERE
+            u.usr_id = ul.usr_id
+          AND u.usr_id = #{usr_id};
+    </select>
 
 </mapper>
 
