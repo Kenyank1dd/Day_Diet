@@ -19,4 +19,11 @@
         WHERE
             to_usr_phone = #{usrId}
     </select>
+
+    <select id="findIdbyPhone" parameterType="String" resultType="String">
+        select usr_id from usr where usr_phone = #{phone}
+    </select>
+    <select id="findNamebyId" parameterType="String" resultType="String">
+        select usr_name from usr where usr_id = #{fromUsrId}
+    </select>
 </mapper>
