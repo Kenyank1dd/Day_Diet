@@ -128,7 +128,14 @@
             fat_need = #{fat_need}
         where usr_id = #{usr_id} AND relation = #{relation}
     </update>
-<!--    <update id="UpdateCal">-->
+    <update id="updateSport">
+        UPDATE sport
+        SET consume = #{sport}
+        WHERE
+            usr_id = #{userId}
+          AND date = #{date}
+    </update>
+    <!--    <update id="UpdateCal">-->
 <!--        update cal-->
 <!--        <set>-->
 <!--            cal_num = cal_num + #{cal_num}-->
@@ -209,6 +216,9 @@
     </insert>
     <insert id="InsertFamilyRelation">
         insert into usr_family values (#{usr_phone1},#{usr_phone2},#{relation1},#{relation2})
+    </insert>
+    <insert id="InsertSport">
+        insert into sport values (#{userId},#{sport},#{date})
     </insert>
 
     <select id="GetInterestUser" parameterType="int" resultType="com.example.diet.Domain.User">
@@ -357,6 +367,15 @@
         WHERE
             u.usr_id = ul.usr_id
           AND u.usr_id = #{usr_id};
+    </select>
+    <select id="findSportByIdDate" resultType="java.lang.Integer">
+        SELECT
+            consume
+        FROM
+            sport
+        WHERE
+            usr_id = #{userId}
+          AND date = #{date}
     </select>
 
 </mapper>

@@ -129,7 +129,6 @@ public class UserController {
     public ResponseResult RecentDiet(@CurrentUserId String userId, String date){    //获取某天的饮食记录
         DietRecord dietRecord = userServcie.RecordDiet(userId,date);
         System.out.println(dietRecord.toString());
-        System.out.println("Get the user's recent diet information successfully!");
         return new ResponseResult(200,dietRecord);
     }
 
@@ -285,6 +284,21 @@ public class UserController {
         }
     }
 
+    @PostMapping("/update/sport")
+    public ResponseResult UpdateSport(@CurrentUserId String userId, @RequestParam(value = "sport") Integer sport) {
+        Date date = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String time = formatter.format(date);
+        System.out.println(time);
+        if(userServcie.findSportByIdDate(userId,time) != null) {
+            userServcie.updateSport(userId,sport,time);
+        }
+        else {
+            userServcie.InsertSport(userId,sport,time);
+        }
+        return new ResponseResult(200,"操作成功！");
+    }
+
     @GetMapping("/community/interest")
     public ResponseResult GetPost(@CurrentUserId String userId){
         Post_User pu = userServcie.GetPost(userId);
@@ -346,4 +360,5 @@ public class UserController {
     public void shuchu(@RequestBody Map map) {
         System.out.println(map.get("content"));
     }
+
 }

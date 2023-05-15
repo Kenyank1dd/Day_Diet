@@ -13,8 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 @RestController
@@ -99,12 +98,59 @@ public class GenerateController {
     }
 
     @PostMapping("/recipe")
-    public ResponseResult RecipeGenerate(@org.springframework.web.bind.annotation.RequestBody String[] ing_list) {
+    public ResponseResult RecipeGenerate(@org.springframework.web.bind.annotation.RequestBody String[] ing_list) throws IOException {
+        String url = "https://u22566-bf38-de359af7.neimeng.seetacloud.com:6443/";
         StringBuilder query = new StringBuilder("我现在有以下食材：");
         for (String s : ing_list) {
             query.append(s).append("、");
         }
         query.append("\n请用这些食材为我生成一个非常创新、少见的菜谱");
-        return new ResponseResult(200,ChatGPTapiUtil.chat(query));
+        Gson gson = new Gson();
+        Map<String,String> paramMap = new HashMap<String, String>();
+
+        paramMap.put("prompt", String.valueOf(query));
+
+        OkHttpClient client = new OkHttpClient().newBuilder()
+                .connectTimeout(180, TimeUnit.SECONDS)
+                .readTimeout(180, TimeUnit.SECONDS)
+                .writeTimeout(180, TimeUnit.SECONDS)
+                .build();
+        String jsonString = gson.toJson(paramMap);
+        RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), jsonString);
+        Request request = new Request.Builder()
+                .post(body)
+                .url(url)
+                .build();
+        Call call = client.newCall(request);
+
+        String result;
+        try (Response response = call.execute()) {
+            result = response.body().string();
+            System.out.println(result);
+            JsonObject obj = gson.fromJson(result, JsonObject.class);
+            result = obj.get("response").getAsString();
+        } catch (IOException e) {
+            throw new IOException(e);
+        }
+
+//        String res = ChatGPTapiUtil.chat(query);
+        List<String> res_split_enter = Arrays.asList(result.split("\n"));
+        List<String> material = new ArrayList<>();
+        List<String> step = new ArrayList<>();
+        String tips;
+        for(String t : res_split_enter) {
+            if(t.contains("-")) {
+                material.add(t.substring(t.indexOf('-')+1).trim());
+            }
+            else if(t.contains(".")) {
+                step.add(t.substring(t.indexOf('.')+1).trim());
+            }
+        }
+        tips = res_split_enter.get(res_split_enter.size()-1);
+        Map<String,Object> data = new HashMap<>();
+        data.put("material",material);
+        data.put("step",step);
+        data.put("tips",tips);
+        return new ResponseResult(200,data);
     }
 }

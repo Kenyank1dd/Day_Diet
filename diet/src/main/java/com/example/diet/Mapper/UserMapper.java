@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.MapKey;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -112,4 +113,9 @@ public interface UserMapper {
 
     List<Integer> findLabelIdById(String usr_id);
 
+    Integer findSportByIdDate(String userId, String date);
+
+    void updateSport(String userId, Integer sport, String date);
+
+    void InsertSport(String userId, Integer sport, String date);
 }

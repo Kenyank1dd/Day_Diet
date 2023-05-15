@@ -2,6 +2,7 @@ package com.example.diet.Service;
 
 import com.example.diet.Domain.*;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -79,4 +80,12 @@ public interface UserService {
     List<String> findDiseaseById(String usr_id);
 
     User findUserbyId(String usr_id);
+
+    List<Map> findFamilyInfoByusrId(String userid);
+
+    Integer findSportByIdDate(String userId, String time);
+
+    void updateSport(String userId, Integer sport, String date);
+
+    void InsertSport(String userId, Integer sport, String date);
 }

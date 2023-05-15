@@ -8,9 +8,7 @@ import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static java.lang.Math.min;
 
@@ -61,6 +59,30 @@ public class UserServiceImpl implements UserService {
     public Integer UpdateWater(String userId,long water_num){
         userMapper.UpdateWater(Integer.parseInt(userId),water_num);
         return userMapper.RecordWater(Integer.parseInt(userId));
+    }
+
+    @Override
+    @InvokeLog
+    public Integer RecordCal(String userId){
+        String date = userMapper.GetDayCal(Integer.parseInt(userId));
+        long nowMillis = System.currentTimeMillis();
+        DateTime now = new DateTime(nowMillis);
+        String today = now.toString();
+        System.out.println(today.substring(0,10));
+        System.out.println(date.substring(0,10));
+        if(!today.substring(0,10).equals(date.substring(0,10))){   //如果不相等要更新     如果日期相等 则直接获得
+            userMapper.SetZero2(Integer.parseInt(userId));    //更新卡路里摄入量为0
+            userMapper.UpdateDayCal(Integer.parseInt(userId),today.substring(0,10));  //更新为今天的日期
+            return 0;   //直接返回0 即可
+        }
+        return userMapper.RecordCal(Integer.parseInt(userId));   //获取卡路里摄入量
+    }
+
+    @Override
+    @InvokeLog
+    public Integer UpdateCal(String userId,long cal_num){
+        userMapper.UpdateCal(Integer.parseInt(userId),cal_num);
+        return userMapper.RecordCal(Integer.parseInt(userId));
     }
 
     @Override
@@ -236,15 +258,15 @@ public class UserServiceImpl implements UserService {
         userMapper.InsertDiet(recentDiet);
     }
 
-    @Override
-    public void UpdateCal(String usrId, String day, String cal_num) {
-        Map map = userMapper.getCal(usrId);
-        long nowMillis = System.currentTimeMillis();
-        DateTime now = new DateTime(nowMillis);
-        String today = now.toString();
-        if (map.get("cal_date").equals(today.substring(0,10))) userMapper.UpdateCal(usrId,day,cal_num);
-        else userMapper.UpdateDayCal(usrId,day,cal_num);
-    }
+//    @Override
+//    public void UpdateCal(String usrId, String day, String cal_num) {
+//        Map map = userMapper.getCal(usrId);
+//        long nowMillis = System.currentTimeMillis();
+//        DateTime now = new DateTime(nowMillis);
+//        String today = now.toString();
+//        if (map.get("cal_date").equals(today.substring(0,10))) userMapper.UpdateCal(usrId,day,cal_num);
+//        else userMapper.UpdateDayCal(usrId,day,cal_num);
+//    }
 
     @Override
     @InvokeLog
@@ -256,6 +278,10 @@ public class UserServiceImpl implements UserService {
     public void InsertWater(long userId, int i,String date){
         userMapper.InsertWater(userId,i,date);
     }
+
+    @Override
+    @InvokeLog
+    public void InsertCal(long userId, int i,String date){ userMapper.InsertCal(userId,i,date); }
 
     @Override
     @InvokeLog
@@ -329,6 +355,100 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findUserbyId(String usr_id) {
         return userMapper.findUserById(usr_id);
+    }
+
+    @Override
+    public List<Map> findFamilyInfoByusrId(String userid) {
+        ArrayList<Map> res = new ArrayList<>();
+        List<UsrFamily> families = GetFamily(userid);
+        for(UsrFamily family : families) {
+            Map<String,Object> temp = new HashMap<>();
+            List<String> allergens;
+            List<Integer> labels;
+            List<Integer> tastes;
+            ArrayList<Double> nutri_need = new ArrayList<>();
+            User usr;
+            double sugar,cal,fat;
+            if(Objects.equals(family.getUsr_id1(), userid)) {
+                allergens = findAllergenById(family.getUsr_id2());
+                labels = findLabelIdById(family.getUsr_id2());
+                tastes = findTasteIdById(family.getUsr_id2());
+                usr = findUserbyId(family.getUsr_id2());
+            }
+            else {
+                allergens = findAllergenById(family.getUsr_id1());
+                labels = findLabelIdById(family.getUsr_id1());
+                tastes = findTasteIdById(family.getUsr_id1());
+                usr = findUserbyId(family.getUsr_id1());
+            }
+            temp.put("allergen",allergens);
+            temp.put("label",labels);
+            temp.put("taste",tastes);
+            Float height = usr.getUsr_height();
+            Float weight = usr.getNew_weight();
+            if(usr.getUsr_sex()) {
+                cal = 66 + 13.7 * weight + 5 * height - 6.8 * usr.getUsr_age();
+            }
+            else {
+                cal = 655 + 9.6 * weight + 1.7 * height - 4.7 * usr.getUsr_age();
+            }
+            sugar = cal * 0.55 / 4;
+            fat = cal * 0.25 / 9;
+            nutri_need.add(sugar);
+            nutri_need.add(cal);
+            nutri_need.add(fat);
+            temp.put("nutri",nutri_need);
+            res.add(temp);
+        }
+        List<String> allergens = findAllergenById(userid);
+        List<Integer> labels = findLabelIdById(userid);
+        List<Integer> tastes = findTasteIdById(userid);
+        ArrayList<Double> nutri_need = new ArrayList<>();
+        double sugar,cal,fat;
+        User usr = findUserbyId(userid);
+        Float height = usr.getUsr_height();
+        Float weight = usr.getNew_weight();
+        if(usr.getUsr_sex()) {
+            cal = 66 + 13.7 * weight + 5 * height - 6.8 * usr.getUsr_age();
+        }
+        else {
+            cal = 655 + 9.6 * weight + 1.7 * height - 4.7 * usr.getUsr_age();
+        }
+        sugar = cal * 0.55 / 4;
+        fat = cal * 0.25 / 9;
+        nutri_need.add(sugar);
+        nutri_need.add(cal);
+        nutri_need.add(fat);
+        Map<String,Object> temp = new HashMap<>();
+        temp.put("allergen",allergens);
+        temp.put("label",labels);
+        temp.put("taste",tastes);
+        temp.put("nutri",nutri_need);
+        res.add(temp);
+        return  res;
+    }
+
+    @Override
+    public Integer findSportByIdDate(String userId, String time) {
+        return userMapper.findSportByIdDate(userId,time);
+    }
+
+    @Override
+    public void updateSport(String userId, Integer sport, String date) {
+        userMapper.updateSport(userId,sport,date);
+    }
+
+    @Override
+    public void InsertSport(String userId, Integer sport, String date) {
+        userMapper.InsertSport(userId,sport,date);
+    }
+
+    private List<Integer> findTasteIdById(String usr_id) {
+        return userMapper.findTasteIdById(usr_id);
+    }
+
+    private List<Integer> findLabelIdById(String usr_id) {
+        return userMapper.findLabelIdById(usr_id);
     }
 
 }
