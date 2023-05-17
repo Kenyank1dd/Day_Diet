@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.diet.Mapper.RecordMapper">
+
+    <select id="RecordCal" parameterType="int" resultType="Integer">
+        select cal_num from cal where usr_id = #{userId} and cal_date = #{time}
+    </select>
+
+    <update id="UpdateCal">
+        update cal
+        <set>
+            cal_num = cal_num + #{cal_num}
+        </set>
+        where usr_id = #{userId} and cal_date = #{time}
+    </update>
+
+    <select id="findCalByIdDate" resultType="Integer">
+        select cal_num from cal where usr_id = #{userId} and cal_date = #{time}
+    </select>
+</mapper>
+

@@ -61,29 +61,7 @@ public class UserServiceImpl implements UserService {
         return userMapper.RecordWater(Integer.parseInt(userId));
     }
 
-    @Override
-    @InvokeLog
-    public Integer RecordCal(String userId){
-        String date = userMapper.GetDayCal(Integer.parseInt(userId));
-        long nowMillis = System.currentTimeMillis();
-        DateTime now = new DateTime(nowMillis);
-        String today = now.toString();
-        System.out.println(today.substring(0,10));
-        System.out.println(date.substring(0,10));
-        if(!today.substring(0,10).equals(date.substring(0,10))){   //如果不相等要更新     如果日期相等 则直接获得
-            userMapper.SetZero2(Integer.parseInt(userId));    //更新卡路里摄入量为0
-            userMapper.UpdateDayCal(Integer.parseInt(userId),today.substring(0,10));  //更新为今天的日期
-            return 0;   //直接返回0 即可
-        }
-        return userMapper.RecordCal(Integer.parseInt(userId));   //获取卡路里摄入量
-    }
 
-    @Override
-    @InvokeLog
-    public Integer UpdateCal(String userId,long cal_num){
-        userMapper.UpdateCal(Integer.parseInt(userId),cal_num);
-        return userMapper.RecordCal(Integer.parseInt(userId));
-    }
 
     @Override
     @InvokeLog
@@ -134,34 +112,6 @@ public class UserServiceImpl implements UserService {
         return result;
     }
 
-    @Override
-    @InvokeLog
-    public Post_User GetPost(String userId){
-        List<User> u = userMapper.GetInterestUser(Integer.parseInt(userId));
-        List<Post> p = userMapper.GetInterestPost(Integer.parseInt(userId));
-        Post_User pu = new Post_User(p,u);
-        return pu;
-    }
-
-    @Override
-    @InvokeLog
-    public List<Article> GetArticle(String userId){   //获取推荐文章  可以设置为静态的
-
-        return null;
-    }
-
-    @Override
-    @InvokeLog
-    public List<Article> GetCollectArticle(String userId){    //获取收藏文章
-        return userMapper.GetCollectArticle(Integer.parseInt(userId));
-    }
-
-    @Override
-    @InvokeLog
-    public void CollectArticle(String userId,String article_title){
-        int article_id = userMapper.GetArticleId(article_title);
-        userMapper.InsertCollectArticle(Integer.parseInt(userId),article_id);
-    }
 
     @Override
     @InvokeLog
@@ -258,15 +208,6 @@ public class UserServiceImpl implements UserService {
         userMapper.InsertDiet(recentDiet);
     }
 
-//    @Override
-//    public void UpdateCal(String usrId, String day, String cal_num) {
-//        Map map = userMapper.getCal(usrId);
-//        long nowMillis = System.currentTimeMillis();
-//        DateTime now = new DateTime(nowMillis);
-//        String today = now.toString();
-//        if (map.get("cal_date").equals(today.substring(0,10))) userMapper.UpdateCal(usrId,day,cal_num);
-//        else userMapper.UpdateDayCal(usrId,day,cal_num);
-//    }
 
     @Override
     @InvokeLog
@@ -434,13 +375,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateSport(String userId, Integer sport, String date) {
-        userMapper.updateSport(userId,sport,date);
+    public void updateSport(String userId, Integer sport, Integer step, String date) {
+        userMapper.updateSport(userId,sport,step,date);
     }
 
     @Override
-    public void InsertSport(String userId, Integer sport, String date) {
-        userMapper.InsertSport(userId,sport,date);
+    public void InsertSport(String userId, Integer sport, Integer step, String date) {
+        userMapper.InsertSport(userId,sport,step,date);
     }
 
     private List<Integer> findTasteIdById(String usr_id) {

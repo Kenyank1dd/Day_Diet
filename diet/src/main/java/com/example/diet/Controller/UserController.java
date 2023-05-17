@@ -2,6 +2,7 @@ package com.example.diet.Controller;
 
 import com.example.diet.Domain.*;
 import com.example.diet.Resolver.CurrentUserId;
+import com.example.diet.Service.RecordService;
 import com.example.diet.Service.UserService;
 import com.example.diet.Util.JwtUtil;
 import io.jsonwebtoken.Claims;
@@ -18,6 +19,8 @@ import java.util.*;
 public class UserController {
     @Autowired
     private UserService userServcie;
+    @Autowired
+    private RecordService recordService;
 
     @PostMapping("/checktoken")
     public ResponseResult check(@CurrentUserId String userId) {
@@ -100,19 +103,7 @@ public class UserController {
         return new ResponseResult(200,water);
     }
 
-    @GetMapping("/record/cal")
-    public ResponseResult RecordCal(@CurrentUserId String userId){
-        Integer cal = userServcie.RecordCal(userId);
-        System.out.println(cal);
-        System.out.println("Checking today's cal intake successfully!");
-        return new ResponseResult(200,cal);
-    }
 
-    public void UpdateCal(String userId,long cal_num){
-        Integer cal = userServcie.UpdateCal(userId,cal_num);
-        System.out.println(cal);
-        System.out.println("Update Today's Drinking Cal Successfully!");
-    }
 
     @GetMapping("/record/family")
     public ResponseResult GetFamily(@CurrentUserId String userId){
@@ -241,7 +232,7 @@ public class UserController {
         recentDiet.setRd_type(rec_type);
         recentDiet.setRd_usr(Integer.parseInt(userId));
         userServcie.InsertDiet(recentDiet);
-        UpdateCal(userId,Long.parseLong(cal_num));     //更新卡路里摄入量
+        recordService.UpdateCal(userId,Long.parseLong(cal_num));     //更新卡路里摄入量
         System.out.println("Add today's diet record successfully");
         return new ResponseResult<>(200,"添加今日饮食记录成功");
     }
@@ -284,44 +275,6 @@ public class UserController {
         }
     }
 
-    @PostMapping("/update/sport")
-    public ResponseResult UpdateSport(@CurrentUserId String userId, @RequestParam(value = "sport") Integer sport) {
-        Date date = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        String time = formatter.format(date);
-        System.out.println(time);
-        if(userServcie.findSportByIdDate(userId,time) != null) {
-            userServcie.updateSport(userId,sport,time);
-        }
-        else {
-            userServcie.InsertSport(userId,sport,time);
-        }
-        return new ResponseResult(200,"操作成功！");
-    }
-
-    @GetMapping("/community/interest")
-    public ResponseResult GetPost(@CurrentUserId String userId){
-        Post_User pu = userServcie.GetPost(userId);
-        return new ResponseResult(200,pu);
-    }
-
-    @GetMapping("/community/article")
-    public ResponseResult GetArticle(@CurrentUserId String userId){   //获取推荐文章
-        List<Article> articles = userServcie.GetArticle(userId);
-        return new ResponseResult(200,articles);
-    }
-
-    @GetMapping("/collect/article")
-    public ResponseResult GetCollectArticle(@CurrentUserId String userId){  //获取收藏文章
-        List<Article> articles = userServcie.GetCollectArticle(userId);
-        return new ResponseResult(200,articles);
-    }
-
-    @PostMapping("/collect/article")
-    public ResponseResult CollectArticle(@CurrentUserId String userId,@RequestParam(value = "article_title") String article_title){
-        userServcie.CollectArticle(userId,article_title);
-        return new ResponseResult(200,"");
-    }
 
     @PostMapping("/updateinfo")  //更改注册信息
     public ResponseResult UpdateRegisterInfo(@CurrentUserId String userId, @RequestBody User user){
@@ -354,11 +307,6 @@ public class UserController {
         System.out.println("Query family member information by user id!");
         System.out.println(usrId);
         return userServcie.findFamilyByusrId(usrId);
-    }
-
-    @PostMapping("/hahaha")
-    public void shuchu(@RequestBody Map map) {
-        System.out.println(map.get("content"));
     }
 
 }

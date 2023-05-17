@@ -15,19 +15,14 @@ public interface UserService {
 
     public Integer UpdateWater(String userId,long water_num);
 
-    public Integer RecordCal(String userId);
 
-    public Integer UpdateCal(String userId,long cal_num);
 
     public List<UsrFamily> GetFamily(String userId);
 
     public DietRecord RecordDiet(String userId, String date);
     public List<WeightRecord> GetWeight(String userId);
 
-    public Post_User GetPost(String userId);
-    public List<Article> GetArticle(String userId);
-    public List<Article> GetCollectArticle(String userId);
-    public void CollectArticle(String userId,String article_title);
+
 
 
     List<Map<String,Object>> findFamilyMessagebyId(Integer userId);
@@ -84,7 +79,7 @@ public interface UserService {
 
     Integer findSportByIdDate(String userId, String time);
 
-    void updateSport(String userId, Integer sport, String date);
+    void updateSport(String userId, Integer sport, Integer step, String date);
 
-    void InsertSport(String userId, Integer sport, String date);
+    void InsertSport(String userId, Integer sport, Integer step, String date);
 }
