@@ -10,7 +10,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DietRecord {
-    private List<Recipe> break_list;
-    private List<Recipe> lunch_list;
-    private List<Recipe> dinner_list;
+    private List<Recent_diet> break_list;
+    private List<Recent_diet> lunch_list;
+    private List<Recent_diet> dinner_list;
 }

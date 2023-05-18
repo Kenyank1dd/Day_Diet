@@ -29,7 +29,6 @@ public interface UserMapper {
     public List<Recent_diet> GetBreakDiet(int userId);  //获取今日早餐饮食记录
     public List<Recent_diet> GetLunchDiet(int userId);  //获取今日午餐饮食记录
     public List<Recent_diet> GetDinnerDiet(int userId);  //获取今日晚餐饮食记录
-    public Recipe GetRecipe(long recipe_id);  //获取菜谱的详细信息
 
 
     public List<WeightRecord> GetWeight(int userId);
@@ -73,9 +72,6 @@ public interface UserMapper {
 
     public void InsertDiet(Recent_diet recentDiet);  //插入饮食记录
 
-
-    @MapKey("usr_id")
-    Map getCal(String usrId);
 
 
     long getUserId(String usrPhone);

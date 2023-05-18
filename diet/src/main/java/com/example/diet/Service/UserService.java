@@ -19,8 +19,16 @@ public interface UserService {
 
     public List<UsrFamily> GetFamily(String userId);
 
+    public List<String> findAllergenById(String usr_id);
+
+    public List<String> findDiseaseById(String usr_id);
+
+
+
+
+
     public DietRecord RecordDiet(String userId, String date);
-    public List<WeightRecord> GetWeight(String userId);
+
 
 
 
@@ -37,18 +45,25 @@ public interface UserService {
 
     void updateInfo(User user);
 
+
+
+    public List<WeightRecord> GetWeight(String userId);
+
     WeightRecord  findUserbyDateId(String userId, String time);
 
     void InsertWeight(String userId, Float weight, String time);
 
     void UpdateWeight(String userId, Float weight, String time);
 
+
+
     List<FamilyInfo> findFamilyByusrId(String usrId);
 
     public List<FamilyInfo> Get_dis_all(String userId);
 
-
     public List<FamilyInfo> GetFamilyInfo(String userId, String relation);
+
+
 
 
     public void InsertFamily(FamilyInfo familyInfo);
@@ -63,20 +78,26 @@ public interface UserService {
 
     long getUserId(String usrPhone);
 
+
     void InsertWater(long userId, int i,String date);
 
     void InsertCal(long userId, int i,String date);
 
+
+
     void InsertFamilyRelation(Request request);
 
-    List<String> findAllergenById(String usr_id);
 
-    List<String> findDiseaseById(String usr_id);
+
+
 
     User findUserbyId(String usr_id);
 
     List<Map> findFamilyInfoByusrId(String userid);
 
+
+
+    // 关于运动消耗和运动步数
     Integer findSportByIdDate(String userId, String time);
 
     void updateSport(String userId, Integer sport, Integer step, String date);

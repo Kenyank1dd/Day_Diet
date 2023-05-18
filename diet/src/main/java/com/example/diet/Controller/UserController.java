@@ -5,6 +5,7 @@ import com.example.diet.Resolver.CurrentUserId;
 import com.example.diet.Service.RecordService;
 import com.example.diet.Service.UserService;
 import com.example.diet.Util.JwtUtil;
+import com.example.diet.Util.ObjectToMapConverter;
 import io.jsonwebtoken.Claims;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -105,16 +106,6 @@ public class UserController {
 
 
 
-    @GetMapping("/record/family")
-    public ResponseResult GetFamily(@CurrentUserId String userId){
-        List<UsrFamily> families = userServcie.GetFamily(userId);
-        for(UsrFamily usrFamily : families) {
-            System.out.println(usrFamily);
-        }
-        System.out.println("Obtain user family member information successfully!");
-        return new ResponseResult(200,families);
-    }
-
 
     @GetMapping("/record/recentdiet")
     public ResponseResult RecentDiet(@CurrentUserId String userId, String date){    //获取某天的饮食记录
@@ -178,45 +169,10 @@ public class UserController {
     }
 
 
-    @PostMapping("/update_dis_all")  //修改家庭成员的疾病和过敏源
-    public ResponseResult Update_dis_all(@CurrentUserId String userId,@RequestBody FamilyInfo familyInfo){
-        List<FamilyInfo> familyInfos = userServcie.GetFamilyInfo(userId,familyInfo.getRelation());
-        for(FamilyInfo familyInfo1 : familyInfos) {
-            System.out.println(familyInfo1);
-        }
-        familyInfo.setUsr_id(Long.parseLong(userId));   //记得把user_id插入
-        if(familyInfos.size() == 0){   //还没有添加的话insert
-            System.out.println("Insert family member information successfully!");
-            userServcie.InsertFamily(familyInfo);   //先插入
-
-            List<FamilyInfo> f = userServcie.Get_dis_all(userId);  //再查询
-            for(FamilyInfo familyInfo1 : f) {
-                System.out.println(familyInfo1);
-            }
-            return new ResponseResult(200,"更新成功",f);
-        }
-        else {    //已经添加的话update
-            userServcie.UpdateFamily(familyInfo);  //先更新
-
-            List<FamilyInfo> f = userServcie.Get_dis_all(userId);    //再查询
-            for(FamilyInfo familyInfo1 : f) {
-                System.out.println(familyInfo1);
-            }
-            return new ResponseResult(200,"更新成功",f);
-
-        }
-    }
-
-
     @PostMapping("/update/recent")
     public ResponseResult UpdateRecentDiet(@CurrentUserId String userId, @RequestParam(value = "rec_name") String rec_name,
-                                           @RequestParam(value = "cal_num") String cal_num){
-        long rec_id = 0;
-        rec_id = userServcie.GetRecipeId(rec_name);
-        if(rec_id == 0) {
-            System.out.println("No dish name found!");
-            return new ResponseResult<>(201,"添加失败,不存在该菜品");
-        }
+                                           @RequestParam(value = "cal_num") String cal_num, @RequestParam(value = "g_num") String g_num){    //近日饮食包含:  菜名 热量 克重
+
         String dateTime = DateTime.now().toString();
         String day = dateTime.substring(0,10);
         String hour = dateTime.substring(11,13);
@@ -227,7 +183,9 @@ public class UserController {
         else if(hour2 <= 15 && hour2 >= 10) rec_type = 2;
         else if(hour2 <= 24 && hour2 >= 15) rec_type = 3;
         Recent_diet recentDiet = new Recent_diet();
-        recentDiet.setRd_rec(rec_id);
+        recentDiet.setCal_num(Float.parseFloat(cal_num));
+        recentDiet.setRec_name(rec_name);
+        recentDiet.setG_num(Float.parseFloat(g_num));
         recentDiet.setRd_time(dateTime.substring(0,10));
         recentDiet.setRd_type(rec_type);
         recentDiet.setRd_usr(Integer.parseInt(userId));
@@ -277,13 +235,26 @@ public class UserController {
 
 
     @PostMapping("/updateinfo")  //更改注册信息
-    public ResponseResult UpdateRegisterInfo(@CurrentUserId String userId, @RequestBody User user){
+    public ResponseResult UpdateRegisterInfo(@CurrentUserId String userId, @RequestBody User user,
+                                             @RequestParam (value = "allergen") String allergens, @RequestParam (value = "disease") String diseases) throws IllegalAccessException {
         user.setUsr_id(Long.parseLong(userId));
         System.out.println(user);
         userServcie.updateInfo(user);
         User user111 = userServcie.findById(userId);
+        ArrayList<Map> res = new ArrayList<>();
+        Map<String, Object> map = ObjectToMapConverter.convertObjectToMap(user111);
+        res.add(map);
+        recordService.updateAllergens(userId,allergens);
+        recordService.updateDisease(userId,diseases);
+        Map<String, Object> allergen = new HashMap<>();
+        allergen.put("allergen",allergens);
+        res.add(allergen);
+        Map<String, Object> disease = new HashMap<>();
+        disease.put("disease",diseases);
+        res.add(disease);
+
         System.out.println("Update registration information successfully");
-        return new ResponseResult(200,user111);
+        return new ResponseResult(200,res);
     }
 
     public List<Map<String,Object>> findFamilyMessagebyId(Integer userId) {

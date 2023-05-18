@@ -17,5 +17,30 @@
     <select id="findCalByIdDate" resultType="Integer">
         select cal_num from cal where usr_id = #{userId} and cal_date = #{time}
     </select>
+
+
+    <delete id="deleteAllergen" parameterType="Integer">
+        delete from usr_allergen where usr_id = #{userId}
+    </delete>
+
+    <delete id="deleteDisease" parameterType="Integer">
+        delete from usr_disease where usr_id = #{userId}
+    </delete>
+
+    <select id="findIdByAllergens" parameterType="String" resultType="Integer">
+        select ing_id from ingredient where ing_name = #{allergen}
+    </select>
+
+    <select id="findIdByDiseases" parameterType="String" resultType="Integer">
+        select dis_id from disease where dis_name = #{disease}
+    </select>
+
+    <insert id="InsertAllergen" parameterType="Integer">
+        insert into usr_allergen values (#{userId},#{allId})
+    </insert>
+
+    <insert id="InsertDisease" parameterType="Integer">
+        insert into usr_dis values (#{userId},#{disId})
+    </insert>
 </mapper>
 

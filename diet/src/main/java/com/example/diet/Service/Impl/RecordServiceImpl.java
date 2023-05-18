@@ -48,4 +48,33 @@ public class RecordServiceImpl implements RecordService {
         return recordMapper.RecordCal(Integer.parseInt(userId),time);
     }
 
+    @Override
+    @InvokeLog
+    public void updateAllergens(String userId,String allergen){
+        String[] allergens = allergen.split("、"); // 通过、分割字符串
+        recordMapper.deleteAllergen(Integer.parseInt(userId));   //先把原来的删除
+        for(int i=0;i<allergens.length;i++){   //插入每一个过敏源
+            int all_id = 0;
+            all_id = recordMapper.findIdByAllergens(allergens[i]);
+            if(all_id != 0){
+                recordMapper.InsertAllergen(Integer.parseInt(userId),all_id);
+            }
+        }
+    }
+
+
+    @Override
+    @InvokeLog
+    public void updateDisease(String userId,String disease){
+        String[] diseases = disease.split("、"); // 通过、分割字符串
+        recordMapper.deleteDisease(Integer.parseInt(userId));   //先把原来的删除
+        for(int i=0;i<diseases.length;i++){   //插入每一个疾病
+            int dis_id = 0;
+            dis_id = recordMapper.findIdByDiseases(diseases[i]);
+            if(dis_id != 0){
+                recordMapper.InsertDisease(Integer.parseInt(userId),dis_id);
+            }
+        }
+    }
+
 }

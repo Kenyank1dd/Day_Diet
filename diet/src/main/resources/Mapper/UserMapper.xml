@@ -132,10 +132,6 @@
         select * from recent_diet where rd_usr = #{userId} and rd_type = 3
     </select>
 
-    <select id="GetRecipe" parameterType="long" resultType="Recipe">
-        select * from recipe where rec_id = #{recipe_id}
-    </select>
-
     <select id="GetWeight" parameterType="int" resultType="com.example.diet.Domain.WeightRecord">
         select * from weight where usr_id = #{userId} order by date
     </select>
@@ -152,7 +148,7 @@
         insert into familyinfo values (null, #{usr_id},#{relation},#{disease},#{allergen},#{sugar_need},#{cal_need},#{fat_need})
     </insert>
     <insert id="InsertDiet">
-        insert into recent_diet values (null , #{rd_usr},#{rd_rec},#{rd_time},#{rd_type})
+        insert into recent_diet values (null , #{rd_usr},#{rec_name},#{g_num},#{cal_num},#{rd_time},#{rd_type})
     </insert>
     <insert id="InsertWater">
         insert into water values (#{userId},#{i},#{date})
