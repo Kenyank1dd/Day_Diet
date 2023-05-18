@@ -114,60 +114,6 @@ public class UserController {
         return new ResponseResult(200,dietRecord);
     }
 
-    @PostMapping("/get_dis_all")   //获取家庭用户的疾病和过敏源
-    public ResponseResult Get_dis_all(@CurrentUserId String userId){
-        ArrayList<Map> res = new ArrayList<>();
-        List<UsrFamily> families = userServcie.GetFamily(userId);
-        for(UsrFamily family : families) {
-            Map<String,Object> temp = new HashMap<>();
-            List<String> allergens;
-            List<String> diseases;
-            String relate;
-            if(Objects.equals(family.getUsr_id1(), userId)) {
-                allergens = userServcie.findAllergenById(family.getUsr_id2());
-                diseases = userServcie.findDiseaseById(family.getUsr_id2());
-                relate = family.getRelation2();
-            }
-            else {
-                allergens = userServcie.findAllergenById(family.getUsr_id1());
-                diseases = userServcie.findDiseaseById(family.getUsr_id1());
-                relate = family.getRelation1();
-            }
-            StringBuilder comballergen = new StringBuilder();
-            StringBuilder combdisease = new StringBuilder();
-            for(String allergen : allergens) {
-                comballergen.append(allergen).append("、");
-            }
-            for(String disease : diseases) {
-                combdisease.append(disease).append("、");
-            }
-            comballergen.deleteCharAt(comballergen.length() - 1);
-            combdisease.deleteCharAt(combdisease.length() - 1);
-            temp.put("allergen",comballergen);
-            temp.put("disease",combdisease);
-            temp.put("relation",relate);
-            res.add(temp);
-        }
-        List<String> allergens = userServcie.findAllergenById(userId);
-        List<String> diseases = userServcie.findDiseaseById(userId);
-        StringBuilder comballergen = new StringBuilder();
-        StringBuilder combdisease = new StringBuilder();
-        for(String allergen : allergens) {
-            comballergen.append(allergen).append("、");
-        }
-        for(String disease : diseases) {
-            combdisease.append(disease).append("、");
-        }
-        comballergen.deleteCharAt(comballergen.length() - 1);
-        combdisease.deleteCharAt(combdisease.length() - 1);
-        Map<String,Object> temp = new HashMap<>();
-        temp.put("allergen",comballergen);
-        temp.put("disease",combdisease);
-        temp.put("relation","本人");
-        res.add(0,temp);
-        return new ResponseResult(200,res);
-    }
-
 
     @PostMapping("/update/recent")
     public ResponseResult UpdateRecentDiet(@CurrentUserId String userId, @RequestParam(value = "rec_name") String rec_name,
