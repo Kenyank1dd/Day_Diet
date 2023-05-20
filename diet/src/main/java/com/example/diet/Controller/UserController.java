@@ -140,9 +140,9 @@ public class UserController {
         else if(hour2 <= 15 && hour2 >= 10) rec_type = 2;
         else if(hour2 <= 24 && hour2 >= 15) rec_type = 3;
         Recent_diet recentDiet = new Recent_diet();
-        recentDiet.setCal_num(Float.parseFloat(cal_num));
+        recentDiet.setCal_num(Integer.parseInt(cal_num));
         recentDiet.setRec_name(rec_name);
-        recentDiet.setG_num(Float.parseFloat(g_num));
+        recentDiet.setG_num(Integer.parseInt(g_num));
         recentDiet.setRd_time(dateTime.substring(0,10));
         recentDiet.setRd_type(rec_type);
         recentDiet.setRd_usr(Integer.parseInt(userId));

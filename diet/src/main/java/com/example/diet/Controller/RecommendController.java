@@ -77,7 +77,10 @@ public class RecommendController {
     }
 
     @PostMapping("/recipe")
-    public ResponseResult recommend(@RequestBody String[] recipe, @CurrentUserId String userid) throws IOException, InterruptedException {
+    public ResponseResult recommend(@RequestBody String[] recipe, @CurrentUserId String userid, @RequestParam (value = "number_recipes") Integer number_recipes) throws IOException, InterruptedException {
+        //   加一个参数获取的过程
+
+
         List<String> argstemp = new ArrayList<>();
         argstemp.add("C:\\Users\\KK\\.conda\\envs\\pytorch\\python.exe");
 //        argstemp.add("/root/anaconda3/envs/KK/bin/python");
