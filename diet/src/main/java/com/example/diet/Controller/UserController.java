@@ -51,6 +51,8 @@ public class UserController {
             long userId = userServcie.getUserId(user.getUsr_phone());
             userServcie.InsertWater(userId,0,user.getReg_time());
             userServcie.InsertCal(userId,0,user.getReg_time());
+            Float[] settings = {3.0f,5.0f,2.0f,3.0f,9.0f,6.0f};
+            recordService.InsertSettings(userId,settings);   //设置默认的推荐参数
             System.out.println("user is inserted successfully!");
             return new ResponseResult(200,"注册成功");
         }

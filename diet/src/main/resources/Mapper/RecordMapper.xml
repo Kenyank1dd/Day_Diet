@@ -55,5 +55,26 @@
         select step from sport where usr_id = #{userId} and date = #{date}
     </select>
 
+
+
+    <update id="UpdateSettings">
+        UPDATE settings
+         SET
+            number = #{settings0},
+            shicaiqihe = #{settings1},
+            yingyangjiegou = #{settings2},
+            teshuxuqiu = #{settings3},
+            jijieshiling = #{settings4},
+            yinshipianhao = #{settings5}
+         WHERE usr_id = #{userId}
+    </update>
+
+    <insert id="InsertSettings">
+        insert into settings values (#{userId},#{settings0},#{settings1},#{settings2},#{settings3},#{settings4},#{settings5})
+    </insert>
+
+    <select id="getSettings" resultType="com.example.diet.Domain.Settings">
+        select * from settings where usr_id = #{userId}
+    </select>
 </mapper>
 

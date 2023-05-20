@@ -3,8 +3,10 @@ package com.example.diet.Controller;
 import com.example.diet.Domain.FamilyInfo;
 import com.example.diet.Domain.Recipe;
 import com.example.diet.Domain.ResponseResult;
+import com.example.diet.Domain.Settings;
 import com.example.diet.Resolver.CurrentUserId;
 import com.example.diet.Service.RecipeService;
+import com.example.diet.Service.RecordService;
 import com.example.diet.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +26,9 @@ public class RecommendController {
 
     @Autowired
     private RecipeService recipeService;
+
+    @Autowired
+    private RecordService recordService;
 
     public static void main(String[] args) throws IOException, InterruptedException {
         List<String> argstemp = new ArrayList<String>();
@@ -140,6 +145,18 @@ public class RecommendController {
         data.put("score",scores);
         data.put("recipe",recipes);
         return new ResponseResult(200,"返回成功", data);
+    }
+
+    @PostMapping("/change/setting")
+    public ResponseResult ChangeSetting(@CurrentUserId String userId,@RequestBody Float[] settings){
+        recordService.UpdateSettings(userId,settings);
+        return new ResponseResult(200,"修改成功");
+    }
+
+    @PostMapping("get_settings")
+    public ResponseResult GetSetting(@CurrentUserId String userId){
+        Settings settings = recordService.getSettings(userId);
+        return new ResponseResult(200,settings);
     }
 
 }

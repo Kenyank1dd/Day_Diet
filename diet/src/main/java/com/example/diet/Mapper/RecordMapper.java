@@ -1,6 +1,8 @@
 package com.example.diet.Mapper;
 
 
+import com.example.diet.Aspect.InvokeLog;
+import com.example.diet.Domain.Settings;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -29,5 +31,10 @@ public interface RecordMapper {
     Long getCal(int userId, String date);
     Long getStep(int userId, String date);
 
+    //修改  查找  插入推荐参数
+    void UpdateSettings(int userId,float settings0,float settings1,float settings2,float settings3,float settings4,float settings5);
 
+    void InsertSettings(long userId,float settings0,float settings1,float settings2,float settings3,float settings4,float settings5);
+
+    Settings getSettings(int userId);
 }

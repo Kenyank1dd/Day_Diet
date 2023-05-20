@@ -2,6 +2,7 @@ package com.example.diet.Service.Impl;
 
 import com.example.diet.Aspect.InvokeLog;
 import com.example.diet.Domain.ResponseResult;
+import com.example.diet.Domain.Settings;
 import com.example.diet.Mapper.RecordMapper;
 import com.example.diet.Mapper.UserMapper;
 import com.example.diet.Service.RecordService;
@@ -88,6 +89,25 @@ public class RecordServiceImpl implements RecordService {
     @InvokeLog
     public Long getStep(String userId,String date){
         return recordMapper.getStep(Integer.parseInt(userId),date);
+    }
+
+
+
+    //修改  查找  插入推荐参数
+    @Override
+    @InvokeLog
+    public void UpdateSettings(String userId,Float[] settings){
+        recordMapper.UpdateSettings(Integer.parseInt(userId),settings[0],settings[1],settings[2],settings[3],settings[4],settings[5]);
+    }
+    @Override
+    @InvokeLog
+    public void InsertSettings(Long userId,Float[] settings){
+        recordMapper.InsertSettings(userId,settings[0],settings[1],settings[2],settings[3],settings[4],settings[5]);
+    }
+    @Override
+    @InvokeLog
+    public Settings getSettings(String userId){
+        return recordMapper.getSettings(Integer.parseInt(userId));
     }
 
 }

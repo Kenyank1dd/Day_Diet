@@ -65,8 +65,8 @@
     </update>
     <update id="updateSport">
         UPDATE sport
-        SET consume = #{sport}
-           And step = #{step}
+        SET consume = #{sport},
+            step = #{step}
         WHERE
             usr_id = #{userId}
           AND date = #{date}
