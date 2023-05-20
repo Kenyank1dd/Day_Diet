@@ -108,10 +108,19 @@ public class UserController {
 
 
     @GetMapping("/record/recentdiet")
-    public ResponseResult RecentDiet(@CurrentUserId String userId, String date){    //获取某天的饮食记录
+    public ResponseResult RecentDiet(@CurrentUserId String userId, String date){    //获取某天的饮食记录   还要有饮食热量  运动热量  今日步数
         DietRecord dietRecord = userServcie.RecordDiet(userId,date);
+        Map<String,Object> temp = new HashMap<>();
+        temp.put("diet_record",dietRecord);
+        //查询 饮食热量
+        long cal_num = recordService.getCal(userId,date);
+        long sport = userServcie.findSportByIdDate(userId,date);
+        long step = recordService.getStep(userId,date);
+        temp.put("cal_num",cal_num);
+        temp.put("sport",sport);
+        temp.put("step",step);
         System.out.println(dietRecord.toString());
-        return new ResponseResult(200,dietRecord);
+        return new ResponseResult(200,temp);
     }
 
 
@@ -203,27 +212,12 @@ public class UserController {
         return new ResponseResult(200,res);
     }
 
-    public List<Map<String,Object>> findFamilyMessagebyId(Integer userId) {
-        System.out.println("Query family member information by user id");
-        System.out.println(userId);
-        return userServcie.findFamilyMessagebyId(userId);
-    }
-
-    public List<Map<String,Object>> findFamilyAllergenbyId(Integer userId) {
-        return userServcie.findFamilyAllergenbyId(userId);
-    }
 
     public User findUserbyPhonenum(String userphone, String password) {
         System.out.println("User search by cell phone number");
         System.out.println(userphone);
         System.out.println(password);
         return userServcie.findUserbyPhonenum(userphone,password);
-    }
-
-    public List<FamilyInfo> findFamilyByusrId(String usrId) {
-        System.out.println("Query family member information by user id!");
-        System.out.println(usrId);
-        return userServcie.findFamilyByusrId(usrId);
     }
 
 }

@@ -35,11 +35,6 @@ public interface UserMapper {
 
 
 
-    @MapKey("family_id")
-    List<Map<String,Object>> findFamilyMessagebyId(Integer userId);
-    @MapKey("family_id")
-    List<Map<String,Object>> findFamilyAllergenbyId(Integer userId);
-
     @MapKey("user_id")
     User findUserbyPhonenum(String userphone, String password);
 
@@ -58,15 +53,6 @@ public interface UserMapper {
 
     void UpdateWeight(String userId, Float weight, String time);
 
-    List<FamilyInfo> findFamilyByusrId(String usrId);
-
-    public List<FamilyInfo> Get_dis_all(int userId);
-
-    public List<FamilyInfo> GetFamilyInfo(int userId, String relation);
-
-    public void InsertFamily(FamilyInfo familyInfo);
-
-    public void UpdateFamily(FamilyInfo familyInfo);
 
     public long GetRecipeId(String rec_name);  //获取食谱id
 

@@ -5,36 +5,6 @@
         select * from usr
     </select>
 
-    <select id="findFamilyAllergenbyId" resultType="java.util.Map">
-        SELECT
-            f.family_id,
-            i.ing_name
-        FROM
-            usr u
-                JOIN usr_family uf ON u.usr_id = uf.usr_id
-                JOIN fam_allergen fa ON uf.family_id = fa.fam_id
-                JOIN ingredient i ON fa.ing_id = i.ing_id
-                JOIN usr_family f ON f.family_id = uf.family_id
-        WHERE
-            u.usr_id = #{usrId}
-        ORDER BY
-            f.family_id;
-    </select>
-    <select id="findFamilyMessagebyId" resultType="java.util.Map">
-        SELECT
-            f.family_id,
-            f.sugar_need,
-            f.cal_need,
-            f.fat_need
-        FROM
-            usr u,
-            usr_family f
-        WHERE
-            u.usr_id = f.usr_id
-          AND u.usr_id = #{usrId}
-        ORDER BY
-            f.family_id
-    </select>
 
     <select id="GetUser" parameterType="String" resultType="com.example.diet.Domain.User">
         select * from usr where usr_phone = #{user_phone}
@@ -44,6 +14,7 @@
                                 #{usr_sex},#{usr_age}, #{usr_height},#{usr_weight},#{usr_weight},#{tar_weight},#{tar_time},
                                 null,#{reg_time})
     </insert>
+
     <select id="RecordWater" parameterType="int" resultType="Integer">
         select water_num from water where usr_id = #{userId}
     </select>
@@ -92,15 +63,6 @@
             usr_id = #{userId}
             AND date = #{time}
     </update>
-    <update id="UpdateFamily">
-        update familyinfo
-        set disease = #{disease} ,
-            allergen = #{allergen},
-            sugar_need = #{sugar_need},
-            cal_need = #{cal_need},
-            fat_need = #{fat_need}
-        where usr_id = #{usr_id} AND relation = #{relation}
-    </update>
     <update id="updateSport">
         UPDATE sport
         SET consume = #{sport}
@@ -143,9 +105,6 @@
     </insert>
     <insert id="InsertWeight">
         insert into weight values (#{userId},#{weight},#{time})
-    </insert>
-    <insert id="InsertFamily">
-        insert into familyinfo values (null, #{usr_id},#{relation},#{disease},#{allergen},#{sugar_need},#{cal_need},#{fat_need})
     </insert>
     <insert id="InsertDiet">
         insert into recent_diet values (null , #{rd_usr},#{rec_name},#{g_num},#{cal_num},#{rd_time},#{rd_type})
@@ -193,20 +152,6 @@
         WHERE
             usr_id = #{userId}
           AND date = #{time}
-    </select>
-    <select id="findFamilyByusrId" resultType="com.example.diet.Domain.FamilyInfo">
-        SELECT
-            *
-        FROM
-            familyinfo
-        WHERE
-            usr_id = #{usrId}
-    </select>
-    <select id="Get_dis_all" resultType="com.example.diet.Domain.FamilyInfo">
-        select * from familyinfo where usr_id = #{userId}
-    </select>
-    <select id="GetFamilyInfo" resultType="com.example.diet.Domain.FamilyInfo">
-        select * from familyinfo where usr_id = #{userId} AND relation = #{relation}
     </select>
     <select id="GetRecipeId" resultType="java.lang.Long">
         select rec_id from recipe where rec_name = #{rec_name}

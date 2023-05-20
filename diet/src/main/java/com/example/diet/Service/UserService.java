@@ -30,13 +30,6 @@ public interface UserService {
     public DietRecord RecordDiet(String userId, String date);
 
 
-
-
-
-    List<Map<String,Object>> findFamilyMessagebyId(Integer userId);
-
-    List<Map<String,Object>> findFamilyAllergenbyId(Integer userId);
-
     User findUserbyPhonenum(String userphone, String password);
 
     void InsertRegisterInfo(RegisterInfo registerInfo);
@@ -56,19 +49,6 @@ public interface UserService {
     void UpdateWeight(String userId, Float weight, String time);
 
 
-
-    List<FamilyInfo> findFamilyByusrId(String usrId);
-
-    public List<FamilyInfo> Get_dis_all(String userId);
-
-    public List<FamilyInfo> GetFamilyInfo(String userId, String relation);
-
-
-
-
-    public void InsertFamily(FamilyInfo familyInfo);
-
-    public void UpdateFamily(FamilyInfo familyInfo);
 
 
     public long GetRecipeId(String recName);

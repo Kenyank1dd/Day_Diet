@@ -93,17 +93,6 @@ public class UserServiceImpl implements UserService {
     }
 
 
-    @Override
-    @InvokeLog
-    public List<Map<String,Object>> findFamilyMessagebyId(Integer userId) {
-        return userMapper.findFamilyMessagebyId(userId);
-    }
-
-    @Override
-    @InvokeLog
-    public List<Map<String,Object>> findFamilyAllergenbyId(Integer userId) {
-        return userMapper.findFamilyAllergenbyId(userId);
-    }
 
     @Override
     @InvokeLog
@@ -147,34 +136,6 @@ public class UserServiceImpl implements UserService {
         userMapper.UpdateWeight(userId,weight,time);
     }
 
-    @Override
-    public List<FamilyInfo> findFamilyByusrId(String usrId) {
-        return userMapper.findFamilyByusrId(usrId);
-    }
-
-    @Override
-    @InvokeLog
-    public List<FamilyInfo> Get_dis_all(String userId){
-        return userMapper.Get_dis_all(Integer.parseInt(userId));
-    }
-
-    @Override
-    @InvokeLog
-    public List<FamilyInfo> GetFamilyInfo(String userId, String relation){
-        return userMapper.GetFamilyInfo(Integer.parseInt(userId),relation);
-    }
-
-    @Override
-    @InvokeLog
-    public void InsertFamily(FamilyInfo familyInfo){
-        userMapper.InsertFamily(familyInfo);
-    }
-
-    @Override
-    @InvokeLog
-    public void UpdateFamily(FamilyInfo familyInfo){
-        userMapper.UpdateFamily(familyInfo);
-    }
 
     @Override
     @InvokeLog

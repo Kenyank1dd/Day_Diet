@@ -77,4 +77,17 @@ public class RecordServiceImpl implements RecordService {
         }
     }
 
+    @Override
+    @InvokeLog
+    public Long getCal(String userId,String date){
+        return recordMapper.getCal(Integer.parseInt(userId),date);
+    }
+
+
+    @Override
+    @InvokeLog
+    public Long getStep(String userId,String date){
+        return recordMapper.getStep(Integer.parseInt(userId),date);
+    }
+
 }

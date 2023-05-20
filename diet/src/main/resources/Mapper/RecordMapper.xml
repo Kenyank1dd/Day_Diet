@@ -19,6 +19,8 @@
     </select>
 
 
+
+
     <delete id="deleteAllergen" parameterType="Integer">
         delete from usr_allergen where usr_id = #{userId}
     </delete>
@@ -42,5 +44,16 @@
     <insert id="InsertDisease" parameterType="Integer">
         insert into usr_dis values (#{userId},#{disId})
     </insert>
+
+
+
+    <select id="getCal" resultType="Long">
+        select cal_num from cal where usr_id = #{userId} and cal_date = #{date}
+    </select>
+
+    <select id="getStep" resultType="Long">
+        select step from sport where usr_id = #{userId} and date = #{date}
+    </select>
+
 </mapper>
 
