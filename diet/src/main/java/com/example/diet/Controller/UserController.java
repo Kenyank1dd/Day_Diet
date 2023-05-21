@@ -113,7 +113,7 @@ public class UserController {
     public ResponseResult RecentDiet(@CurrentUserId String userId, String date){    //获取某天的饮食记录   还要有饮食热量  运动热量  今日步数
         DietRecord dietRecord = userServcie.RecordDiet(userId,date);
         Map<String,Object> temp = new HashMap<>();
-        temp.put("diet_record",dietRecord);
+        temp.put("diet_records",dietRecord);
         //查询 饮食热量
         long cal_num = recordService.getCal(userId,date);
         long sport = userServcie.findSportByIdDate(userId,date);
