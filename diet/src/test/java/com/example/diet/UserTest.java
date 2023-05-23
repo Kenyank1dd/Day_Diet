@@ -15,9 +15,5 @@ public class UserTest {
 
     @Test
     public void test(){
-        List<Map<String,Object>> users = userMapper.findFamilyMessagebyId(1);
-        System.out.println(users);
-        users = userMapper.findFamilyAllergenbyId(1);
-        System.out.println(users);
     }
 }

@@ -3,6 +3,7 @@ package com.example.diet.Controller;
 import com.example.diet.Domain.ResponseResult;
 import com.example.diet.Util.ChatGPTapiUtil;
 import com.example.diet.Util.ImageUtil;
+import com.example.diet.Util.RecipeParseUtil;
 import com.example.diet.Util.TranslateUtil;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -32,35 +33,13 @@ public class GenerateController {
          * 参数3 请求携带参数 选填
          * getForObject 方法的返回值就是 被调用接口响应的数据
          */
-        switch (recname) {
-            case "红烧肉":
-                recname = "a photo of hongshaorou";
-                break;
-            case "番茄牛腩":
-                recname = "a photo of fanqieniunan";
-                break;
-            case "番茄炒鸡蛋":
-                recname = "a photo of fanqiechaojidan";
-                break;
-            case "土豆丝":
-                recname = "a photo of tudousi";
-                break;
-            case "清蒸鲈鱼":
-                recname = "a photo of qingzhengluyu";
-                break;
-            case "西瓜牛肉炒土豆":
-                recname = "(potato:1.0), (watermelon:1.0), (beef:1.0), (ginger:0.5), (garlic:0.3)," +
-                        " (salt:0.5), (cooking wine:0.3), (soy sauce:0.5), (vegetable oil:0.5), " +
-                        "shredded, stir-fried, (savory and sweet:0.8), (tender and juicy:0.8), (aromatic:0.5)";
-                break;
-            default:
-                recname = TranslateUtil.translate(recname) + ",Chinese cuisine with bright colors";
-        }
+        recname ="(" + TranslateUtil.translate(recname) + ")" + ", <lora:foodphoto:1>, foodphoto, dslr, soft lighting, high quality, film grain, Fujifilm XT,(reflective),(top view:1.5),(close up),completely drawed";
         Gson gson = new Gson();
-        String url = "http://region-3.seetacloud.com:16682/sdapi/v1/txt2img";
+        String url = "https://u22566-b408-b7190d46.beijinga.seetacloud.com/sdapi/v1/txt2img";
         Map<String,String> paramMap = new HashMap<String, String>();
 
         paramMap.put("prompt", recname);
+        paramMap.put("negative_prompt", "nsfw,multiple,incomplete");
 
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .connectTimeout(180, TimeUnit.SECONDS)
@@ -98,13 +77,20 @@ public class GenerateController {
     }
 
     @PostMapping("/recipe")
-    public ResponseResult RecipeGenerate(@org.springframework.web.bind.annotation.RequestBody String[] ing_list) throws IOException {
-        String url = "https://u22566-bf38-de359af7.neimeng.seetacloud.com:6443/";
-        StringBuilder query = new StringBuilder("我现在有以下食材：");
+    public ResponseResult RecipeGenerate(@org.springframework.web.bind.annotation.RequestBody String[] ing_list, @RequestParam(value = "gongyi") String gongyi, @RequestParam(value = "nandu") String nandu, @RequestParam(value = "weidao") String weidao) throws IOException {
+        String url = "https://u22566-8832-9b46cd8b.beijinga.seetacloud.com/";
+        StringBuilder query = new StringBuilder("以");
         for (String s : ing_list) {
             query.append(s).append("、");
         }
-        query.append("\n请用这些食材为我生成一个非常创新、少见的菜谱");
+        query.append("为主要食材，生成一道菜谱，要求：难度为");
+        query.append(nandu);
+        query.append("，口味为");
+        query.append(weidao);
+        query.append("，工艺为");
+        query.append(gongyi);
+        query.append("。你的回答需要包含菜名、食材、制作步骤以及小贴士。");
+
         Gson gson = new Gson();
         Map<String,String> paramMap = new HashMap<String, String>();
 
@@ -134,23 +120,7 @@ public class GenerateController {
         }
 
 //        String res = ChatGPTapiUtil.chat(query);
-        List<String> res_split_enter = Arrays.asList(result.split("\n"));
-        List<String> material = new ArrayList<>();
-        List<String> step = new ArrayList<>();
-        String tips;
-        for(String t : res_split_enter) {
-            if(t.contains("-")) {
-                material.add(t.substring(t.indexOf('-')+1).trim());
-            }
-            else if(t.contains(".")) {
-                step.add(t.substring(t.indexOf('.')+1).trim());
-            }
-        }
-        tips = res_split_enter.get(res_split_enter.size()-1);
-        Map<String,Object> data = new HashMap<>();
-        data.put("material",material);
-        data.put("step",step);
-        data.put("tips",tips);
-        return new ResponseResult(200,data);
+        Map<String,Object> data = RecipeParseUtil.RecipeParse(result);
+        return new ResponseResult(200,result);
     }
 }

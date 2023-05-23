@@ -61,7 +61,7 @@
             usr_weight = #{weight}
         WHERE
             usr_id = #{userId}
-            AND date = #{time}
+          AND date = #{time}
     </update>
     <update id="updateSport">
         UPDATE sport

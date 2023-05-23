@@ -122,15 +122,20 @@ class DayDietRec:
         self.model = self.load_ingredient_model(model_save_path)
         self.recipe_category_emb=torch.nn.Embedding(len(self.data),64)
         self.recipe_category_emb.load_state_dict(torch.load('D:\\Desktop\\OPPOcode\\Day_Diet\\diet\\src\\main\\resources\\static\\daydietrecommend\\recipe_category_emb.emb'))
+#         self.recipe_category_emb.load_state_dict(torch.load('/root/daydietrecommend/recipe_category_emb.emb'),map_location=torch.device('cpu'))
         self.user_category_emb=torch.nn.Embedding(5,64)
         self.user_category_emb.load_state_dict(torch.load('D:\\Desktop\\OPPOcode\\Day_Diet\\diet\\src\\main\\resources\\static\\daydietrecommend\\user_category_emb.emb'))
-        
+#         self.user_category_emb.load_state_dict(torch.load('/root/daydietrecommend/user_category_emb.emb'),map_location=torch.device('cpu'))
+
         self.recipe_kouwei_emb=torch.nn.Embedding(len(self.data),128)
         self.recipe_kouwei_emb.load_state_dict(torch.load('D:\\Desktop\\OPPOcode\\Day_Diet\\diet\\src\\main\\resources\\static\\daydietrecommend\\recipe_kouwei_emb.emb'))
+#         self.recipe_kouwei_emb.load_state_dict(torch.load('/root/daydietrecommend/recipe_kouwei_emb.emb'),map_location=torch.device('cpu'))
         self.user_kouwei_emb=torch.nn.Embedding(20,128)
         self.user_kouwei_emb.load_state_dict(torch.load('D:\\Desktop\\OPPOcode\\Day_Diet\\diet\\src\\main\\resources\\static\\daydietrecommend\\user_kouwei_emb.emb'))
         self.time_food=self.get_time_food('D:\\Desktop\\OPPOcode\\Day_Diet\\diet\\src\\main\\resources\\static\\daydietrecommend\\time.txt')
-        
+#         self.user_kouwei_emb.load_state_dict(torch.load('/root/daydietrecommend/user_kouwei_emb.emb'),map_location=torch.device('cpu'))
+#         self.time_food=self.get_time_food('/root/daydietrecommend/time.txt')
+
         # print('推荐系统初始化成功!')
     def get_time_food(self,path):
         dic={}
@@ -391,7 +396,7 @@ class DayDietRec:
         score_dic['final_score']=self.compute_final_score(score_dic,the_family.weight_dic)
         return Score(score_dic)
         #return (meal_score2*meal_score3*meal_score4)/(meal_score1*meal_score1)
-    def get_topn_meals(self, ingredients, the_family, n=5, search_num=100):
+    def get_topn_meals(self, ingredients, the_family, n=5, search_num=100, recipe_num=3):
         '''
             Parameters:
                 data:最终菜谱csv
@@ -415,7 +420,7 @@ class DayDietRec:
             search_from = np.random.choice(
                 len(self.data), search_recipes_num, replace=False)  # 从所有菜谱中取一些菜谱作为子搜索区域
             itering = combinations(
-                search_from, the_family.user_num+1)  # 获得这些菜谱其中的所有组合
+                search_from, recipe_num)  # 获得这些菜谱其中的所有组合
             itering = list(itering)
             random.shuffle(itering) #打乱组合顺序，避免连续很多个组合差异不大
             num=0
