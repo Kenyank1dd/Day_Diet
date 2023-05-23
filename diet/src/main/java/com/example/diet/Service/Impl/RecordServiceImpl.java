@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class RecordServiceImpl implements RecordService {
@@ -28,13 +29,15 @@ public class RecordServiceImpl implements RecordService {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         String time = formatter.format(date);
         System.out.println(time);
-        List<Integer> Cal = recordMapper.findCalByIdDate(Integer.parseInt(userId),time);
-        if( Cal != null) {
-            return Cal.get(0);
+        Map<String,Object> Cal = null;
+        Cal = recordMapper.findCalByIdDate(Integer.parseInt(userId),time);
+        if( Cal.size() != 0) {
+            Map<String,Object> temp = (Map<String, Object>) Cal.get(Integer.parseInt(userId));
+            return (Integer) temp.get("cal_num");
         }
         else {
             userMapper.InsertCal(Long.parseLong(userId),0,time);
-            return recordMapper.RecordCal(Integer.parseInt(userId),time);
+            return 0;
         }
     }
 

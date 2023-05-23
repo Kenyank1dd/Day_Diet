@@ -14,10 +14,6 @@
         where usr_id = #{userId} and cal_date = #{time}
     </update>
 
-    <select id="findCalByIdDate" resultType="Integer">
-        select cal_num from cal where usr_id = #{userId} and cal_date = #{time}
-    </select>
-
 
 
 
@@ -75,6 +71,9 @@
 
     <select id="getSettings" resultType="com.example.diet.Domain.Settings">
         select * from settings where usr_id = #{userId}
+    </select>
+    <select id="findCalByIdDate" resultType="java.util.Map">
+        select * from cal where usr_id = #{userId} and cal_date = #{time}
     </select>
 </mapper>
 

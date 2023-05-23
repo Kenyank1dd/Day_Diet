@@ -3,10 +3,12 @@ package com.example.diet.Mapper;
 
 import com.example.diet.Aspect.InvokeLog;
 import com.example.diet.Domain.Settings;
+import org.apache.ibatis.annotations.MapKey;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Repository
 @Mapper
@@ -14,7 +16,8 @@ public interface RecordMapper {
 
     Integer RecordCal(int userId, String time);    //获取卡路里摄入量
     void UpdateCal(int userId,long cal_num, String time);   //更新某个用户某天的卡路里摄入量
-    List<Integer> findCalByIdDate(int userId, String time);   //通过用户id和日期查询卡路里摄入量
+    @MapKey("usr_id")
+    Map<String,Object> findCalByIdDate(int userId, String time);   //通过用户id和日期查询卡路里摄入量
 
 
     // 更新过敏源和疾病
