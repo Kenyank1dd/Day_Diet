@@ -35,11 +35,11 @@ public class RecommendController {
         //   加一个参数获取的过程
 
         List<String> argstemp = new ArrayList<>();
-//        argstemp.add("C:\\Users\\KK\\.conda\\envs\\pytorch\\python.exe");
-        argstemp.add("/root/anaconda3/envs/KK/bin/python");
-//        argstemp.add("src/main/resources/static/daydietrecommend/main.py");
+        argstemp.add("C:\\Users\\KK\\.conda\\envs\\pytorch\\python.exe");
+//        argstemp.add("/root/anaconda3/envs/KK/bin/python");
+        argstemp.add("src/main/resources/static/daydietrecommend/main.py");
 //        argstemp.add("D:\\Desktop\\OPPOcode\\Day_Diet\\diet\\src\\main\\resources\\static\\daydietrecommend\\main.py");
-        argstemp.add("/root/daydietrecommend/main.py");
+//        argstemp.add("/root/daydietrecommend/main.py");
         for (String s : recipe) {
             System.out.println(s);
         }

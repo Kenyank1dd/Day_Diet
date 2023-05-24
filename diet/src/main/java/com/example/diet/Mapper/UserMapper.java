@@ -26,9 +26,9 @@ public interface UserMapper {
 
 
     public List<UsrFamily> GetFamily(int userId);   //获取家庭成员
-    public List<Recent_diet> GetBreakDiet(int userId);  //获取今日早餐饮食记录
-    public List<Recent_diet> GetLunchDiet(int userId);  //获取今日午餐饮食记录
-    public List<Recent_diet> GetDinnerDiet(int userId);  //获取今日晚餐饮食记录
+    public List<Recent_diet> GetBreakDiet(int userId, String date);  //获取今日早餐饮食记录
+    public List<Recent_diet> GetLunchDiet(int userId, String date);  //获取今日午餐饮食记录
+    public List<Recent_diet> GetDinnerDiet(int userId, String date);  //获取今日晚餐饮食记录
 
 
     public List<WeightRecord> GetWeight(int userId);

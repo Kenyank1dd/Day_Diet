@@ -31,8 +31,8 @@ public interface RecordMapper {
 
 
     //获取某天的饮食热量和运动步数
-    Long getCal(int userId, String date);
-    Long getStep(int userId, String date);
+    Integer getCal(int userId, String date);
+    Integer getStep(int userId, String date);
 
     //修改  查找  插入推荐参数
     void UpdateSettings(int userId,float settings0,float settings1,float settings2,float settings3,float settings4,float settings5);

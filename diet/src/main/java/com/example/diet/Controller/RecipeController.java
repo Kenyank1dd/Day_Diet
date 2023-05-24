@@ -9,6 +9,7 @@ import com.example.diet.Service.RecipeService;
 import com.example.diet.Util.TokenUtil;
 import com.example.diet.Util.csvUtil;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import okhttp3.RequestBody;
 import org.springframework.web.bind.annotation.*;
 import okhttp3.*;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -100,7 +102,7 @@ public class RecipeController {
         String picbase = (String) map.get("imageBase64");
         String imgParam = URLEncoder.encode(picbase, "UTF-8");
 
-        RequestBody body = RequestBody.create(mediaType, "image=" + imgParam);
+        RequestBody body = RequestBody.create(mediaType, "image=" + imgParam + "&top_num=3&filter_threshold=50&baike_num=3");
         Request request = new Request.Builder()
                 .url("https://aip.baidubce.com/rest/2.0/image-classify/v2/dish?access_token=" + TokenUtil.getAccessToken(API_KEY,SECRET_KEY))
                 .method("POST", body)
@@ -111,9 +113,9 @@ public class RecipeController {
         JSONObject jsonObject = new JSONObject(response.body().string());
         JSONArray resultArray = jsonObject.getJSONArray("result");
         System.out.println(resultArray);
-        Map firstFood = gson.fromJson(resultArray.getJSONObject(0).toString(), Map.class);
-        System.out.println(firstFood.toString());
-        return new ResponseResult(200, "识别成功", firstFood);
+        Type listType = new TypeToken<List<Map<String, Object>>>(){}.getType();
+        List<Map<String, Object>> foodList = gson.fromJson(String.valueOf(resultArray), listType);
+        return new ResponseResult(200, "识别成功", foodList);
     }
 
 }

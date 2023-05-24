@@ -121,6 +121,6 @@ public class GenerateController {
 
 //        String res = ChatGPTapiUtil.chat(query);
         Map<String,Object> data = RecipeParseUtil.RecipeParse(result);
-        return new ResponseResult(200,result);
+        return new ResponseResult(200,data);
     }
 }

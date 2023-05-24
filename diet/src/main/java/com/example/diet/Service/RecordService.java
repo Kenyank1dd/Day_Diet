@@ -14,8 +14,8 @@ public interface RecordService {
     public void updateAllergens(String userId,String allergen);
     public void updateDisease(String userId,String diseases);
 
-    public Long getCal(String userId,String date);
-    public Long getStep(String userId,String date);
+    public Integer getCal(String userId,String date);
+    public Integer getStep(String userId,String date);
 
     //修改  查找  插入推荐参数
     void UpdateSettings(String userId,Float[] settings);

@@ -72,9 +72,9 @@ public class UserServiceImpl implements UserService {
     @Override
     @InvokeLog
     public DietRecord RecordDiet(String userId, String date){
-        List<Recent_diet> breaklist = userMapper.GetBreakDiet(Integer.parseInt(userId));   //取所有的该用户早餐记录
-        List<Recent_diet> lunchlist = userMapper.GetLunchDiet(Integer.parseInt(userId));   //取所有的该用户午餐记录
-        List<Recent_diet> dinnerlist = userMapper.GetDinnerDiet(Integer.parseInt(userId));   //取所有的该用户晚餐记录
+        List<Recent_diet> breaklist = userMapper.GetBreakDiet(Integer.parseInt(userId),date);   //取所有的该用户早餐记录
+        List<Recent_diet> lunchlist = userMapper.GetLunchDiet(Integer.parseInt(userId),date);   //取所有的该用户午餐记录
+        List<Recent_diet> dinnerlist = userMapper.GetDinnerDiet(Integer.parseInt(userId),date);   //取所有的该用户晚餐记录
         DietRecord result = new DietRecord(breaklist,lunchlist,dinnerlist);
         return result;
     }

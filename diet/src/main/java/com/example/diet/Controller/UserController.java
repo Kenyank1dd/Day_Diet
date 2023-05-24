@@ -110,14 +110,15 @@ public class UserController {
 
 
     @GetMapping("/record/recentdiet")
-    public ResponseResult RecentDiet(@CurrentUserId String userId, String date){    //获取某天的饮食记录   还要有饮食热量  运动热量  今日步数
+    public ResponseResult RecentDiet(@CurrentUserId String userId, @RequestParam(value = "date") String date){    //获取某天的饮食记录   还要有饮食热量  运动热量  今日步数
         DietRecord dietRecord = userServcie.RecordDiet(userId,date);
         Map<String,Object> temp = new HashMap<>();
         temp.put("diet_records",dietRecord);
         //查询 饮食热量
-        long cal_num = recordService.getCal(userId,date);
-        long sport = userServcie.findSportByIdDate(userId,date);
-        long step = recordService.getStep(userId,date);
+        Integer cal_num = recordService.getCal(userId,date);System.out.println(cal_num);
+        Integer sport = userServcie.findSportByIdDate(userId,date);System.out.println(sport);
+        Integer step = recordService.getStep(userId,date);  System.out.println(step);
+
         temp.put("cal_num",cal_num);
         temp.put("sport",sport);
         temp.put("step",step);

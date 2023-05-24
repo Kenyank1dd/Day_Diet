@@ -82,16 +82,16 @@
            OR usr_id2 = #{userId}
     </select>
 
-    <select id="GetBreakDiet" parameterType="int" resultType="Recent_diet">
-        select * from recent_diet where rd_usr = #{userId} and rd_type = 1
+    <select id="GetBreakDiet" resultType="Recent_diet">
+        select * from recent_diet where rd_usr = #{userId} and rd_type = 1 AND rd_time = #{date}
     </select>
 
-    <select id="GetLunchDiet" parameterType="int" resultType="Recent_diet">
-        select * from recent_diet where rd_usr = #{userId} and rd_type = 2
+    <select id="GetLunchDiet" resultType="Recent_diet">
+        select * from recent_diet where rd_usr = #{userId} and rd_type = 2 AND rd_time = #{date}
     </select>
 
-    <select id="GetDinnerDiet" parameterType="int" resultType="Recent_diet">
-        select * from recent_diet where rd_usr = #{userId} and rd_type = 3
+    <select id="GetDinnerDiet" resultType="Recent_diet">
+        select * from recent_diet where rd_usr = #{userId} and rd_type = 3 AND rd_time = #{date}
     </select>
 
     <select id="GetWeight" parameterType="int" resultType="com.example.diet.Domain.WeightRecord">
