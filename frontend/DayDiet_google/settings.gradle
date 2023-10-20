@@ -1,0 +1,45 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+        //????????yolo
+        maven { url "https://jitpack.io" }
+        //????
+        flatDir {
+            dirs 'libs'
+        }
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        // yolo
+        maven { url "https://jitpack.io" }
+        // 健康sdk
+        flatDir {
+            dirs 'libs', 'libs/arrs'
+        }
+// 健康sdk
+//        maven {
+//            url 'http://maven.columbus.oppoer.me/repository/heytap-health-releases/'
+//            allowInsecureProtocol = true
+//            credentials {
+//                username "healthUser"
+//                password "8174a9eac1264495b593a9d5ab221491"
+//            }
+//        }
+//        maven {
+//            url 'http://maven.columbus.oppoer.me/#browse/browse:heytap-health-snapshots/'
+//            allowInsecureProtocol = true
+//            credentials {
+//                username "healthUser"
+//                password "8174a9eac1264495b593a9d5ab221491"
+//            }
+//        }
+    }
+}
+rootProject.name = "Day Diet"
+include ':app'

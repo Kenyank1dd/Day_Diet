@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.camera.CameraActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/tool_bar"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="@string/app_title"
+        app:titleTextColor="#000000" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/imageResultbg"
+        app:layout_constraintBottom_toTopOf="@+id/view_finder"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tool_bar"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextureView
+        android:id="@+id/view_finder"
+        android:layout_width="0dp"
+        android:layout_height="150dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="3.dp"
+        app:layout_constraintBottom_toTopOf="@id/btn_finish"
+        app:layout_constraintDimensionRatio="h,4:3"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_info"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingStart="5dp"
+        android:paddingTop="2dp"
+        android:text="尚未识别到食材..."
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/view_finder"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+    <Button
+        android:id="@+id/btn_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="3dp"
+        android:layout_marginEnd="25.dp"
+        android:background="@drawable/button_cancel"
+        android:text="取消检测"
+        android:textSize="20.sp"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
+        android:textColor="@color/white"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btn_finish"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintRight_toLeftOf="@+id/btn_finish"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btn_finish"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="3dp"
+        android:layout_marginStart="25.dp"
+        android:background="@drawable/button_finish"
+        android:text="完成识别"
+        android:textSize="20.sp"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btn_cancel" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
