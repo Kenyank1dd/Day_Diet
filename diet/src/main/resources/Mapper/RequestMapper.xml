@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.example.diet.Mapper.RequestMapper">
     <insert id="saveRequest">
-        insert into request values (null,#{from_usr_phone},#{to_usr_phone},#{req_msg})
+        insert into request values (null,#{from_usr_id},#{to_usr_id},#{req_msg})
     </insert>
     <delete id="deleteRequest">
         DELETE
@@ -17,7 +17,7 @@
         FROM
             request
         WHERE
-            to_usr_phone = #{usrId}
+            to_usr_id = #{usrId}
     </select>
 
     <select id="findIdbyPhone" parameterType="String" resultType="String">

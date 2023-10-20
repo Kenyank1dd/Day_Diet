@@ -38,6 +38,43 @@ public class UserController {
         }
     }
 
+    @PostMapping("/visitorlogin")
+    public ResponseResult VisitorLogin() {
+        User user = new User();
+        Date date = new Date();
+
+        user.setUsr_name("游客");
+        user.setUsr_phone("123456789a");
+        user.setUsr_email("admin@163.com");
+        user.setUsr_password("123456789a");
+        user.setUsr_sex(true);
+        user.setUsr_age(20L);
+        user.setUsr_height(175F);
+        user.setUsr_weight(75F);
+        user.setNew_weight(70F);
+        user.setTar_weight(65F);
+        user.setTar_time(100);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        user.setReg_time(formatter.format(date));
+        userServcie.InsertUser(user);
+        long userId = user.getUsr_id();
+
+        user.setUsr_name("游客" + userId);
+        userServcie.updateInfo(user);
+
+        userServcie.InsertWater(userId,0,user.getReg_time());
+        userServcie.InsertCal(userId,0,user.getReg_time());
+        Float[] settings = {3.0f,9.0f,5.0f,5.0f,5.0f,5.0f};
+        recordService.InsertSettings(userId,settings);   //设置默认的推荐参数
+
+        String token = JwtUtil.createJWT(UUID.randomUUID().toString(), String.valueOf(userId), null);
+
+        System.out.println(token);
+        user.setUsr_phone(token);
+        System.out.println("login successfully!");
+        return new ResponseResult(200, "success", user);
+    }
+
     @PostMapping("/register")
     public ResponseResult Register(@RequestBody User user){
         System.out.println(user.getUsr_phone());

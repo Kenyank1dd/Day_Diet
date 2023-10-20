@@ -1,9 +1,7 @@
 package com.example.diet.Util;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.util.Base64;
 import java.util.UUID;
 
@@ -44,5 +42,21 @@ public class ImageUtil {
         } catch (IOException e) {
             return null;
         }
+    }
+
+    public static String getImageBase(String src) throws Exception {
+        File file = new File(src);
+        byte[] data = null;
+        try {
+            InputStream in = new FileInputStream(file);
+            data = new byte[in.available()];
+            in.read(data);
+            in.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Base64.Encoder encoder = Base64.getEncoder();
+        return encoder.encodeToString(data);
     }
 }

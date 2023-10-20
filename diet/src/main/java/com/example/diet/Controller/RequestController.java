@@ -48,25 +48,29 @@ public class RequestController {
 
     @PostMapping("/request/process")
     public ResponseResult RequestProcess(@CurrentUserId String usrId , @org.springframework.web.bind.annotation.RequestBody Map map, @RequestParam("type") Integer type) {
-
+        System.out.println(type);
+        System.out.println(map);
         Request request = new Request();
-        Long req_id = (Long) map.get("req_id");
-        String from_usr_id = (String) map.get("id");
-        String req_msg = (String) map.get("relation");
+        Integer req_id = (Integer) map.get("req_id");
+        String from_usr_id = map.get("id").toString();
+        System.out.println(1);
+        String req_msg = map.get("relation").toString();
+        System.out.println(222);
         request.setReq_id(req_id);
         request.setReq_msg(req_msg);
         request.setFrom_usr_id(from_usr_id);
         request.setTo_usr_id(usrId);
-
+        System.out.println(333);
         if(type == 1) {
             userService.InsertFamilyRelation(request);
             requestService.deleteRequest(request);
             return new ResponseResult(200,"增加成功");
         }
         else if(type == 0) {
+            System.out.println(444);
             requestService.deleteRequest(request);
             return new ResponseResult(200,"删除成功");
         }
-        return new ResponseResult(200,"111");
+        return new ResponseResult(201,"111");
     }
 }

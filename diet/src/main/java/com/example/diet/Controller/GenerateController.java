@@ -25,7 +25,7 @@ public class GenerateController {
     private RestTemplate restTemplate;
 
     @RequestMapping("/plating")
-    public ResponseResult PictureGenerate(@RequestParam("rec_name") String recname) throws IOException {
+    public ResponseResult PictureGenerate(@RequestParam("rec_name") String recname, @RequestParam("index") Integer index) throws Exception {
         /**
          * getForObject
          * 参数1 要请求的地址的url  必填项
@@ -33,14 +33,23 @@ public class GenerateController {
          * 参数3 请求携带参数 选填
          * getForObject 方法的返回值就是 被调用接口响应的数据
          */
-        recname ="(" + TranslateUtil.translate(recname) + ")" + ", <lora:foodphoto:1>, foodphoto, dslr, soft lighting, high quality, film grain, Fujifilm XT,(reflective),(top view:1.5),(close up),completely drawed";
+        System.out.println(index);
+        recname ="RAW photo,masterpiece, high quality, best quality," + "(" + TranslateUtil.translate(recname) + ")" + ", <lora:foodphoto:0.65>, (top view),(close up)";
         Gson gson = new Gson();
-        String url = "https://u22566-b408-b7190d46.beijinga.seetacloud.com/sdapi/v1/txt2img";
-        Map<String,String> paramMap = new HashMap<String, String>();
+        String url = "http://region-45.seetacloud.com:53819/sdapi/v1/img2img";
+        if(index == 0) url = "http://region-45.seetacloud.com:53819/sdapi/v1/txt2img";
+        Map<String,Object> paramMap = new HashMap<String, Object>();
 
         paramMap.put("prompt", recname);
-        paramMap.put("negative_prompt", "nsfw,multiple,incomplete");
+        paramMap.put("negative_prompt", "out of focus, cropped, ((background_noise)), (worst quality, low quality:1.3), (blurring:1.2), blinding light, (((symmetry, symmetrical pose))), folded torso, two heads, two faces, two torsos, totem, two people, badly drawn face, extra limb, ugly, worse quality, low quality, jpeg artifacts, mutation, mutated, hideous, badly drawn arms, missing limb, floating limb, severed limb, badly drawn face, mutation, deformed, blurry, dehydrated, bad anatomy, bad proportions, extra limbs, cloned face, mutilated, rough proportions, blurry, watermark, oversaturated, censorship, distorted hands, amputation, missing hands, double face, double hands, round windows, circle, cloudy eyes, double body, lifeless expression");
+        if(index != 0) paramMap.put("denoising_strength",0.6);
 
+        List<String> base64 = new ArrayList<>();
+        if(index != 0) {
+            String path = "/root/PlatingTemplate/" + index + ".png";
+            base64.add(ImageUtil.getImageBase(path));
+            paramMap.put("init_images", base64);
+        }
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .connectTimeout(180, TimeUnit.SECONDS)
                 .readTimeout(180, TimeUnit.SECONDS)
@@ -78,7 +87,7 @@ public class GenerateController {
 
     @PostMapping("/recipe")
     public ResponseResult RecipeGenerate(@org.springframework.web.bind.annotation.RequestBody String[] ing_list, @RequestParam(value = "gongyi") String gongyi, @RequestParam(value = "nandu") String nandu, @RequestParam(value = "weidao") String weidao) throws IOException {
-        String url = "https://u22566-8832-9b46cd8b.beijinga.seetacloud.com/";
+        String url = "https://u22566-a63c-a4d8108a.beijinga.seetacloud.com/";
         StringBuilder query = new StringBuilder("以");
         for (String s : ing_list) {
             query.append(s).append("、");

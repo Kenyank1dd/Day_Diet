@@ -72,4 +72,12 @@ public class Recipe {
      * 菜谱图片url
      */
     private String rec_url;
+
+    private String type_url;
+
+    private String recipe_url;
+
+    private String type_desc;
+
+    private String recipe_desc;
 }

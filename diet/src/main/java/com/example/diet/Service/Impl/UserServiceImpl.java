@@ -33,8 +33,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @InvokeLog
-    public void InsertUser(User user){
-        userMapper.InsertUser(user);
+    public long InsertUser(User user){
+        return userMapper.InsertUser(user);
     }
 
     @Override
@@ -246,33 +246,35 @@ public class UserServiceImpl implements UserService {
         for(UsrFamily family : families) {
             Map<String,Object> temp = new HashMap<>();
             List<String> allergens;
-            List<Integer> labels;
+            List<Integer> diseases;
             List<Integer> tastes;
             ArrayList<Double> nutri_need = new ArrayList<>();
             User usr;
             double sugar,cal,fat;
             if(Objects.equals(family.getUsr_id1(), userid)) {
                 allergens = findAllergenById(family.getUsr_id2());
-                labels = findLabelIdById(family.getUsr_id2());
+                diseases = findDiseaseIdById(family.getUsr_id2());
                 tastes = findTasteIdById(family.getUsr_id2());
                 usr = findUserbyId(family.getUsr_id2());
             }
             else {
                 allergens = findAllergenById(family.getUsr_id1());
-                labels = findLabelIdById(family.getUsr_id1());
+                diseases = findDiseaseIdById(family.getUsr_id1());
                 tastes = findTasteIdById(family.getUsr_id1());
                 usr = findUserbyId(family.getUsr_id1());
             }
             temp.put("allergen",allergens);
-            temp.put("label",labels);
+            temp.put("disease",diseases);
             temp.put("taste",tastes);
             Float height = usr.getUsr_height();
             Float weight = usr.getNew_weight();
             if(usr.getUsr_sex()) {
                 cal = 66 + 13.7 * weight + 5 * height - 6.8 * usr.getUsr_age();
+                cal *= 1.55;
             }
             else {
                 cal = 655 + 9.6 * weight + 1.7 * height - 4.7 * usr.getUsr_age();
+                cal *= 1.56;
             }
             sugar = cal * 0.55 / 4;
             fat = cal * 0.25 / 9;
@@ -283,7 +285,7 @@ public class UserServiceImpl implements UserService {
             res.add(temp);
         }
         List<String> allergens = findAllergenById(userid);
-        List<Integer> labels = findLabelIdById(userid);
+        List<Integer> diseases = findDiseaseIdById(userid);
         List<Integer> tastes = findTasteIdById(userid);
         ArrayList<Double> nutri_need = new ArrayList<>();
         double sugar,cal,fat;
@@ -303,7 +305,7 @@ public class UserServiceImpl implements UserService {
         nutri_need.add(fat);
         Map<String,Object> temp = new HashMap<>();
         temp.put("allergen",allergens);
-        temp.put("label",labels);
+        temp.put("disease",diseases);
         temp.put("taste",tastes);
         temp.put("nutri",nutri_need);
         res.add(temp);
@@ -329,8 +331,8 @@ public class UserServiceImpl implements UserService {
         return userMapper.findTasteIdById(usr_id);
     }
 
-    private List<Integer> findLabelIdById(String usr_id) {
-        return userMapper.findLabelIdById(usr_id);
+    private List<Integer> findDiseaseIdById(String usr_id) {
+        return userMapper.findDiseaseIdById(usr_id);
     }
 
 }

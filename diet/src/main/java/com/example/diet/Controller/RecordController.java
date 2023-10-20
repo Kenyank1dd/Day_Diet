@@ -52,6 +52,7 @@ public class RecordController {
         ArrayList<Map> res = new ArrayList<>();
         List<UsrFamily> families = userServcie.GetFamily(userId);
         //家庭成员信息
+
         for(UsrFamily family : families) {
             Map<String,Object> temp = new HashMap<>();
             List<String> allergens;
@@ -75,8 +76,12 @@ public class RecordController {
             for(String disease : diseases) {
                 combdisease.append(disease).append("、");
             }
-            comballergen.deleteCharAt(comballergen.length() - 1);
-            combdisease.deleteCharAt(combdisease.length() - 1);
+            if(comballergen.length() != 0) {
+                comballergen.deleteCharAt(comballergen.length() - 1);
+            }
+            if(combdisease.length() != 0) {
+                combdisease.deleteCharAt(combdisease.length() - 1);
+            }
             temp.put("allergen",comballergen);
             temp.put("disease",combdisease);
             temp.put("relation",relate);
@@ -109,7 +114,6 @@ public class RecordController {
             temp.put("base",base);
             res.add(temp);
         }
-
         //本人信息
         List<String> allergens = userServcie.findAllergenById(userId);
         List<String> diseases = userServcie.findDiseaseById(userId);
@@ -121,8 +125,13 @@ public class RecordController {
         for(String disease : diseases) {
             combdisease.append(disease).append("、");
         }
-        comballergen.deleteCharAt(comballergen.length() - 1);
-        combdisease.deleteCharAt(combdisease.length() - 1);
+        if(comballergen.length() != 0) {
+            comballergen.deleteCharAt(comballergen.length() - 1);
+        }
+        if(combdisease.length() != 0) {
+            combdisease.deleteCharAt(combdisease.length() - 1);
+        }
+
         Map<String,Object> temp = new HashMap<>();
         temp.put("allergen",comballergen);
         temp.put("disease",combdisease);

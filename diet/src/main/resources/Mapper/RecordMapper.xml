@@ -22,7 +22,7 @@
     </delete>
 
     <delete id="deleteDisease" parameterType="Integer">
-        delete from usr_disease where usr_id = #{userId}
+        delete from usr_dis where usr_id = #{userId}
     </delete>
 
     <select id="findIdByAllergens" parameterType="String" resultType="Integer">

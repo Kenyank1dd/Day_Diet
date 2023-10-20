@@ -9,7 +9,7 @@ import java.util.Map;
 public interface UserService {
     public List<User> findAll();
     public boolean isRegister(String user_phone);
-    public void InsertUser(User user);
+    public long InsertUser(User user);
 
     public Integer RecordWater(String userId);
 
@@ -83,4 +83,5 @@ public interface UserService {
     void updateSport(String userId, Integer sport, Integer step, String date);
 
     void InsertSport(String userId, Integer sport, Integer step, String date);
+    
 }

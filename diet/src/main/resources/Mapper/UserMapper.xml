@@ -9,7 +9,7 @@
     <select id="GetUser" parameterType="String" resultType="com.example.diet.Domain.User">
         select * from usr where usr_phone = #{user_phone}
     </select>
-    <insert id="InsertUser" parameterType="com.example.diet.Domain.User">
+    <insert id="InsertUser" parameterType="com.example.diet.Domain.User" useGeneratedKeys="true" keyProperty="usr_id">
         insert into usr values (null, #{usr_name},#{usr_phone}, null, #{usr_password},
                                 #{usr_sex},#{usr_age}, #{usr_height},#{usr_weight},#{usr_weight},#{tar_weight},#{tar_time},
                                 null,#{reg_time})
@@ -116,7 +116,7 @@
         insert into cal values (#{userId},#{i},#{date})
     </insert>
     <insert id="InsertFamilyRelation">
-        insert into usr_family values (#{usr_phone1},#{usr_phone2},#{relation1},#{relation2})
+        insert into usr_family values (#{usr_id1},#{usr_id2},#{relation1},#{relation2})
     </insert>
     <insert id="InsertSport">
         insert into sport values (#{userId},#{sport},#{step},#{date})
@@ -206,14 +206,14 @@
             u.usr_id = ut.usr_id
           AND u.usr_id = #{usr_id};
     </select>
-    <select id="findLabelIdById" resultType="java.lang.Integer">
+    <select id="findDiseaseIdById" resultType="java.lang.Integer">
         SELECT
-            ul.label_id
+            ud.dis_id
         FROM
             usr u,
-            usr_label ul
+            usr_dis ud
         WHERE
-            u.usr_id = ul.usr_id
+            u.usr_id = ud.usr_id
           AND u.usr_id = #{usr_id};
     </select>
     <select id="findSportByIdDate" resultType="java.lang.Integer">
